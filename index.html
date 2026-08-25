@@ -1,37 +1,37 @@
 <!doctype html>
-<html lang="en">
+<html lang="nl-BE">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Webshop — Atelier DIY</title>
-<meta name="description" content="DIY kits for Mortex tables and sheepskin carpets. Materials, tools and step-by-step instructions in one box.">
+<meta name="description" content="DIY-pakketten voor Mortex-tafels en schapenvachttapijten. Materialen, gereedschap en een stap-voor-stap handleiding in één doos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600&family=Nunito+Sans:wght@400;600&family=PT+Serif:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
-<a class="skip-link" href="#catalog">Skip to products</a>
+<a class="skip-link" href="#catalog">Ga naar de producten</a>
 
 <!-- ============================ HEADER ============================ -->
 <header class="site-header">
   <div class="container" style="display:flex;align-items:center;gap:var(--sp-6);height:72px">
-    <a href="index.html" aria-label="Atelier DIY — home" style="display:flex;align-items:center;flex:none">
+    <a href="index.html" aria-label="Atelier DIY — startpagina" style="display:flex;align-items:center;flex:none">
       <img src="img/logo.png" alt="Atelier DIY" width="46" height="40" decoding="async" fetchpriority="high" style="display:block;height:40px;width:auto">
     </a>
-    <nav aria-label="Main" style="display:none;gap:var(--sp-6);margin-inline:auto" class="mainnav">
-      <a class="nav-link" href="#">Overview</a>
-      <a class="nav-link" href="#">How does it work?</a>
-      <a class="nav-link" href="#">Projects</a>
+    <nav aria-label="Hoofdnavigatie" style="display:none;gap:var(--sp-6);margin-inline:auto" class="mainnav">
+      <a class="nav-link" href="#">Overzicht</a>
+      <a class="nav-link" href="#">Hoe werkt het?</a>
+      <a class="nav-link" href="#">Realisaties</a>
       <a class="nav-link" href="index.html" aria-current="page">Webshop</a>
       <a class="nav-link" href="#">Tutorials</a>
     </nav>
     <div style="display:flex;align-items:center;gap:var(--sp-2);margin-left:auto">
-      <button class="btn btn-ghost" id="cartBtn" style="padding:10px 16px" aria-label="Cart, 0 items">
+      <button class="btn btn-ghost" id="cartBtn" style="padding:10px 16px" aria-label="Winkelmandje, 0 artikelen">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.6 12.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L21 7H6"/></svg>
         <span id="cartCount" style="font-variant-numeric:tabular-nums">0</span>
       </button>
-      <a class="btn btn-ghost" href="#" style="padding:10px 14px" aria-label="My account">
+      <a class="btn btn-ghost" href="#" style="padding:10px 14px" aria-label="Mijn account">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
       </a>
     </div>
@@ -42,20 +42,20 @@
 
 <!-- ============================ EDITORIAL HEADER ============================ -->
 <section class="container" style="padding-top:var(--sp-8);padding-bottom:var(--sp-7)">
-  <p class="t-label" style="color:var(--c-accent-press);margin:0 0 var(--sp-5)">Webshop — 33 kits</p>
+  <p class="t-label" style="color:var(--c-accent-press);margin:0 0 var(--sp-5)">Webshop — 33 pakketten</p>
   <div class="hero-grid">
     <h1 class="t-statement spread" style="color:var(--c-grey-text)">
-      <span class="tight"><b>YOU BRING</b></span>
-      <span><b>THE HANDS.</b> <b>WE BRING</b></span>
-      <span class="tight"><b>EVERYTHING ELSE.</b></span>
+      <span class="tight"><b>JIJ BRENGT</b></span>
+      <span><b>DE HANDEN.</b> <b>WIJ BRENGEN</b></span>
+      <span class="tight"><b>AL DE REST.</b></span>
     </h1>
     <div style="max-width:38ch;align-self:end">
       <p class="muted" style="margin:0 0 var(--sp-5)">
-        Every kit arrives complete — the materials, the professional tools, and a
-        step-by-step manual. No experience needed, no specialist supplier to chase.
+        Elk pakket komt compleet toe — de materialen, het professionele gereedschap en een
+        stap-voor-stap handleiding. Geen ervaring nodig, geen speciaalzaak om af te lopen.
       </p>
       <a class="btn btn-secondary" href="#catalog">
-        Browse the kits
+        Bekijk de pakketten
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>
@@ -66,16 +66,16 @@
 <section class="container" style="padding-bottom:var(--sp-8)">
   <div style="display:grid;gap:var(--sp-4);grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
     <button class="tile catTile" data-cat="all" style="background:var(--c-beige);text-align:left;border:0;cursor:pointer">
-      <span class="t-label subtle" style="color:var(--c-ink-muted)">All kits</span>
-      <span class="t-h3" style="margin-top:4px">Everything &nbsp;<span class="muted" style="font-weight:400">33</span></span>
+      <span class="t-label subtle" style="color:var(--c-ink-muted)">Alle pakketten</span>
+      <span class="t-h3" style="margin-top:4px">Alles &nbsp;<span class="muted" style="font-weight:400">33</span></span>
     </button>
     <button class="tile catTile" data-cat="table" style="background:var(--c-blue);text-align:left;border:0;cursor:pointer">
       <span class="t-label" style="color:var(--c-ink-muted)">Mortex</span>
-      <span class="t-h3" style="margin-top:4px">Tables &nbsp;<span class="muted" style="font-weight:400">25</span></span>
+      <span class="t-h3" style="margin-top:4px">Tafels &nbsp;<span class="muted" style="font-weight:400">25</span></span>
     </button>
     <button class="tile catTile" data-cat="carpet" style="background:var(--c-pink);text-align:left;border:0;cursor:pointer">
-      <span class="t-label" style="color:var(--c-ink-muted)">Sheepskin</span>
-      <span class="t-h3" style="margin-top:4px">Carpets &nbsp;<span class="muted" style="font-weight:400">8</span></span>
+      <span class="t-label" style="color:var(--c-ink-muted)">Schapenvacht</span>
+      <span class="t-h3" style="margin-top:4px">Tapijten &nbsp;<span class="muted" style="font-weight:400">8</span></span>
     </button>
   </div>
 </section>
@@ -91,19 +91,19 @@
       Filters
     </button>
     <div style="position:relative;flex:1;min-width:200px;max-width:340px">
-      <label class="sr-only" for="search">Search kits</label>
-      <input class="field" id="search" type="search" placeholder="Search kits…" style="padding-left:42px">
+      <label class="sr-only" for="search">Zoek pakketten</label>
+      <input class="field" id="search" type="search" placeholder="Zoek pakketten…" style="padding-left:42px">
       <svg style="position:absolute;left:15px;top:50%;transform:translateY(-50%);pointer-events:none" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--c-ink-subtle)" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
     </div>
     <div style="margin-left:auto;display:flex;align-items:center;gap:var(--sp-3)">
-      <span class="t-body-sm subtle" id="count" role="status" aria-live="polite">33 kits</span>
-      <label class="sr-only" for="sort">Sort by</label>
+      <span class="t-body-sm subtle" id="count" role="status" aria-live="polite">33 pakketten</span>
+      <label class="sr-only" for="sort">Sorteer op</label>
       <select class="select" id="sort">
-        <option value="featured">Featured</option>
-        <option value="price-asc">Price — low to high</option>
-        <option value="price-desc">Price — high to low</option>
-        <option value="name">Name A–Z</option>
-        <option value="lead">Fastest delivery</option>
+        <option value="featured">Aanbevolen</option>
+        <option value="price-asc">Prijs — laag naar hoog</option>
+        <option value="price-desc">Prijs — hoog naar laag</option>
+        <option value="name">Naam A–Z</option>
+        <option value="lead">Snelste levering</option>
       </select>
     </div>
   </div>
@@ -118,23 +118,23 @@
       <form id="filterForm">
         <fieldset class="facet">
           <legend class="t-label facet-legend">Type</legend>
-          <label class="check"><input type="checkbox" name="type" value="table"><span>Tables</span><span class="count">25</span></label>
-          <label class="check"><input type="checkbox" name="type" value="carpet"><span>Carpets</span><span class="count">8</span></label>
+          <label class="check"><input type="checkbox" name="type" value="table"><span>Tafels</span><span class="count">25</span></label>
+          <label class="check"><input type="checkbox" name="type" value="carpet"><span>Tapijten</span><span class="count">8</span></label>
         </fieldset>
 
         <fieldset class="facet">
-          <legend class="t-label facet-legend">Colour</legend>
+          <legend class="t-label facet-legend">Kleur</legend>
           <div id="colourFacet" style="display:flex;flex-wrap:wrap;gap:var(--sp-2)"></div>
         </fieldset>
 
         <fieldset class="facet">
-          <legend class="t-label facet-legend">Difficulty</legend>
+          <legend class="t-label facet-legend">Moeilijkheidsgraad</legend>
           <label class="check"><input type="checkbox" name="difficulty" value="Basis"><span>Basis</span><span class="count">6</span></label>
-          <label class="check"><input type="checkbox" name="difficulty" value="Advanced"><span>Advanced</span><span class="count">27</span></label>
+          <label class="check"><input type="checkbox" name="difficulty" value="Gevorderd"><span>Gevorderd</span><span class="count">27</span></label>
         </fieldset>
 
         <fieldset class="facet">
-          <legend class="t-label facet-legend">Carpet size</legend>
+          <legend class="t-label facet-legend">Tapijtmaat</legend>
           <label class="check"><input type="checkbox" name="size" value="3m²"><span>3 m²</span><span class="count">2</span></label>
           <label class="check"><input type="checkbox" name="size" value="4m²"><span>4 m²</span><span class="count">2</span></label>
           <label class="check"><input type="checkbox" name="size" value="6m²"><span>6 m²</span><span class="count">2</span></label>
@@ -142,23 +142,23 @@
         </fieldset>
 
         <fieldset class="facet">
-          <legend class="t-label facet-legend">Delivery</legend>
-          <label class="check"><input type="checkbox" name="lead" value="3"><span>3 days</span><span class="count">31</span></label>
-          <label class="check"><input type="checkbox" name="lead" value="5"><span>5 days</span><span class="count">2</span></label>
+          <legend class="t-label facet-legend">Levering</legend>
+          <label class="check"><input type="checkbox" name="lead" value="3"><span>3 dagen</span><span class="count">31</span></label>
+          <label class="check"><input type="checkbox" name="lead" value="5"><span>5 dagen</span><span class="count">2</span></label>
         </fieldset>
 
-        <button type="button" class="btn btn-ghost btn-block" id="clearAll" style="margin-top:var(--sp-5)">Clear all filters</button>
+        <button type="button" class="btn btn-ghost btn-block" id="clearAll" style="margin-top:var(--sp-5)">Wis alle filters</button>
       </form>
     </aside>
 
     <!-- ---------- grid ---------- -->
     <div>
-      <h2 class="sr-only">Products</h2>
+      <h2 class="sr-only">Producten</h2>
       <div class="grid-products" id="grid"></div>
       <div id="empty" hidden style="text-align:center;padding:var(--sp-9) var(--sp-4);border:1px dashed var(--c-line-strong);border-radius:var(--r-lg)">
-        <p class="t-h3" style="margin-bottom:var(--sp-2)">No kits match those filters</p>
-        <p class="muted" style="margin:0 0 var(--sp-5)">Try removing a filter, or clear them all to see everything.</p>
-        <button class="btn btn-secondary" id="clearAll2">Clear all filters</button>
+        <p class="t-h3" style="margin-bottom:var(--sp-2)">Geen pakketten voor deze filters</p>
+        <p class="muted" style="margin:0 0 var(--sp-5)">Verwijder een filter of wis ze allemaal om alles te zien.</p>
+        <button class="btn btn-secondary" id="clearAll2">Wis alle filters</button>
       </div>
     </div>
   </div>
@@ -171,30 +171,31 @@
   <div class="container">
     <div style="display:grid;gap:var(--sp-7);grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
       <div style="max-width:34ch">
-        <h2 class="t-h2" style="margin-bottom:var(--sp-4)">Your partner in creative DIY projects</h2>
+        <h2 class="t-h2" style="margin-bottom:var(--sp-4)">Jouw partner in creatieve DIY-projecten</h2>
         <p class="muted t-body-sm" style="margin:0 0 var(--sp-5)">
-          High-quality DIY kits and step-by-step tutorials. Create unique design pieces with
-          professional materials and clear instructions — simple, fun, and affordable.
+          Ontdek onze hoogwaardige doe-het-zelf pakketten en stap-voor-stap tutorials. Creëer
+          unieke designstukken met professionele materialen en duidelijke instructies —
+          eenvoudig, leuk en betaalbaar!
         </p>
         <a class="btn btn-primary" href="#catalog">
-          Check out our DIY kits
+          Bekijk onze DIY-pakketten
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
       <nav aria-label="Shop" class="t-body-sm">
         <p class="t-label" style="margin:0 0 var(--sp-3)">Shop</p>
         <ul style="list-style:none;padding:0;margin:0;display:grid;gap:10px" class="muted">
-          <li><a href="#">Overview</a></li><li><a href="index.html">Webshop</a></li>
-          <li><a href="#">How does it work?</a></li><li><a href="#">Projects</a></li>
-          <li><a href="#">Tutorials</a></li><li><a href="#">My account</a></li>
+          <li><a href="#">Overzicht</a></li><li><a href="index.html">Webshop</a></li>
+          <li><a href="#">Hoe werkt het?</a></li><li><a href="#">Realisaties</a></li>
+          <li><a href="#">Tutorials</a></li><li><a href="#">Mijn account</a></li>
         </ul>
       </nav>
-      <nav aria-label="Support" class="t-body-sm">
-        <p class="t-label" style="margin:0 0 var(--sp-3)">Support</p>
+      <nav aria-label="Klantendienst" class="t-body-sm">
+        <p class="t-label" style="margin:0 0 var(--sp-3)">Klantendienst</p>
         <ul style="list-style:none;padding:0;margin:0;display:grid;gap:10px" class="muted">
-          <li><a href="#">Privacy policy</a></li><li><a href="#">General Terms and Conditions</a></li>
-          <li><a href="#">Subscribe to newsletter</a></li><li><a href="#">Contact us</a></li>
-          <li><a href="#">Check order status</a></li>
+          <li><a href="#">Privacy beleid</a></li><li><a href="#">Algemene voorwaarden</a></li>
+          <li><a href="#">Aanmelden nieuwsbrief</a></li><li><a href="#">Contacteer ons</a></li>
+          <li><a href="#">Bekijk bestelling-status</a></li>
         </ul>
       </nav>
       <address class="t-body-sm muted" style="font-style:normal">
@@ -204,7 +205,7 @@
       </address>
     </div>
     <hr class="rule" style="margin-block:var(--sp-7) var(--sp-4)">
-    <p class="t-body-sm subtle" style="margin:0">© 2026 Atelier DIY. All rights reserved. — Redesign prototype, not a live shop.</p>
+    <p class="t-body-sm subtle" style="margin:0">© 2026 Atelier-DIY. Alle rechten voorbehouden. — Redesignprototype, geen echte webshop.</p>
   </div>
 </footer>
 

@@ -54,8 +54,8 @@ function card(p) {
   el.style.position = 'relative';
   el.innerHTML = `
     <div class="card-media">
-      <img src="${p.img}" alt="${p.name} DIY kit" loading="lazy" width="800" height="800">
-      ${sibs.length > 1 ? `<span class="badge card-flag">${sibs.length} colours</span>` : ''}
+      <img src="${p.img}" alt="${p.name} DIY-pakket" loading="lazy" width="800" height="800">
+      ${sibs.length > 1 ? `<span class="badge card-flag">${sibs.length} kleuren</span>` : ''}
     </div>
     <div class="card-body">
       <div>
@@ -64,7 +64,7 @@ function card(p) {
       </div>
       <div class="card-meta">
         <span class="badge badge-${p.difficulty.toLowerCase()}">${icoGauge}${p.difficulty}</span>
-        <span class="badge">${icoClock}${p.lead} days</span>
+        <span class="badge">${icoClock}${p.lead} dagen</span>
       </div>
       <div class="card-foot">
         <span class="t-price">${money(p.price)}</span>
@@ -116,15 +116,15 @@ function renderChips() {
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'chip-active';
     b.innerHTML = `${label}<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>`;
-    b.setAttribute('aria-label', `Remove filter ${label}`);
+    b.setAttribute('aria-label', `Filter ${label} verwijderen`);
     b.addEventListener('click', () => { clear(); syncInputs(); apply(); });
     chipsEl.appendChild(b);
   };
-  state.type.forEach(v       => add(v === 'table' ? 'Tables' : 'Carpets', () => toggle(state.type, v)));
+  state.type.forEach(v       => add(v === "table" ? "Tafels" : "Tapijten", () => toggle(state.type, v)));
   state.colour.forEach(v     => add(COLOURS[v].label,        () => toggle(state.colour, v)));
   state.difficulty.forEach(v => add(v,                       () => toggle(state.difficulty, v)));
   state.size.forEach(v       => add(v,                       () => toggle(state.size, v)));
-  state.lead.forEach(v       => add(`${v}-day lead time`,    () => toggle(state.lead, v)));
+  state.lead.forEach(v       => add(`levering in ${v} dagen`, () => toggle(state.lead, v)));
   if (state.q) add(`“${state.q}”`, () => { state.q = ''; search.value = ''; });
 }
 
@@ -181,7 +181,7 @@ function apply() {
   const list = PRODUCTS.filter(matches).sort(sorters[state.sort]);
   grid.innerHTML = '';
   list.forEach(p => grid.appendChild(card(p)));
-  countEl.textContent = `${list.length} ${list.length === 1 ? 'kit' : 'kits'}`;
+  countEl.textContent = `${list.length} ${list.length === 1 ? "pakket" : "pakketten"}`;
   empty.hidden = list.length > 0;
   grid.hidden = list.length === 0;
   renderChips();
@@ -232,7 +232,7 @@ ft.addEventListener('click', () => {
 const cartCount = document.getElementById('cartCount');
 function readCart() { try { return +(sessionStorage.getItem('cart') || 0); } catch { return 0; } }
 cartCount.textContent = readCart();
-document.getElementById('cartBtn').setAttribute('aria-label', `Cart, ${readCart()} items`);
+document.getElementById('cartBtn').setAttribute('aria-label', `Winkelmandje, ${readCart()} artikelen`);
 
 readUrl();
 syncInputs();

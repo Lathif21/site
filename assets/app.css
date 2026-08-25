@@ -161,7 +161,7 @@ a { color: inherit; text-decoration: none; }
 }
 .badge svg { width: 13px; height: 13px; flex: none; }
 .badge-basis    { background: #eef2ea; color: #4a6338; }
-.badge-advanced { background: var(--c-accent-tint); color: var(--c-accent-press); }
+.badge-gevorderd { background: var(--c-accent-tint); color: var(--c-accent-press); }
 
 .chip {
   display: inline-flex; align-items: center; gap: var(--sp-2);
