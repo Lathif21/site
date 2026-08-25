@@ -7,7 +7,7 @@ const $ = id => document.getElementById(id);
 
 /* ---------- head / breadcrumb ---------- */
 document.title = `${p.name} — Atelier DIY`;
-$('bcType').textContent = p.typeLabel + 's';
+$("bcType").textContent = p.typePlural;
 $('bcType').href = `index.html?type=${p.type}`;
 $('bcName').textContent = p.name;
 $('eyebrow').textContent = p.typeLabel;
@@ -26,14 +26,14 @@ if (gallery.length === 1) {
 }
 const hero = $('hero');
 hero.src = gallery[0];
-hero.alt = `${p.name} DIY kit`;
+hero.alt = `${p.name} DIY-pakket`;
 
 const thumbs = $('thumbs');
 gallery.forEach((src, i) => {
   const b = document.createElement('button');
   b.className = 'thumb'; b.type = 'button';
   b.setAttribute('aria-current', String(i === 0));
-  b.setAttribute('aria-label', `Show image ${i + 1} of ${gallery.length}`);
+  b.setAttribute('aria-label', `Toon afbeelding ${i + 1} van ${gallery.length}`);
   b.innerHTML = `<img src="${src}" alt="" aria-hidden="true" style="width:100%;height:100%;object-fit:cover" loading="lazy">`;
   b.addEventListener('click', () => {
     hero.src = src;
@@ -53,7 +53,7 @@ const sibs = p.type === 'table' ? siblings(p) : sizeSiblings(p);
 
 if (sibs.length > 1) {
   const isTable = p.type === 'table';
-  const heading = isTable ? 'Colour' : 'Size';
+  const heading = isTable ? "Kleur" : "Maat";
   const current = isTable ? COLOURS[p.colour].label : p.size;
 
   wrap.innerHTML = `
@@ -89,19 +89,19 @@ if (sibs.length > 1) {
 /* ---------- specs ---------- */
 const specs = $('specs');
 const rows = [
-  ['Difficulty', p.difficulty],
-  ['Delivery time', `${p.lead} days`],
-  p.dims.height ? ['Height', p.dims.height] : null,
-  ['Width', p.dims.width],
-  ['Length', p.dims.length],
-  ['Colour', COLOURS[p.colour].label],
-  ['Finish', 'To be finished by the customer']
+  ["Moeilijkheidsgraad", p.difficulty],
+  ["Levertijd", `${p.lead} dagen`],
+  p.dims.height ? ["Hoogte", p.dims.height] : null,
+  ["Breedte", p.dims.width],
+  ["Lengte", p.dims.length],
+  ["Kleur", COLOURS[p.colour].label],
+  ["Afwerking", "Zelf af te werken"]
 ].filter(Boolean);
 
 specs.innerHTML = rows.map(([k, v]) => `
   <div class="spec-row">
     <dt>${k}</dt>
-    <dd>${k === 'Colour'
+    <dd>${k === "Kleur"
       ? `<span style="display:inline-flex;align-items:center;gap:8px">
            <span style="width:16px;height:16px;border-radius:999px;background:${COLOURS[p.colour].hex};border:1px solid rgba(28,28,28,.16)"></span>${v}
          </span>`
@@ -115,14 +115,14 @@ desc.innerHTML = `
   <div id="more" style="max-height:0;overflow:hidden;transition:max-height var(--dur-slow) var(--ease-out)">
     <p style="margin:0 0 1em">${p.body}</p>
   </div>
-  <button class="btn btn-ghost" id="moreBtn" aria-expanded="false" aria-controls="more" style="margin-top:4px">Read more</button>`;
+  <button class="btn btn-ghost" id="moreBtn" aria-expanded="false" aria-controls="more" style="margin-top:4px">Lees meer</button>`;
 
 $('moreBtn').addEventListener('click', () => {
   const m = $('more'), b = $('moreBtn');
   const open = b.getAttribute('aria-expanded') === 'true';
   b.setAttribute('aria-expanded', String(!open));
   m.style.maxHeight = open ? '0' : m.scrollHeight + 'px';
-  b.textContent = open ? 'Read more' : 'Read less';
+  b.textContent = open ? "Lees meer" : "Lees minder";
 });
 
 /* ---------- related ---------- */
@@ -132,11 +132,11 @@ const icoClock = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 const related = PRODUCTS
   .filter(x => x.type === p.type && x.id !== p.id && (p.type !== 'table' || x.model !== p.model))
   .slice(0, 4);
-$('relTitle').textContent = p.type === 'table' ? 'Other table models' : 'Other carpets';
+$('relTitle').textContent = p.type === "table" ? "Andere tafelmodellen" : "Andere tapijten";
 
 $('related').innerHTML = related.map(r => `
   <article class="card" style="position:relative">
-    <div class="card-media"><img src="${r.img}" alt="${r.name} DIY kit" loading="lazy" width="800" height="800"></div>
+    <div class="card-media"><img src="${r.img}" alt="${r.name} DIY-pakket" loading="lazy" width="800" height="800"></div>
     <div class="card-body">
       <div>
         <p class="t-label subtle" style="margin:0 0 6px;letter-spacing:.06em">${r.typeLabel}</p>
@@ -144,7 +144,7 @@ $('related').innerHTML = related.map(r => `
       </div>
       <div class="card-meta">
         <span class="badge badge-${r.difficulty.toLowerCase()}">${icoGauge}${r.difficulty}</span>
-        <span class="badge">${icoClock}${r.lead} days</span>
+        <span class="badge">${icoClock}${r.lead} dagen</span>
       </div>
       <div class="card-foot"><span class="t-price">${money(r.price)}</span></div>
     </div>
@@ -168,7 +168,7 @@ function addToCart() {
   const n = readCart() + (+qty.value);
   writeCart(n);
   $('cartCount').textContent = n;
-  toast.textContent = `${qty.value} × ${p.name} added to cart`;
+  toast.textContent = `${qty.value} × ${p.name} toegevoegd aan je winkelmandje`;
   toast.classList.add('show');
   clearTimeout(tt);
   tt = setTimeout(() => toast.classList.remove('show'), 2600);

@@ -54,8 +54,8 @@ function card(p) {
   el.style.position = 'relative';
   el.innerHTML = `
     <div class="card-media">
-      <img src="${p.img}" alt="${p.name} DIY kit" loading="lazy" width="800" height="800">
-      ${sibs.length > 1 ? `<span class="badge card-flag">${sibs.length} colours</span>` : ''}
+      <img src="${p.img}" alt="${p.name} DIY-pakket" loading="lazy" width="800" height="800">
+      ${sibs.length > 1 ? `<span class="badge card-flag">${sibs.length} kleuren</span>` : ''}
     </div>
     <div class="card-body">
       <div>
@@ -64,7 +64,7 @@ function card(p) {
       </div>
       <div class="card-meta">
         <span class="badge badge-${p.difficulty.toLowerCase()}">${icoGauge}${p.difficulty}</span>
-        <span class="badge">${icoClock}${p.lead} days</span>
+        <span class="badge">${icoClock}${p.lead} dagen</span>
       </div>
       <div class="card-foot">
         <span class="t-price">${money(p.price)}</span>
@@ -75,18 +75,32 @@ function card(p) {
 }
 
 /* ---------- filter + render ---------- */
-function matches(p) {
-  if (state.type.length       && !state.type.includes(p.type))             return false;
-  if (state.colour.length     && !state.colour.includes(p.colour))         return false;
-  if (state.difficulty.length && !state.difficulty.includes(p.difficulty)) return false;
-  if (state.size.length       && !state.size.includes(p.size))             return false;
-  if (state.lead.length       && !state.lead.includes(String(p.lead)))     return false;
-  if (state.q) {
-    const hay = (p.name + ' ' + p.typeLabel + ' ' + COLOURS[p.colour].label).toLowerCase();
-    if (!hay.includes(state.q.toLowerCase())) return false;
-  }
-  return true;
+/* One predicate per facet so a single facet can be left out of the pass — the
+   facet counts below need an "everything except me" view of the catalogue. */
+const FACETS = {
+  type:       (p, v) => p.type === v,
+  colour:     (p, v) => p.colour === v,
+  difficulty: (p, v) => p.difficulty === v,
+  size:       (p, v) => p.size === v,
+  lead:       (p, v) => String(p.lead) === v
+};
+
+function matchesQuery(p) {
+  if (!state.q) return true;
+  const hay = (p.name + ' ' + p.typeLabel + ' ' + COLOURS[p.colour].label).toLowerCase();
+  return hay.includes(state.q.toLowerCase());
 }
+
+/* Passes every active facet except `skip`; values within one facet OR together. */
+function matchesExcept(p, skip) {
+  for (const k in FACETS) {
+    if (k === skip || !state[k].length) continue;
+    if (!state[k].some(v => FACETS[k](p, v))) return false;
+  }
+  return matchesQuery(p);
+}
+
+function matches(p) { return matchesExcept(p, null); }
 
 const sorters = {
   featured:  (a, b) => PRODUCTS.indexOf(a) - PRODUCTS.indexOf(b),
@@ -102,15 +116,15 @@ function renderChips() {
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'chip-active';
     b.innerHTML = `${label}<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>`;
-    b.setAttribute('aria-label', `Remove filter ${label}`);
+    b.setAttribute('aria-label', `Filter ${label} verwijderen`);
     b.addEventListener('click', () => { clear(); syncInputs(); apply(); });
     chipsEl.appendChild(b);
   };
-  state.type.forEach(v       => add(v === 'table' ? 'Tables' : 'Carpets', () => toggle(state.type, v)));
+  state.type.forEach(v       => add(v === "table" ? "Tafels" : "Tapijten", () => toggle(state.type, v)));
   state.colour.forEach(v     => add(COLOURS[v].label,        () => toggle(state.colour, v)));
   state.difficulty.forEach(v => add(v,                       () => toggle(state.difficulty, v)));
   state.size.forEach(v       => add(v,                       () => toggle(state.size, v)));
-  state.lead.forEach(v       => add(`${v}-day lead time`,    () => toggle(state.lead, v)));
+  state.lead.forEach(v       => add(`levering in ${v} dagen`, () => toggle(state.lead, v)));
   if (state.q) add(`“${state.q}”`, () => { state.q = ''; search.value = ''; });
 }
 
@@ -120,6 +134,26 @@ function syncInputs() {
   });
   colourFacet.querySelectorAll('.chip').forEach(c => {
     c.setAttribute('aria-pressed', String(state.colour.includes(c.dataset.colour)));
+  });
+}
+
+/* ---------- facet counts ----------
+   Each option reports how many kits it would leave *given the other facets*,
+   so Type / Difficulty / Carpet size / Delivery react to one another as you
+   tick. The facet is excluded from its own count because its values OR
+   together. An option nothing can reach any more is dimmed and disabled —
+   unless it is the ticked one, which has to stay clickable to untick. */
+const facetInputs = [...form.querySelectorAll('input[type=checkbox]')];
+
+function updateCounts() {
+  const pools = {};
+  facetInputs.forEach(i => {
+    const pool = pools[i.name] || (pools[i.name] = PRODUCTS.filter(p => matchesExcept(p, i.name)));
+    const n = pool.filter(p => FACETS[i.name](p, i.value)).length;
+    const row = i.closest('.check');
+    row.querySelector('.count').textContent = n;
+    row.classList.toggle('is-zero', n === 0 && !i.checked);
+    i.disabled = n === 0 && !i.checked;
   });
 }
 
@@ -147,10 +181,11 @@ function apply() {
   const list = PRODUCTS.filter(matches).sort(sorters[state.sort]);
   grid.innerHTML = '';
   list.forEach(p => grid.appendChild(card(p)));
-  countEl.textContent = `${list.length} ${list.length === 1 ? 'kit' : 'kits'}`;
+  countEl.textContent = `${list.length} ${list.length === 1 ? "pakket" : "pakketten"}`;
   empty.hidden = list.length > 0;
   grid.hidden = list.length === 0;
   renderChips();
+  updateCounts();
   writeUrl();
 }
 
@@ -197,7 +232,7 @@ ft.addEventListener('click', () => {
 const cartCount = document.getElementById('cartCount');
 function readCart() { try { return +(sessionStorage.getItem('cart') || 0); } catch { return 0; } }
 cartCount.textContent = readCart();
-document.getElementById('cartBtn').setAttribute('aria-label', `Cart, ${readCart()} items`);
+document.getElementById('cartBtn').setAttribute('aria-label', `Winkelmandje, ${readCart()} artikelen`);
 
 readUrl();
 syncInputs();
