@@ -75,18 +75,32 @@ function card(p) {
 }
 
 /* ---------- filter + render ---------- */
-function matches(p) {
-  if (state.type.length       && !state.type.includes(p.type))             return false;
-  if (state.colour.length     && !state.colour.includes(p.colour))         return false;
-  if (state.difficulty.length && !state.difficulty.includes(p.difficulty)) return false;
-  if (state.size.length       && !state.size.includes(p.size))             return false;
-  if (state.lead.length       && !state.lead.includes(String(p.lead)))     return false;
-  if (state.q) {
-    const hay = (p.name + ' ' + p.typeLabel + ' ' + COLOURS[p.colour].label).toLowerCase();
-    if (!hay.includes(state.q.toLowerCase())) return false;
-  }
-  return true;
+/* One predicate per facet so a single facet can be left out of the pass — the
+   facet counts below need an "everything except me" view of the catalogue. */
+const FACETS = {
+  type:       (p, v) => p.type === v,
+  colour:     (p, v) => p.colour === v,
+  difficulty: (p, v) => p.difficulty === v,
+  size:       (p, v) => p.size === v,
+  lead:       (p, v) => String(p.lead) === v
+};
+
+function matchesQuery(p) {
+  if (!state.q) return true;
+  const hay = (p.name + ' ' + p.typeLabel + ' ' + COLOURS[p.colour].label).toLowerCase();
+  return hay.includes(state.q.toLowerCase());
 }
+
+/* Passes every active facet except `skip`; values within one facet OR together. */
+function matchesExcept(p, skip) {
+  for (const k in FACETS) {
+    if (k === skip || !state[k].length) continue;
+    if (!state[k].some(v => FACETS[k](p, v))) return false;
+  }
+  return matchesQuery(p);
+}
+
+function matches(p) { return matchesExcept(p, null); }
 
 const sorters = {
   featured:  (a, b) => PRODUCTS.indexOf(a) - PRODUCTS.indexOf(b),
@@ -123,6 +137,26 @@ function syncInputs() {
   });
 }
 
+/* ---------- facet counts ----------
+   Each option reports how many kits it would leave *given the other facets*,
+   so Type / Difficulty / Carpet size / Delivery react to one another as you
+   tick. The facet is excluded from its own count because its values OR
+   together. An option nothing can reach any more is dimmed and disabled —
+   unless it is the ticked one, which has to stay clickable to untick. */
+const facetInputs = [...form.querySelectorAll('input[type=checkbox]')];
+
+function updateCounts() {
+  const pools = {};
+  facetInputs.forEach(i => {
+    const pool = pools[i.name] || (pools[i.name] = PRODUCTS.filter(p => matchesExcept(p, i.name)));
+    const n = pool.filter(p => FACETS[i.name](p, i.value)).length;
+    const row = i.closest('.check');
+    row.querySelector('.count').textContent = n;
+    row.classList.toggle('is-zero', n === 0 && !i.checked);
+    i.disabled = n === 0 && !i.checked;
+  });
+}
+
 function writeUrl() {
   const q = new URLSearchParams();
   ['type','colour','difficulty','size','lead'].forEach(k => { if (state[k].length) q.set(k, state[k].join(',')); });
@@ -151,6 +185,7 @@ function apply() {
   empty.hidden = list.length > 0;
   grid.hidden = list.length === 0;
   renderChips();
+  updateCounts();
   writeUrl();
 }
 

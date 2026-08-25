@@ -269,9 +269,13 @@ a { color: inherit; text-decoration: none; }
 .facet-legend { display: block; padding: 0; margin-bottom: var(--sp-3); float: left; width: 100%; }
 .facet-legend + * { clear: both; }
 
-.check { display: flex; align-items: center; gap: var(--sp-3); padding: 7px 0; cursor: pointer; }
+.check { display: flex; align-items: center; gap: var(--sp-3); padding: 7px 0; cursor: pointer; transition: opacity var(--dur-fast) var(--ease-out); }
 .check input { width: 18px; height: 18px; accent-color: var(--c-ink); flex: none; cursor: pointer; }
 .check .count { margin-left: auto; font-size: .8125rem; color: var(--c-ink-subtle); font-variant-numeric: tabular-nums; }
+
+/* an option the other facets have ruled out */
+.check.is-zero { opacity: .38; cursor: not-allowed; }
+.check.is-zero input { cursor: not-allowed; }
 
 /* ---------- misc ---------- */
 .tile {
