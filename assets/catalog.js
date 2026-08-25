@@ -84,6 +84,7 @@ const FACETS = {
   size:       (p, v) => p.size === v,
   lead:       (p, v) => String(p.lead) === v
 };
+const FACET_KEYS = Object.keys(FACETS);
 
 function matchesQuery(p) {
   if (!state.q) return true;
@@ -157,9 +158,19 @@ function updateCounts() {
   });
 }
 
+/* Sheet chrome: how many filters are on (badge on the toggle, readable without
+   opening the sheet) and what ticking them yields (the foot button). */
+function updateSheetChrome(n) {
+  const on = FACET_KEYS.reduce((sum, k) => sum + state[k].length, 0);
+  ftPill.textContent = on;
+  ftPill.hidden = on === 0;
+  applyBtn.textContent = n ? `Toon ${n} ${n === 1 ? 'pakket' : 'pakketten'}` : 'Geen pakketten';
+  applyBtn.disabled = n === 0;
+}
+
 function writeUrl() {
   const q = new URLSearchParams();
-  ['type','colour','difficulty','size','lead'].forEach(k => { if (state[k].length) q.set(k, state[k].join(',')); });
+  FACET_KEYS.forEach(k => { if (state[k].length) q.set(k, state[k].join(',')); });
   if (state.q) q.set('q', state.q);
   if (state.sort !== 'featured') q.set('sort', state.sort);
   const s = q.toString();
@@ -168,7 +179,7 @@ function writeUrl() {
 
 function readUrl() {
   const q = new URLSearchParams(location.search);
-  ['type','colour','difficulty','size','lead'].forEach(k => {
+  FACET_KEYS.forEach(k => {
     if (q.get(k)) state[k] = q.get(k).split(',');
   });
   state.q = q.get('q') || '';
@@ -186,6 +197,7 @@ function apply() {
   grid.hidden = list.length === 0;
   renderChips();
   updateCounts();
+  updateSheetChrome(list.length);
   writeUrl();
 }
 
@@ -205,7 +217,7 @@ search.addEventListener('input', () => {
 });
 
 function clearAll() {
-  ['type','colour','difficulty','size','lead'].forEach(k => state[k] = []);
+  FACET_KEYS.forEach(k => state[k] = []);
   state.q = ''; search.value = '';
   syncInputs(); apply();
 }
@@ -221,11 +233,74 @@ document.querySelectorAll('.catTile').forEach(tile => {
   });
 });
 
-const ft = document.getElementById('filterToggle');
-if (window.matchMedia('(max-width:1023px)').matches) filters.hidden = true;
-ft.addEventListener('click', () => {
-  filters.hidden = !filters.hidden;
-  ft.setAttribute('aria-expanded', String(!filters.hidden));
+/* ---------- mobile filter sheet ----------
+   Below 1024px the aside is a modal bottom sheet. The results keep their
+   scroll position behind it, and the foot button carries the live result
+   count so the outcome of a tick is visible without closing anything. */
+const ft       = document.getElementById('filterToggle');
+const ftPill   = document.getElementById('filterCount');
+const backdrop = document.getElementById('filterBackdrop');
+const applyBtn = document.getElementById('filterApply');
+const closeBtn = document.getElementById('filterClose');
+const mqMobile = window.matchMedia('(max-width:1023px)');
+
+const sheetIsOpen = () => !filters.hidden;
+
+function openSheet() {
+  filters.hidden = backdrop.hidden = false;
+  filters.setAttribute('role', 'dialog');
+  filters.setAttribute('aria-modal', 'true');
+  document.body.classList.add('filters-open');
+  requestAnimationFrame(() => {
+    filters.classList.add('open');
+    backdrop.classList.add('open');
+  });
+  ft.setAttribute('aria-expanded', 'true');
+  closeBtn.focus();
+}
+
+function closeSheet(refocus = true) {
+  filters.classList.remove('open');
+  backdrop.classList.remove('open');
+  document.body.classList.remove('filters-open');
+  filters.removeAttribute('role');
+  filters.removeAttribute('aria-modal');
+  ft.setAttribute('aria-expanded', 'false');
+  /* wait out the slide-down before pulling it from the a11y tree; the timeout
+     covers reduced-motion and any browser that skips the transition */
+  const settle = () => {
+    backdrop.hidden = true;
+    if (mqMobile.matches) filters.hidden = true;   // desktop must never hide it
+  };
+  filters.addEventListener('transitionend', settle, { once: true });
+  setTimeout(settle, 400);
+  if (refocus) ft.focus();
+}
+
+if (mqMobile.matches) filters.hidden = true;
+
+ft.addEventListener('click', () => (sheetIsOpen() ? closeSheet() : openSheet()));
+closeBtn.addEventListener('click', () => closeSheet());
+backdrop.addEventListener('click', () => closeSheet());
+applyBtn.addEventListener('click', () => {
+  closeSheet(false);
+  document.getElementById('catalog').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && mqMobile.matches && sheetIsOpen()) closeSheet();
+});
+
+/* crossing the breakpoint with the sheet open would leave the body locked */
+mqMobile.addEventListener('change', e => {
+  if (e.matches) { filters.hidden = true; return; }
+  filters.classList.remove('open');
+  backdrop.classList.remove('open');
+  backdrop.hidden = true;
+  document.body.classList.remove('filters-open');
+  filters.removeAttribute('role');
+  filters.removeAttribute('aria-modal');
+  ft.setAttribute('aria-expanded', 'false');
+  filters.hidden = false;
 });
 
 /* cart badge shared with the PDP */

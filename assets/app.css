@@ -344,6 +344,74 @@ select.select {
 }
 @media (max-width: 1023px) { #filters[hidden] { display: none; } }
 
+/* ==========================================================================
+   Mobile filter sheet. Below 1024px the filter aside is lifted out of the
+   page flow into a bottom sheet, so the results stay put behind it and the
+   count on the apply button reports the outcome before you close it.
+   The head, foot and backdrop only exist at that width.
+   ========================================================================== */
+.filters-head,
+#filterApply,
+#filterBackdrop { display: none; }
+.filters-foot { margin-top: var(--sp-5); }
+
+.filter-pill {
+  display: inline-grid; place-items: center; min-width: 20px; height: 20px;
+  padding: 0 6px; border-radius: var(--r-pill);
+  background: var(--c-accent-strong); color: #fff;
+  font-size: .6875rem; font-weight: 600; font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 1023px) {
+  #filters {
+    position: fixed; inset: auto 0 0 0; z-index: 120;
+    display: flex; flex-direction: column; max-height: 86dvh;
+    background: #fff; border-radius: var(--r-xl) var(--r-xl) 0 0;
+    box-shadow: 0 -8px 40px rgba(28, 28, 28, .22);
+    transform: translateY(100%);
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  #filters.open { transform: translateY(0); }
+
+  .filters-head {
+    position: relative; flex: none;
+    display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4);
+    padding: var(--sp-5) var(--sp-5) var(--sp-3);
+    border-bottom: 1px solid var(--c-line);
+  }
+  .filters-head::before {   /* grab handle */
+    content: ""; position: absolute; top: 9px; left: 50%; transform: translateX(-50%);
+    width: 38px; height: 4px; border-radius: var(--r-pill); background: var(--c-line-strong);
+  }
+  .sheet-close {
+    width: 40px; height: 40px; margin-right: -8px; border: 0; background: none;
+    display: grid; place-items: center; border-radius: var(--r-pill); cursor: pointer;
+  }
+  .sheet-close:hover { background: var(--c-surface-alt); }
+
+  /* the facets are the only scrolling part, so head and foot stay reachable */
+  #filterForm { flex: 1 1 auto; overflow-y: auto; padding: var(--sp-4) var(--sp-5) var(--sp-5); }
+
+  .filters-foot {
+    flex: none; display: flex; gap: var(--sp-3); margin: 0;
+    padding: var(--sp-4) var(--sp-5) calc(var(--sp-4) + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--c-line); background: #fff;
+  }
+  .filters-foot .btn { flex: 1; padding-inline: var(--sp-4); white-space: nowrap; }
+  #clearAll { width: auto; }
+  #filterApply { display: inline-flex; flex: 1.5; }
+
+  #filterBackdrop {
+    display: block; position: fixed; inset: 0; z-index: 110;
+    background: rgba(28, 28, 28, .42); opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-out);
+  }
+  #filterBackdrop.open { opacity: 1; }
+  #filterBackdrop[hidden] { display: none; }
+
+  body.filters-open { overflow: hidden; }
+}
+
 /* toast must clear the viewport completely when hidden */
 .toast { bottom: -100px; transform: translateX(-50%); transition: bottom var(--dur-slow) var(--ease-out); }
 .toast.show { bottom: 24px; transform: translateX(-50%); }

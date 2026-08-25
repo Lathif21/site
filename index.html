@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600&family=Nunito+Sans:wght@400;600&family=PT+Serif:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/app.css">
+<link rel="stylesheet" href="assets/app.css?v=3">
 </head>
 <body>
 <a class="skip-link" href="#catalog">Ga naar de producten</a>
@@ -89,6 +89,7 @@
     <button class="btn btn-ghost filterToggle" id="filterToggle" aria-expanded="false" aria-controls="filters">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
       Filters
+      <span class="filter-pill" id="filterCount" hidden>0</span>
     </button>
     <div style="position:relative;flex:1;min-width:200px;max-width:340px">
       <label class="sr-only" for="search">Zoek pakketten</label>
@@ -113,8 +114,16 @@
 
   <div class="catalog-layout">
 
-    <!-- ---------- filters ---------- -->
+    <!-- ---------- filters ----------
+         Below 1024px this aside becomes a bottom sheet: the head and foot are
+         hidden on desktop, where it stays a plain sidebar column. -->
     <aside id="filters" aria-label="Filters">
+      <div class="filters-head">
+        <p class="t-label" style="margin:0">Filters</p>
+        <button type="button" class="sheet-close" id="filterClose" aria-label="Filters sluiten">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
       <form id="filterForm">
         <fieldset class="facet">
           <legend class="t-label facet-legend">Type</legend>
@@ -147,9 +156,13 @@
           <label class="check"><input type="checkbox" name="lead" value="5"><span>5 dagen</span><span class="count">2</span></label>
         </fieldset>
 
-        <button type="button" class="btn btn-ghost btn-block" id="clearAll" style="margin-top:var(--sp-5)">Wis alle filters</button>
       </form>
+      <div class="filters-foot">
+        <button type="button" class="btn btn-ghost btn-block" id="clearAll">Wis alles</button>
+        <button type="button" class="btn btn-primary" id="filterApply">Toon 33 pakketten</button>
+      </div>
     </aside>
+    <div id="filterBackdrop" hidden></div>
 
     <!-- ---------- grid ---------- -->
     <div>
@@ -211,7 +224,7 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="assets/data.js"></script>
-<script src="assets/catalog.js"></script>
+<script src="assets/data.js?v=3"></script>
+<script src="assets/catalog.js?v=3"></script>
 </body>
 </html>
