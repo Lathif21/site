@@ -244,6 +244,13 @@ const applyBtn = document.getElementById('filterApply');
 const closeBtn = document.getElementById('filterClose');
 const mqMobile = window.matchMedia('(max-width:1023px)');
 
+/* MediaQueryList.addEventListener is Safari 14+; addListener is the fallback. */
+function onMediaChange(mq, fn) {
+  if (!mq) return;
+  if (mq.addEventListener) mq.addEventListener('change', fn);
+  else if (mq.addListener) mq.addListener(fn);
+}
+
 const sheetIsOpen = () => !filters.hidden;
 
 function openSheet() {
@@ -290,8 +297,11 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && mqMobile.matches && sheetIsOpen()) closeSheet();
 });
 
-/* crossing the breakpoint with the sheet open would leave the body locked */
-mqMobile.addEventListener('change', e => {
+/* crossing the breakpoint with the sheet open would leave the body locked.
+   Safari < 14 exposes matchMedia but not addEventListener on MediaQueryList; a
+   throw here would abort the rest of this file, and the initial apply() at the
+   bottom is what paints the grid — so the catalogue would come up empty. */
+onMediaChange(mqMobile, e => {
   if (e.matches) { filters.hidden = true; return; }
   filters.classList.remove('open');
   backdrop.classList.remove('open');
