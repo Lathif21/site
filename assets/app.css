@@ -32,7 +32,11 @@
   --c-danger:         #a33327;
 
   /* — Type — */
-  --font-display: "PT Serif", "Iowan Old Style", Georgia, serif;
+  /* Poppins, matching assets/site.css so the statement and the tonal beat read
+     as the same site as the replica pages. Note this departs from brandbook
+     03.02, which names PT Serif as the display face — a deliberate trade of
+     that fidelity for cross-page consistency. */
+  --font-display: Poppins, "Segoe UI", system-ui, -apple-system, sans-serif;
   --font-heading: "Franklin Gothic URW", "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
   --font-body:    "Avenir", "Nunito Sans", "Segoe UI", system-ui, sans-serif;
 
@@ -101,9 +105,9 @@ a { color: inherit; text-decoration: none; }
 .t-statement {
   font-family: var(--font-display);
   font-size: clamp(2rem, 4.6vw, 3.75rem);
-  line-height: 1.05;
-  letter-spacing: .06em;
-  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: .03em;
+  font-weight: 700;          /* Poppins bold, matching the replica pages' h1 */
   text-transform: uppercase;
   margin: 0;
 }
@@ -198,7 +202,7 @@ a { color: inherit; text-decoration: none; }
   display: flex; flex-direction: column;
   background: var(--c-surface);
   border: 1px solid var(--c-line);
-  border-radius: var(--r-lg);
+  border-radius: 0;
   overflow: hidden;
   transition: border-color var(--dur-base) var(--ease-out),
               background var(--dur-base) var(--ease-out);
@@ -334,7 +338,7 @@ select.select {
 @media (min-width: 900px) { .mainnav { display: flex !important; } }
 
 @media (min-width: 1024px) {
-  .hero-grid      { grid-template-columns: 1.55fr 1fr; align-items: end; }
+  .hero-grid      { grid-template-columns: minmax(0,1.55fr) minmax(0,1fr); align-items: end; }
   .catalog-layout { grid-template-columns: 250px minmax(0,1fr); }
   .pdp-grid       { grid-template-columns: 1.1fr .9fr; gap: var(--sp-8); }
   .buybox         { position: sticky; top: 96px; align-self: start; }
@@ -416,3 +420,516 @@ select.select {
 .toast { bottom: -100px; transform: translateX(-50%); transition: bottom var(--dur-slow) var(--ease-out); }
 .toast.show { bottom: 24px; transform: translateX(-50%); }
 @media (max-width: 1023px) { .toast.show { bottom: 88px; } }
+
+/* ==========================================================================
+   EDITORIAL LAYER — brandbook devices, applied hard.
+   Everything here traces to a page in the SETT brandbook; nothing is invented.
+   Loaded only by webshop.html and product.html.
+   ========================================================================== */
+
+:root {
+  /* Organic silhouettes taken from the Mortex tabletops (brandbook 04.02),
+     not from the SETT bean icon. Colour fields and graphic shapes ONLY —
+     never as a photo mask. In 04.02 and 05.07 the blob is the product's own
+     outline and photography always sits in a hard rectangle; masking the
+     photos inverts that and makes a grid of them wobble. */
+  --blob-1: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  --blob-2: 63% 37% 34% 66% / 57% 63% 37% 43%;
+  --blob-3: 70% 30% 46% 54% / 30% 29% 71% 70%;
+  --blob-4: 38% 62% 63% 37% / 41% 44% 56% 59%;
+  --blob-soft: 44% 56% 38% 62% / 55% 34% 66% 45%;
+
+  /* Tonal type (brandbook 05.05, "READY SETT GO!"): display text set in its
+     own background's hue, one step down. Each value is the tint darkened until
+     it clears 3:1 against that tint — verified, not eyeballed.
+     Display sizes only (>=32px bold). Never body copy. */
+  --c-blue-tonal:  #66777f;   /* 3.05:1 on --c-blue  */
+  --c-green-tonal: #4f5a44;   /* 3.04:1 on --c-green */
+  --c-beige-tonal: #7f7869;   /* 3.10:1 on --c-beige */
+  --c-pink-tonal:  #8b7272;   /* 3.08:1 on --c-pink  */
+}
+
+/* ---------- full-bleed tint bands (brandbook 02.02, 05.09) ----------
+   The brandbook alternates photo / flat colour / typographic panel in a hard
+   rhythm. These are the flat-colour beats. */
+/* NOT 100vw: that unit includes the classic scrollbar, so on any desktop
+   browser with space-taking scrollbars the band came out ~15px wider than the
+   content box and the negative margin pushed half of that past each edge —
+   8px of horizontal page scroll. Headless Chrome uses overlay scrollbars and
+   never shows it. Bands are direct children of <main>, which is unconstrained,
+   so a plain block already fills the width. Keep it that way: a band nested
+   inside .container would no longer bleed. */
+.band {
+  width: auto;
+  margin-inline: 0;
+  padding-block: var(--sp-9);
+  position: relative;
+  overflow: hidden;
+}
+.band-inner {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--sp-4);
+  position: relative;
+  z-index: 1;
+}
+@media (min-width: 768px)  { .band-inner { padding-inline: var(--sp-6); } }
+@media (min-width: 1024px) { .band-inner { padding-inline: var(--sp-8); } }
+
+.band-beige { background: var(--c-beige); }
+.band-blue  { background: var(--c-blue); }
+.band-green { background: var(--c-green); }
+.band-pink  { background: var(--c-pink); }
+.band-ink   { background: var(--c-ink); color: #fff; }
+.band-ink h2, .band-ink h3 { color: #fff; }
+
+/* --c-ink-muted is only 2.98:1 on green — body copy inside a green band
+   must be full ink. */
+.band-green .muted { color: var(--c-ink); }
+
+/* A blob of the band's own colour, one step darker, bleeding off an edge.
+   Decorative only; aria-hidden in the markup. */
+.band-blob {
+  position: absolute;
+  border-radius: var(--blob-1);
+  pointer-events: none;
+  z-index: 0;
+  opacity: .55;
+}
+
+/* ---------- tonal display type ---------- */
+.t-tonal {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 6vw, 5rem);
+  line-height: 1.04;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0;
+}
+.band-beige .t-tonal { color: var(--c-beige-tonal); }
+.band-blue  .t-tonal { color: var(--c-blue-tonal); }
+.band-green .t-tonal { color: var(--c-green-tonal); }
+.band-pink  .t-tonal { color: var(--c-pink-tonal); }
+
+/* ---------- blob masks ---------- */
+.blob   { border-radius: var(--blob-1); overflow: hidden; }
+.blob-2 { border-radius: var(--blob-2); }
+.blob-3 { border-radius: var(--blob-3); }
+.blob-4 { border-radius: var(--blob-4); }
+
+/* ---------- editorial header (webshop) ----------
+   The clip is the ground the statement sits on. Brandbook 05.01 sets the type
+   in black on white, which cannot survive moving footage, so the field is
+   inverted: white type over a scrim heavy enough to hold contrast against the
+   brightest frame in the montage. Scrim values are measured, not guessed — see
+   the contrast note in README.md. */
+.shop-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  min-height: min(76vh, 700px);
+  padding-block: var(--sp-9);
+  background: var(--c-ink);       /* ground before the first frame paints */
+  overflow: hidden;
+}
+
+/* the media is the background layer, sized by the section rather than itself */
+.shop-hero-media {
+  position: absolute; inset: 0; z-index: 0;
+  margin: 0; min-height: 0; max-height: none;
+  aspect-ratio: auto;
+  background: var(--c-ink);
+}
+.shop-hero-media video,
+.shop-hero-media img.poster {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.shop-hero-media img.poster { display: none; }
+
+/* Two stops rather than a flat wash: the copy block sits left, so that side is
+   carried hardest, and the right stays open enough to read as footage. */
+.shop-hero::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(90deg,
+      rgba(14,12,10,.84) 0%,
+      rgba(14,12,10,.75) 42%,
+      rgba(14,12,10,.58) 72%,
+      rgba(14,12,10,.48) 100%);
+}
+
+/* .shop-hero is display:grid, and `margin-inline: auto` on a grid item sizes it
+   to fit-content and centres it — so the whole block drifts inward as soon as
+   its widest child is narrower than the container. An explicit width pins it.
+   (The same rule used to exist for .v-band and was removed with that block; it
+   was masked here while the caps statement happened to fill the measure.) */
+.shop-hero .band-inner { position: relative; z-index: 2; width: 100%; }
+.shop-hero-eyebrow { color: #f0b49c; margin: 0 0 var(--sp-6); }
+/* Sentence case, set like the replica pages' h1 — same face, same weight, same
+   negative tracking — just larger, because this is the webshop's opening
+   statement rather than a page title. It deliberately does NOT use .spread:
+   justifying words to opposite edges only reads as a device in caps, and looks
+   like broken text in sentence case. The 01.05 spread treatment still lives on
+   the page, in the closing tonal beat. */
+.shop-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4.5vw, 4.25rem);
+  line-height: 1.14;
+  letter-spacing: -.015em;
+  font-weight: 700;
+  color: #fff;
+  max-width: 30ch;
+  margin: 0 0 var(--sp-7);
+  text-shadow: 0 1px 24px rgba(0,0,0,.28);
+}
+/* the hand-set break only earns its keep once there is room for two lines */
+.shop-hero-title br { display: none; }
+@media (min-width: 760px) { .shop-hero-title br { display: inline; } }
+.shop-hero-foot {
+  display: grid; gap: var(--sp-5);
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 52ch;
+}
+.shop-hero-foot p { margin: 0; color: rgba(255,255,255,.95); }
+@media (min-width: 860px) {
+  .shop-hero-foot {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end; max-width: 74ch;
+  }
+}
+.shop-hero .v-chip { position: absolute; left: var(--sp-6); bottom: var(--sp-6); z-index: 2; }
+
+@media (max-width: 720px) {
+  .shop-hero { min-height: 620px; }
+  .shop-hero .v-chip { left: var(--sp-4); bottom: var(--sp-4); }
+}
+
+/* Brandbook 01.06 / 05.03: a baseline set small and rotated, running up the
+   left edge of the field. On the brochure cover it climbs the spine beside the
+   photo; here it climbs the hero beside the statement, which is what gives the
+   footage an edge to sit against instead of just being a backdrop. It lives in
+   the gutter .band-inner already reserves, so it never crowds the type, and it
+   is decorative — the same words are not load-bearing anywhere. */
+.hero-rail {
+  /* Centred on the hero's own axis rather than anchored to the bottom. The
+     rotation is part of the transform, so the centring offset has to ride in
+     the same declaration — see the note under the rule. */
+  position: absolute; left: var(--sp-4); top: 50%; z-index: 3;
+  writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: .75rem; letter-spacing: .22em; line-height: 1;
+  color: rgba(255,255,255,.74);
+  white-space: nowrap; pointer-events: none;
+}
+/* No rule or tick: .hero-rail is a <span>, so display:inline, and a
+   display:block pseudo-element inside an inline box does not lay out — the
+   earlier ::after/::before never rendered at all (measured: the rail box is
+   text-only). The brandbook's own rail on 01.06 and 05.03 is bare rotated
+   type anyway, so this is what it should have been. */
+/* below 1024px .band-inner's gutter is too narrow to hold it */
+@media (max-width: 1023px) { .hero-rail { display: none; } }
+
+/* ---------- typographic beat (brandbook 05.05) ---------- */
+.beat { padding-block: var(--sp-9); }
+.beat-line { max-width: 18ch; }
+/* --c-blue-tonal is calibrated to 3.047:1 on --c-blue: there is no headroom,
+   and a tonal blob behind the glyphs drops it under 3:1 at only 2% alpha
+   (measured). So these bleed off the right corners and are pulled entirely
+   whenever the measure grows enough to reach them. */
+.beat-blob-a {
+  width: 380px; height: 380px; right: -180px; top: -180px;
+  background: var(--c-blue-tonal); opacity: .18;
+  border-radius: var(--blob-2);
+}
+.beat-blob-b {
+  width: 260px; height: 260px; right: -120px; bottom: -150px;
+  background: var(--c-blue-tonal); opacity: .14;
+  border-radius: var(--blob-4);
+}
+@media (max-width: 1200px) {
+  .beat-blob-a, .beat-blob-b { display: none; }
+}
+@media (max-width: 720px) { .beat { padding-block: var(--sp-8); } }
+
+/* ---------- "wat zit er in het pakket" band ----------
+   Moved up from the PDP and scaled for a position directly under the hero:
+   bigger type and more air than the product-page version, since here it is the
+   first thing after the statement rather than a footnote below the buy box.
+   Everything is full ink — 7.09:1 on --c-green, where ink-muted manages 2.98:1
+   and would fail. */
+.pack { padding-block: var(--sp-8) var(--sp-7); }
+.pack-blob {
+  width: 300px; height: 300px; right: -90px; bottom: -110px;
+  background: var(--c-beige-tonal); opacity: .20;
+}
+.pack-eyebrow { color: var(--c-ink); margin: 0 0 var(--sp-2); }
+.pack-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.4rem, 2.3vw, 1.9rem);
+  line-height: 1.18; letter-spacing: -.01em; font-weight: 600;
+  color: var(--c-ink); margin: 0 0 var(--sp-6);
+}
+/* The break is set by hand on wide screens and collapses below 900px. The
+   markup keeps a real space before the <br> so the two sentences do not run
+   together into "erin.Jij" once the break is hidden. */
+.pack-title br { display: none; }
+@media (min-width: 900px) { .pack-title br { display: inline; } }
+
+.pack-grid {
+  display: grid; gap: var(--sp-5) var(--sp-6);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.pack-item h3 { color: var(--c-ink); font-size: 1.125rem; margin: 0 0 6px; }
+.pack-item p {
+  color: var(--c-ink); margin: 0;
+  font-size: .9375rem; line-height: 1.5;
+}
+.pack-icon {
+  display: grid; place-items: center;
+  width: 44px; height: 44px;
+  background: var(--c-ink);
+  margin-bottom: var(--sp-3);
+}
+/* Ink tiles with white glyphs, not white tiles: white on beige is 1.41:1 and
+   the shape would read as a printing accident rather than a device. The blob is
+   a graphic shape here, not a photo mask — 04.02 allows that. */
+.pack-icon-1 { border-radius: var(--blob-1); }
+.pack-icon-2 { border-radius: var(--blob-2); }
+.pack-icon-3 { border-radius: var(--blob-3); }
+.pack-icon-4 { border-radius: var(--blob-4); }
+
+/* The ask, with the risk-reducers sitting next to it rather than as a second
+   paragraph block — they are read in the same glance as the button. */
+.pack-cta {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: var(--sp-4) var(--sp-6);
+  margin-top: var(--sp-6); padding-top: var(--sp-5);
+  border-top: 1px solid rgba(28,28,28,.20);
+}
+.pack-facts {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-5);
+  color: var(--c-ink); font-size: .9375rem;
+}
+.pack-facts li { display: flex; align-items: center; gap: var(--sp-2); }
+.pack-facts li + li::before {
+  content: ""; width: 4px; height: 4px; border-radius: 50%;
+  background: rgba(28,28,28,.45); margin-right: var(--sp-3);
+}
+
+@media (max-width: 720px) {
+  .pack { padding-block: var(--sp-8) var(--sp-7); }
+  .pack-blob { width: 260px; height: 260px; right: -90px; bottom: -110px; }
+}
+
+/* ---------- category tiles ---------- */
+.cat-tiles { display: grid; gap: var(--sp-4); grid-template-columns: 1fr; }
+@media (min-width: 720px)  { .cat-tiles { grid-template-columns: 1.35fr 1fr; } }
+@media (min-width: 1100px) { .cat-tiles { grid-template-columns: 1.35fr 1fr 1fr; } }
+
+/* Poster structure (05.07): the photograph is a full-width rectangle across the
+   top, the type sits on the flat colour field beneath it. */
+.cat-tile {
+  position: relative;
+  display: grid; grid-template-rows: 1fr auto auto;
+  min-height: 300px; padding: 0 0 var(--sp-5);
+  border: 0; cursor: pointer; text-align: left; color: var(--c-ink);
+  border-radius: 0; overflow: hidden;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.cat-tile:hover { transform: translateY(-4px); }
+/* The media is row 1 of the grid rather than an absolute box at a percentage
+   height, so its bottom edge lands exactly on the type banner whatever the
+   labels wrap to — and it stays put on hover. */
+.cat-tile-media {
+  position: relative; min-height: 0; overflow: hidden;
+}
+.cat-tile-media img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  border-radius: 0;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.cat-tile:hover .cat-tile-media img { transform: scale(1.05); }
+
+/* An ink blob badge sitting on the photograph, same device as the pack icons:
+   the glyph is white on its own ink ground, so legibility does not depend on
+   whatever the photo is doing underneath. It is a sibling of the <img>, so the
+   hover zoom does not carry it. Radii vary per tile — 04.02's organic shapes
+   are meant to differ, not repeat. */
+.cat-tile-icon {
+  position: absolute; left: var(--sp-5); bottom: var(--sp-4); z-index: 2;
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  background: var(--c-ink); color: var(--c-surface);
+  pointer-events: none;
+}
+.cat-tile:nth-child(1) .cat-tile-icon { border-radius: var(--blob-1); }
+.cat-tile:nth-child(2) .cat-tile-icon { border-radius: var(--blob-3); }
+.cat-tile:nth-child(3) .cat-tile-icon { border-radius: var(--blob-2); }
+@media (max-width: 720px) {
+  .cat-tile-icon { left: var(--sp-4); bottom: var(--sp-3); width: 38px; height: 38px; }
+}
+/* .cat-tile-media is a <span> too, so this must not claim it — it outranks
+   .cat-tile-media and was quietly dropping the media back into flow. */
+.cat-tile > span:not(.cat-tile-media) {
+  position: relative; z-index: 1; padding-inline: var(--sp-5);
+}
+/* The media's bottom edge is the banner's top edge by construction, which left
+   the first label sitting flush against the photo (measured 0.0px). Give the
+   type its own room without moving that edge. */
+.cat-tile .cat-tile-media + span { padding-top: var(--sp-5); }
+.cat-tile .cat-count { font-weight: 400; }
+
+/* ---------- product card, editorial treatment ---------- */
+/* 04.02 sets product photography as a tight grid of hard-edged rectangles, so
+   the photo fills its tile. The rotating tint stays underneath as the ground
+   the image loads onto and as the fallback for any art that cannot cover. */
+.card-media {
+  border-radius: 0;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+.card-media img {
+  border-radius: 0;
+  width: 100%; height: 100%; object-fit: cover;
+}
+.grid-products > .card:nth-child(4n+1) .card-media { background: var(--c-beige); }
+.grid-products > .card:nth-child(4n+2) .card-media { background: var(--c-blue); }
+.grid-products > .card:nth-child(4n+3) .card-media { background: var(--c-pink); }
+.grid-products > .card:nth-child(4n+4) .card-media { background: var(--c-green); }
+
+/* Hover crossfades to the next colourway. No footage needed, and it does real
+   work: it shows the range without a click. */
+.card-media { position: relative; }
+.card-media .swap {
+  position: absolute; inset: 0;
+  opacity: 0; transition: opacity var(--dur-slow) var(--ease-out);
+}
+/* .swap is absolute at inset:0 over .base and fully opaque, so fading it in is
+   enough to cover it. The base must NOT be faded out: siblings() returns [] for
+   carpets, so those 8 cards have no .swap and hiding the base left bare tint. */
+.card:hover .card-media .swap { opacity: 1; }
+
+.card-flag { background: rgba(255,255,255,.92); backdrop-filter: blur(6px); }
+
+/* ---------- filter chips ---------- */
+.chip, .chip[aria-pressed="true"] { border-radius: var(--r-pill); }
+
+/* ==========================================================================
+   VIDEO
+   ========================================================================== */
+
+/* Ambient loop: muted, autoplay, inline, looping. Carries no information the
+   page doesn't also state in text, so no controls and no captions needed. */
+.v-ambient {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  background: var(--c-surface-alt);
+}
+
+
+.v-chip {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  font-family: var(--font-heading); font-size: .75rem; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: 7px 14px; border-radius: var(--r-pill);
+  background: rgba(255,255,255,.16); color: #fff;
+  border: 1px solid rgba(255,255,255,.34);
+  backdrop-filter: blur(6px);
+}
+
+/* Blob play button (brandbook form language). */
+.v-play {
+  display: inline-grid; place-items: center;
+  width: 76px; height: 76px; flex: none;
+  border: 0; cursor: pointer; color: #fff;
+  background: var(--c-accent-strong);
+  border-radius: var(--blob-1);
+  transition: transform var(--dur-base) var(--ease-out), background var(--dur-fast), border-radius var(--dur-slow) var(--ease-out);
+}
+.v-play:hover { transform: scale(1.07); background: var(--c-accent); border-radius: var(--blob-3); }
+
+/* PDP: "see it made" module sitting beside the buy box, above the fold. */
+.v-inline {
+  position: relative; border-radius: var(--r-lg); overflow: hidden;
+  aspect-ratio: 16/10; background: var(--c-surface-alt);
+}
+.v-inline video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.v-inline-overlay {
+  position: absolute; inset: 0; display: flex; align-items: flex-end;
+  gap: var(--sp-4); padding: var(--sp-4);
+  background: linear-gradient(180deg, rgba(20,18,16,0) 45%, rgba(20,18,16,.72) 100%);
+}
+.v-inline-overlay .label {
+  font-family: var(--font-heading); font-weight: 600; font-size: .9375rem; color: #fff;
+}
+
+/* Video as the first gallery slot on the PDP. */
+.thumb-video { position: relative; }
+.thumb-video::after {
+  content: ""; position: absolute; inset: 0;
+  background: rgba(20,18,16,.32) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 16 18' fill='white'%3E%3Cpath d='M2 1.6a1 1 0 0 1 1.5-.87l11 7.4a1 1 0 0 1 0 1.74l-11 7.4A1 1 0 0 1 2 16.4z'/%3E%3C/svg%3E") center/16px no-repeat;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v-ambient, .shop-hero-media video, .v-inline video { display: none; }
+  .shop-hero-media img.poster { display: block; }
+}
+
+/* ---------- PDP stage ----------
+   The ground carries the selected colourway; --stage-tint is set by product.js
+   so choosing a colour repaints the field the product sits in. */
+.pdp-stage {
+  --stage-pad: var(--sp-6);
+  position: relative;
+  aspect-ratio: 4/3;
+  background: var(--stage-tint, var(--c-surface-alt));
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding: var(--stage-pad);
+  transition: background var(--dur-slow) var(--ease-out);
+}
+/* `height: 100%` on a grid item resolves against the grid area, which is not a
+   dependable definite size here — the browser fell back to auto, the image took
+   its own intrinsic ratio and overflowed the bottom padding, so the tint frame
+   came out lopsided (worse the taller the art). Positioning the media against
+   the stage instead makes both axes definite: percentages on an absolutely
+   positioned box resolve against the containing block's padding box, which
+   aspect-ratio has already made definite. Explicit calc sizes rather than
+   `inset`, because `width: auto` on a *replaced* element means its intrinsic
+   width, not the offsets — so inset alone leaves it full-bleed. */
+.pdp-stage > img,
+.pdp-stage > video {
+  position: absolute;
+  top: var(--stage-pad); left: var(--stage-pad);
+  width: calc(100% - var(--stage-pad) * 2);
+  height: calc(100% - var(--stage-pad) * 2);
+  object-fit: cover;
+  border-radius: 0;
+}
+.pdp-stage > video[hidden] { display: none; }
+
+.pdp-eyebrow { color: var(--c-accent-press); }
+
+/* Video occupies the first gallery slot; the play glyph comes from .thumb-video */
+#thumbs .thumb { border-radius: var(--r-md); }
+
+@media (max-width: 720px) {
+  .pdp-stage { --stage-pad: var(--sp-4); }
+}
+
+/* ---------- fixes found in review ---------- */
+
+/* At 1360px the catalogue is a 250px rail plus four ~236px cards, which is not
+   enough room for the price and five colourway swatches on one line. Smaller
+   swatches on the card, and the row may wrap rather than break the price. */
+.card-foot { flex-wrap: wrap; row-gap: var(--sp-2); }
+.card-foot .sw { width: 18px; height: 18px; }
+.card-foot .t-price { white-space: nowrap; }

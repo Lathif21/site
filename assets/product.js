@@ -16,6 +16,15 @@ $('price').textContent = money(p.price);
 $('leadInline').textContent = p.lead;
 $('blurb').textContent = p.blurb;
 
+/* The field the product sits on takes the colourway's own tint, so choosing a
+   colour repaints the stage. Page chrome is untouched — only the ground moves. */
+const STAGE_TINT = {
+  'off-white': '#f2efe9', oker: '#efe4c4', sand: '#ece5d8',
+  terra: '#f6ddd4', 'deep-black': '#e6e5e3', brown: '#eee3da', white: '#f4f2ee'
+};
+document.getElementById('stage').style.setProperty(
+  '--stage-tint', STAGE_TINT[p.colour] || 'var(--c-surface-alt)');
+
 /* ---------- gallery ----------
    The live PDP shows a hero plus three thumbnails. We only have one real
    asset per product, so the prototype pads with the sibling colourways —
@@ -25,21 +34,43 @@ if (gallery.length === 1) {
   gallery.push(...PRODUCTS.filter(x => x.type === p.type && x.id !== p.id).slice(0, 3).map(x => x.img));
 }
 const hero = $('hero');
+const heroVideo = $('heroVideo');
 hero.src = gallery[0];
 hero.alt = `${p.name} DIY-pakket`;
 
+/* Slot 0 is the film, slots 1..n are the stills. The clip is muted, looping and
+   carries nothing the page does not also say in text, so it needs no controls.
+   It only plays while it is the selected slot — never in the background. */
+function showVideo() {
+  heroVideo.hidden = false; hero.hidden = true;
+  const play = heroVideo.play(); if (play) play.catch(() => {});
+}
+function showStill(src) {
+  heroVideo.pause(); heroVideo.hidden = true; hero.hidden = false; hero.src = src;
+}
+
 const thumbs = $('thumbs');
+
+function mark(btn) {
+  thumbs.querySelectorAll('.thumb').forEach(t => t.setAttribute('aria-current', 'false'));
+  btn.setAttribute('aria-current', 'true');
+}
+
+const vb = document.createElement('button');
+vb.className = 'thumb thumb-video'; vb.type = 'button';
+vb.setAttribute('aria-current', 'false');
+vb.setAttribute('aria-label', 'Toon de video van dit pakket');
+vb.innerHTML = '<img src="img/ov-video.jpg" alt="" aria-hidden="true" style="width:100%;height:100%;object-fit:cover" loading="lazy">';
+vb.addEventListener('click', () => { showVideo(); mark(vb); });
+thumbs.appendChild(vb);
+
 gallery.forEach((src, i) => {
   const b = document.createElement('button');
   b.className = 'thumb'; b.type = 'button';
   b.setAttribute('aria-current', String(i === 0));
   b.setAttribute('aria-label', `Toon afbeelding ${i + 1} van ${gallery.length}`);
   b.innerHTML = `<img src="${src}" alt="" aria-hidden="true" style="width:100%;height:100%;object-fit:cover" loading="lazy">`;
-  b.addEventListener('click', () => {
-    hero.src = src;
-    thumbs.querySelectorAll('.thumb').forEach(t => t.setAttribute('aria-current', 'false'));
-    b.setAttribute('aria-current', 'true');
-  });
+  b.addEventListener('click', () => { showStill(src); mark(b); });
   thumbs.appendChild(b);
 });
 
@@ -129,14 +160,25 @@ $('moreBtn').addEventListener('click', () => {
 const icoGauge = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-4"/></svg>`;
 const icoClock = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></svg>`;
 
-const related = PRODUCTS
-  .filter(x => x.type === p.type && x.id !== p.id && (p.type !== 'table' || x.model !== p.model))
-  .slice(0, 4);
+/* "Andere tafelmodellen" should show four different models, not four colourways
+   of the same one — the colour swatches in the buy box already cover colour. */
+const related = (() => {
+  const pool = PRODUCTS.filter(x => x.type === p.type && x.id !== p.id
+                                 && (p.type !== 'table' || x.model !== p.model));
+  if (p.type !== 'table') return pool.slice(0, 4);
+  const seen = new Set(), out = [];
+  for (const x of pool) {
+    if (seen.has(x.model)) continue;
+    seen.add(x.model); out.push(x);
+    if (out.length === 4) break;
+  }
+  return out;
+})();
 $('relTitle').textContent = p.type === "table" ? "Andere tafelmodellen" : "Andere tapijten";
 
 $('related').innerHTML = related.map(r => `
   <article class="card" style="position:relative">
-    <div class="card-media"><img src="${r.img}" alt="${r.name} DIY-pakket" loading="lazy" width="800" height="800"></div>
+    <div class="card-media"><img src="${r.img}" alt="${r.name} DIY-pakket" loading="lazy"></div>
     <div class="card-body">
       <div>
         <p class="t-label subtle" style="margin:0 0 6px;letter-spacing:.06em">${r.typeLabel}</p>

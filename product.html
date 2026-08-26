@@ -6,8 +6,9 @@
 <title>Product — Atelier DIY</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600&family=Nunito+Sans:wght@400;600&family=PT+Serif:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/app.css?v=3">
+<link rel="stylesheet" href="assets/chrome.css?v=1">
 <style>
   .stickybar {
     position: fixed; left:0; right:0; bottom:0; z-index:60;
@@ -30,29 +31,25 @@
 <body>
 <a class="skip-link" href="#pdp">Ga naar het product</a>
 
+<!-- chrome:header -->
 <header class="site-header">
-  <div class="container" style="display:flex;align-items:center;gap:var(--sp-6);height:72px">
-    <a href="index.html" aria-label="Atelier DIY — startpagina" style="display:flex;align-items:center;flex:none">
-      <img src="img/logo.png" alt="Atelier DIY" width="46" height="40" decoding="async" fetchpriority="high" style="display:block;height:40px;width:auto">
+  <div class="wrap-wide">
+    <a class="logo" href="index.html" aria-label="Atelier DIY — home">
+      <img src="img/logo.png" alt="Atelier DIY" width="44" height="38">
     </a>
-    <nav aria-label="Hoofdnavigatie" style="display:none;gap:var(--sp-6);margin-inline:auto" class="mainnav">
-      <a class="nav-link" href="index.html">Overzicht</a>
-      <a class="nav-link" href="hoe-werkt-het.html">Hoe werkt het?</a>
-      <a class="nav-link" href="realisaties.html">Realisaties</a>
-      <a class="nav-link" href="webshop.html" aria-current="page">Webshop</a>
-      <a class="nav-link" href="tutorials.html">Tutorials</a>
-    </nav>
-    <div style="display:flex;align-items:center;gap:var(--sp-2);margin-left:auto">
-      <button class="btn btn-ghost" id="cartBtn" style="padding:10px 16px">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.6 12.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L21 7H6"/></svg>
-        <span id="cartCount">0</span>
-      </button>
-      <a class="btn btn-ghost" href="#" style="padding:10px 14px" aria-label="Mijn account">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+    <nav class="nav" id="nav" aria-label="Hoofdnavigatie"><a href="index.html">Overzicht</a><a href="hoe-werkt-het.html">Hoe werkt het?</a><a href="realisaties.html">Realisaties</a><a href="webshop.html" aria-current="page">Webshop</a><a href="tutorials.html">Tutorials</a></nav>
+    <div class="header-actions">
+      <a class="cart" id="cartBtn" href="#" aria-label="Winkelmandje, 0 artikelen"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L21 7H6"/></svg><span class="cart-count" id="cartCount">0</span></a>
+      <a href="#" aria-label="Mijn account">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
       </a>
+      <button class="burger" id="burger" aria-expanded="false" aria-controls="nav" aria-label="Menu">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
     </div>
   </div>
 </header>
+<!-- /chrome:header -->
 
 <main id="main" style="padding-bottom:96px">
 
@@ -71,18 +68,38 @@
   <section class="container" id="pdp" style="padding-top:var(--sp-6)">
     <div class="pdp-grid">
 
-      <!-- ---------- gallery ---------- -->
+      <!-- ---------- gallery ----------
+           The ground tints to the selected colourway and the still is masked to
+           a Mortex tabletop silhouette (brandbook 04.02). Slot 1 is the film. -->
       <div>
-        <div style="border-radius:var(--r-lg);overflow:hidden;background:var(--c-surface-alt);aspect-ratio:4/3">
-          <img id="hero" src="" alt="" width="1000" height="1000" style="width:100%;height:100%;object-fit:cover;object-position:center">
+        <div class="pdp-stage" id="stage">
+          <video id="heroVideo" class="v-ambient" muted loop playsinline
+                 preload="metadata" poster="img/ov-video.jpg" aria-hidden="true" tabindex="-1" hidden>
+            <source src="video/ov-mortex.webm" type="video/webm">
+            <source src="video/ov-mortex.mp4" type="video/mp4">
+          </video>
+          <img id="hero" src="" alt="" width="1000" height="1000">
         </div>
         <div id="thumbs" role="group" aria-label="Productafbeeldingen"
-             style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-3);margin-top:var(--sp-3);max-width:420px"></div>
+             style="display:grid;grid-template-columns:repeat(5,1fr);gap:var(--sp-3);margin-top:var(--sp-4);max-width:470px"></div>
+
+        <div class="v-inline" style="margin-top:var(--sp-6)">
+          <video id="makeVideo" muted loop playsinline preload="none" poster="img/ov-video.jpg" data-idle aria-hidden="true" tabindex="-1">
+            <source src="video/ov-mortex.webm" type="video/webm">
+            <source src="video/ov-mortex.mp4" type="video/mp4">
+          </video>
+          <div class="v-inline-overlay">
+            <button class="v-play" type="button" data-video-trigger="makeVideo" aria-label="Bekijk hoe je dit pakket afwerkt">
+              <svg width="20" height="22" viewBox="0 0 16 18" fill="currentColor" aria-hidden="true"><path d="M2 1.6a1 1 0 0 1 1.5-.87l11 7.4a1 1 0 0 1 0 1.74l-11 7.4A1 1 0 0 1 2 16.4z"/></svg>
+            </button>
+            <span class="label">Zie hoe je dit pakket afwerkt<br><span style="font-weight:400;opacity:.85">Volledige tutorial &middot; 12 min</span></span>
+          </div>
+        </div>
       </div>
 
       <!-- ---------- buy box ---------- -->
       <div class="buybox">
-        <p class="t-label subtle" id="eyebrow" style="margin:0 0 var(--sp-2);letter-spacing:.06em"></p>
+        <p class="t-label pdp-eyebrow" id="eyebrow" style="margin:0 0 var(--sp-3);letter-spacing:.1em"></p>
         <h1 class="t-h1" id="title" style="margin-bottom:var(--sp-3)"></h1>
 
         <div style="display:flex;align-items:baseline;gap:var(--sp-3);flex-wrap:wrap;margin-bottom:var(--sp-2)">
@@ -140,43 +157,6 @@
     </div>
   </section>
 
-  <!-- ---------- what's included ---------- -->
-  <section style="background:var(--c-surface-alt)">
-    <div class="container section">
-      <h2 class="t-h2" style="margin-bottom:var(--sp-7)">Wat zit er in het pakket?</h2>
-      <div style="display:grid;gap:var(--sp-6);grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">
-        <div>
-          <div style="width:52px;height:52px;border-radius:var(--r-md);background:var(--c-blue);display:grid;place-items:center;margin-bottom:var(--sp-4)">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c-ink)" stroke-width="1.6" aria-hidden="true"><path d="M3 8l9-4 9 4-9 4z"/><path d="M3 8v8l9 4 9-4V8"/></svg>
-          </div>
-          <h3 class="t-h3" style="margin-bottom:8px">Gereedschap</h3>
-          <p class="t-body-sm muted" style="margin:0">Professioneel gereedschap, geselecteerd voor jouw project — spatels, rollers, schuurmateriaal en precisiegereedschap.</p>
-        </div>
-        <div>
-          <div style="width:52px;height:52px;border-radius:var(--r-md);background:var(--c-green);display:grid;place-items:center;margin-bottom:var(--sp-4)">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c-ink)" stroke-width="1.6" aria-hidden="true"><path d="M4 14l7-7 5 5-7 7H4z"/><path d="M19 14c0 1.7-1 3-2 3s-2-1.3-2-3 2-3.5 2-3.5S19 12.3 19 14z"/></svg>
-          </div>
-          <h3 class="t-h3" style="margin-bottom:8px">Materiaal</h3>
-          <p class="t-body-sm muted" style="margin:0">Hoogwaardige materialen afgestemd op jouw project — hout, verf, Mortex, epoxy en afwerkingsproducten.</p>
-        </div>
-        <div>
-          <div style="width:52px;height:52px;border-radius:var(--r-md);background:var(--c-beige);display:grid;place-items:center;margin-bottom:var(--sp-4)">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c-ink)" stroke-width="1.6" aria-hidden="true"><path d="M5 3h11l3 3v15H5z"/><path d="M8 10h8M8 14h8M8 18h5"/></svg>
-          </div>
-          <h3 class="t-h3" style="margin-bottom:8px">Instructies</h3>
-          <p class="t-body-sm muted" style="margin:0">Een stap-voor-stap handleiding en, bij de meeste pakketten, een videotutorial die je door het hele proces loodst.</p>
-        </div>
-        <div>
-          <div style="width:52px;height:52px;border-radius:var(--r-md);background:var(--c-pink);display:grid;place-items:center;margin-bottom:var(--sp-4)">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c-ink)" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 14a4.5 4.5 0 0 0 7 0M9 9.5h.01M15 9.5h.01"/></svg>
-          </div>
-          <h3 class="t-h3" style="margin-bottom:8px">Plezier</h3>
-          <p class="t-body-sm muted" style="margin:0">Iets zelf maken geeft voldoening, is leuk en leerrijk — ideaal als je graag nieuwe vaardigheden onder de knie krijgt.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ---------- related ---------- -->
   <section class="container section">
     <div style="display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-4);margin-bottom:var(--sp-6);flex-wrap:wrap">
@@ -196,15 +176,68 @@
   <button class="btn btn-primary" id="sbAdd">In winkelmandje</button>
 </div>
 
-<footer style="background:var(--c-surface-alt);padding-block:var(--sp-8) var(--sp-6)">
-  <div class="container">
-    <p class="t-body-sm subtle" style="margin:0">© 2026 Atelier-DIY. Alle rechten voorbehouden. — Redesignprototype, geen echte webshop.</p>
+<!-- chrome:footer -->
+<footer class="site-footer">
+  <div class="wrap-wide">
+    <div class="footer-grid">
+      <div>
+        <h2>Jouw partner in creatieve<br>DIY-projecten</h2>
+        <p>Ontdek onze hoogwaardige doe-het-zelf pakketten en stap-voor-stap tutorials.
+           Creëer unieke designstukken met professionele materialen en duidelijke
+           instructies – eenvoudig, leuk en betaalbaar!</p>
+        <a class="btn" href="webshop.html">Bekijk onze DIY-pakketten <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
+      </div>
+      <nav aria-label="Sitemap">
+        <ul class="footer-nav">
+          <li><a href="index.html">Overzicht</a></li>
+          <li><a href="webshop.html">Webshop</a></li>
+          <li><a href="hoe-werkt-het.html">Hoe werkt het?</a></li>
+          <li><a href="realisaties.html">Realisaties</a></li>
+          <li><a href="tutorials.html">Tutorials</a></li>
+          <li><a href="#">Mijn account</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Klantendienst">
+        <ul class="footer-nav">
+          <li><a href="#">Privacy beleid</a></li>
+          <li><a href="#">Algemene voorwaarden</a></li>
+          <li><a href="#">Aanmelden nieuwsbrief</a></li>
+          <li><a href="#">Contacteer ons</a></li>
+          <li><a href="#">Bekijk bestelling-status</a></li>
+        </ul>
+      </nav>
+      <address class="footer-contact">
+        <span>Tweelindenstraat 7<br>B-8810 Lichtervelde</span>
+        <span>BE 1011 359 018</span>
+        <a href="mailto:info@diy-atelier.be">info@diy-atelier.be</a>
+      </address>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Atelier-DIY. Alle rechten voorbehouden.</span>
+      <span class="socials">
+        <a href="#" aria-label="Facebook"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.5 8.5V6.8c0-.8.2-1.3 1.4-1.3h1.6V2.6C17.2 2.5 16.3 2.4 15.3 2.4c-2.2 0-3.8 1.4-3.8 4v2.1H9v3.2h2.5V21h3V11.7h2.5l.4-3.2z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+      </span>
+    </div>
   </div>
 </footer>
+
+<div class="cookie" id="cookie" role="region" aria-label="Cookiemelding">
+  <div class="wrap-wide">
+    <p>Deze website maakt gebruik van cookies om uw ervaring te verbeteren. Door op
+       &ldquo;Accepteren&rdquo; te klikken, gaat u akkoord met onze cookies.</p>
+    <div class="cookie-actions">
+      <button type="button" data-cookie="accept">Accepteren</button>
+      <button type="button" class="refuse" data-cookie="refuse">Weigeren</button>
+    </div>
+  </div>
+</div>
+<!-- /chrome:footer -->
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="assets/data.js?v=3"></script>
+<script src="assets/video.js"></script>
 <script src="assets/product.js?v=3"></script>
 </body>
 </html>

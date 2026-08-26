@@ -599,3 +599,4 @@ if __name__ == "__main__":
          "tutorials.html", tutorials,
          "Stap-voor-stap videotutorials voor je DIY-project.")
     sync_chrome("webshop.html", "webshop.html", cart=True)
+    sync_chrome("product.html", "webshop.html", cart=True)
