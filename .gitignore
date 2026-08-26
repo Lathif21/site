@@ -5,3 +5,5 @@ __pycache__/
 # OS junk
 .DS_Store
 Thumbs.db
+
+SETT_Brandbook_compressed.pdf

@@ -7,7 +7,7 @@
 <meta name="description" content="DIY-pakketten voor Mortex-tafels en schapenvachttapijten. Materialen, gereedschap en een stap-voor-stap handleiding in één doos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600&family=Nunito+Sans:wght@400;600&family=PT+Serif:wght@400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600&family=Nunito+Sans:wght@400;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/app.css?v=3">
 <!-- chrome.css must come after app.css: it overrides .site-header and scopes
      the replica footer and cookie styles. The header and footer markup is
@@ -40,42 +40,113 @@
 
 <main id="main">
 
-<!-- ============================ EDITORIAL HEADER ============================ -->
-<section class="container" style="padding-top:var(--sp-8);padding-bottom:var(--sp-7)">
-  <p class="t-label" style="color:var(--c-accent-press);margin:0 0 var(--sp-5)">Webshop — 33 pakketten</p>
-  <div class="hero-grid">
-    <h1 class="t-statement spread" style="color:var(--c-grey-text)">
-      <span class="tight"><b>JIJ BRENGT</b></span>
-      <span><b>DE HANDEN.</b> <b>WIJ BRENGEN</b></span>
-      <span class="tight"><b>AL DE REST.</b></span>
-    </h1>
-    <div style="max-width:38ch;align-self:end">
-      <p class="muted" style="margin:0 0 var(--sp-5)">
+<!-- ============================ EDITORIAL HEADER ============================
+     The clip is the ground the statement sits on. Brandbook 05.01 sets the
+     type in black on white; that cannot survive moving footage, so the field
+     is inverted — white type over a scrim measured against the brightest
+     frame in the montage. Muted, looping, decorative: aria-hidden, no
+     controls, no captions. -->
+<section class="shop-hero">
+  <div class="band-inner">
+    <span class="hero-rail" aria-hidden="true">Niet gemaakt om te kopen. Gemaakt om te maken.</span>
+    <p class="t-label shop-hero-eyebrow">Webshop — 33 pakketten</p>
+    <h1 class="shop-hero-title">Jij brengt de handen. <br>Wij brengen al de rest.</h1>
+    <div class="shop-hero-foot">
+      <p>
         Elk pakket komt compleet toe — de materialen, het professionele gereedschap en een
         stap-voor-stap handleiding. Geen ervaring nodig, geen speciaalzaak om af te lopen.
       </p>
-      <a class="btn btn-secondary" href="#catalog">
-        Bekijk de pakketten
+    </div>
+  </div>
+  <div class="shop-hero-media">
+    <video class="v-ambient" autoplay muted loop playsinline
+           poster="img/ov-video.jpg" aria-hidden="true" tabindex="-1">
+      <source src="video/ov-mortex.webm" type="video/webm">
+      <source src="video/ov-mortex.mp4" type="video/mp4">
+    </video>
+    <img class="poster" src="img/ov-video.jpg" alt="" aria-hidden="true">
+  </div>
+</section>
+
+<!-- ============================ WAT ZIT ER IN HET PAKKET ============================
+     Moved up from the product page, where it sat below the buy box and was rarely
+     reached. Kept deliberately short: four concrete nouns, then the ask. The lede
+     that used to sit here repeated the hero's "geen speciaalzaak om af te lopen",
+     so it is gone. "Fractie van de winkelprijs" is the client's own line (see the
+     third column of the overview page). Facts are FAQ 3, 7 and 9.
+     Beige field per 02.02. Ink type is 12.05:1 here, so the copy is safe; the
+     icon tiles are ink with white glyphs, because a white tile on beige is
+     1.41:1 and would read as a printing accident. -->
+<section class="band band-beige pack" aria-labelledby="pack-h">
+  <span class="band-blob pack-blob" aria-hidden="true"></span>
+  <div class="band-inner">
+    <p class="t-label pack-eyebrow">In elke doos</p>
+    <h2 class="pack-title" id="pack-h">Alles zit erin. <br>Jij begint gewoon.</h2>
+
+    <div class="pack-grid">
+      <div class="pack-item">
+        <span class="pack-icon pack-icon-1" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-surface)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4z"/><path d="M3 8v8l9 4 9-4V8"/></svg>
+        </span>
+        <h3 class="t-h3">Gereedschap</h3>
+        <p>Spatels, rollers, schuurpapier.</p>
+      </div>
+      <div class="pack-item">
+        <span class="pack-icon pack-icon-2" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-surface)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14l7-7 5 5-7 7H4z"/><path d="M19 14c0 1.7-1 3-2 3s-2-1.3-2-3 2-3.5 2-3.5S19 12.3 19 14z"/></svg>
+        </span>
+        <h3 class="t-h3">Materiaal</h3>
+        <p>Mortex, epoxy, verf en hout.</p>
+      </div>
+      <div class="pack-item">
+        <span class="pack-icon pack-icon-3" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-surface)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l3 3v15H5z"/><path d="M8 10h8M8 14h8M8 18h5"/></svg>
+        </span>
+        <h3 class="t-h3">Instructies</h3>
+        <p>Handleiding én videotutorial.</p>
+      </div>
+      <div class="pack-item">
+        <span class="pack-icon pack-icon-4" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-surface)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg>
+        </span>
+        <h3 class="t-h3">Resultaat</h3>
+        <p>Een designstuk voor een fractie van de winkelprijs.</p>
+      </div>
+    </div>
+
+    <div class="pack-cta">
+      <a class="btn btn-primary" href="#catalog">
+        Bekijk de 33 pakketten
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
+      <ul class="pack-facts">
+        <li>Ophalen na 1 werkdag</li>
+        <li>Geen extra gereedschap nodig</li>
+        <li>Bancontact, iDEAL &amp; PayPal</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<!-- ============================ CATEGORY TILES ============================ -->
-<section class="container" style="padding-bottom:var(--sp-8)">
-  <div style="display:grid;gap:var(--sp-4);grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
-    <button class="tile catTile" data-cat="all" style="background:var(--c-beige);text-align:left;border:0;cursor:pointer">
-      <span class="t-label subtle" style="color:var(--c-ink-muted)">Alle pakketten</span>
-      <span class="t-h3" style="margin-top:4px">Alles &nbsp;<span class="muted" style="font-weight:400">33</span></span>
+<!-- ============================ CATEGORY TILES ============================
+     Poster structure (05.07): full-width photograph over a flat tint field
+     (02.02), type on the colour beneath. -->
+<section class="container" style="padding-block:var(--sp-8)">
+  <div class="cat-tiles">
+    <button class="cat-tile catTile" data-cat="all" style="background:var(--c-beige)">
+      <span class="cat-tile-media" aria-hidden="true"><img src="img/ov-pallet.jpg" alt="" loading="lazy"></span>
+      <span class="t-label" style="color:var(--c-ink-muted)">Alle pakketten</span>
+      <span class="t-h3" style="margin-top:4px">Alles <span class="cat-count muted">33</span></span>
     </button>
-    <button class="tile catTile" data-cat="table" style="background:var(--c-blue);text-align:left;border:0;cursor:pointer">
+    <button class="cat-tile catTile" data-cat="table" style="background:var(--c-blue)">
+      <span class="cat-tile-media" aria-hidden="true"><img src="img/cat-tafels.jpg" alt="" loading="lazy"></span>
       <span class="t-label" style="color:var(--c-ink-muted)">Mortex</span>
-      <span class="t-h3" style="margin-top:4px">Tafels &nbsp;<span class="muted" style="font-weight:400">25</span></span>
+      <span class="t-h3" style="margin-top:4px">Tafels <span class="cat-count muted">25</span></span>
     </button>
-    <button class="tile catTile" data-cat="carpet" style="background:var(--c-pink);text-align:left;border:0;cursor:pointer">
+    <button class="cat-tile catTile" data-cat="carpet" style="background:var(--c-pink)">
+      <span class="cat-tile-media" aria-hidden="true"><img src="img/white-carpet-4.jpg" alt="" loading="lazy"></span>
       <span class="t-label" style="color:var(--c-ink-muted)">Schapenvacht</span>
-      <span class="t-h3" style="margin-top:4px">Tapijten &nbsp;<span class="muted" style="font-weight:400">8</span></span>
+      <span class="t-h3" style="margin-top:4px">Tapijten <span class="cat-count muted">8</span></span>
     </button>
   </div>
 </section>
@@ -177,6 +248,20 @@
   </div>
 </section>
 
+<!-- ============================ TYPOGRAPHIC BEAT ============================
+     Brandbook 05.05, the "READY SETT GO!" device: display type set in its own
+     field's hue, one step down. --c-blue-tonal is the tint darkened until it
+     clears 3:1 against --c-blue, so it holds as large text and nothing else.
+     The line is brandbook baseline 01.05, translated to Dutch for a Dutch
+     page: "THE PRODUCT IS THE RESULT. THE MOMENT IS THE REASON." -->
+<section class="band band-blue beat">
+  <div class="band-inner">
+    <p class="t-tonal spread beat-line">
+      <span><b>HET PRODUCT</b> <b>IS HET RESULTAAT</b></span>
+      <span class="tight"><b>HET MOMENT IS DE REDEN</b></span>
+    </p>
+  </div>
+</section>
 </main>
 
 <!-- ============================ FOOTER ============================ -->
@@ -242,6 +327,7 @@
 
 <script src="assets/site.js"></script>
 <script src="assets/data.js?v=3"></script>
+<script src="assets/video.js"></script>
 <script src="assets/catalog.js?v=3"></script>
 </body>
 </html>

@@ -49,12 +49,21 @@ function card(p) {
               aria-label="${p.name.replace(/ \S+$/, '')} in ${COLOURS[s.colour].label}"></a>`).join('')}
        </div>` : '';
 
+  /* Hover crossfades to the next colourway of the same model. There is no
+     product footage, and this does the job a hover-video would: it shows the
+     range without a click. Decorative, so alt="" and aria-hidden. */
+  const next = sibs.length > 1 ? sibs[(sibs.indexOf(p) + 1) % sibs.length] : null;
+  const swapImg = next
+    ? `<img class="swap" src="${next.img}" alt="" aria-hidden="true" loading="lazy">`
+    : '';
+
   const el = document.createElement('article');
   el.className = 'card';
   el.style.position = 'relative';
   el.innerHTML = `
     <div class="card-media">
-      <img src="${p.img}" alt="${p.name} DIY-pakket" loading="lazy" width="800" height="800">
+      <img class="base" src="${p.img}" alt="${p.name} DIY-pakket" loading="lazy">
+      ${swapImg}
       ${sibs.length > 1 ? `<span class="badge card-flag">${sibs.length} kleuren</span>` : ''}
     </div>
     <div class="card-body">

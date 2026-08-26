@@ -36,6 +36,157 @@ idempotent — running it twice is a no-op.
 
 `product.html` is still fully hand-authored and still carries the old chrome.
 
+### Brandbook coherence — validated
+
+Audited device by device against `../brand/SETT_Brandbook_compressed.pdf`.
+**11 of 12 devices implemented** (was 8 of 12).
+
+| Ref | Device | Status |
+|---|---|---|
+| 02.01 | 8-colour palette, exact hexes | yes |
+| 03.02 | Franklin Gothic URW / Avenir | yes |
+| 03.02 | PT Serif as the display face | **deliberately not** — see the type note |
+| 01.05 | Justified "spread" uppercase statement | yes — closing beat (the hero is sentence case by request) |
+| 01.05 | Brandbook baselines used as copy | yes — hero rail + closing beat |
+| 01.06 | Rotated 90° type up the left edge | yes — hero rail |
+| 05.05 | Tonal type (field's own hue, one step down) | yes — closing beat |
+| 02.02 | Flat colour fields | yes — beige band, blue beat |
+| 04.02 | Square-cornered photography, tight grid | yes |
+| 05.07 | Poster structure (photo + type on colour) | yes — category tiles |
+| 04.02 | Organic blob badges, varied radii | yes — pack icons + category tiles |
+| 04.02 | Blob as graphic shape, never a photo mask | yes |
+| 05.09 | Colour swatch circles | yes — colourway swatches |
+| 05.03 | Large wordmark lockup | **not done** — `img/logo.png` is 212×184 and goes soft when scaled up; needs the real SVG |
+
+Two devices were added in this pass, both from pages the demo had ignored:
+
+- **The hero rail** (01.06 / 05.03). On the brochure cover a baseline climbs the
+  spine beside the photo; here it climbs the hero beside the statement. It lives
+  in the gutter `.band-inner` already reserves, so it never crowds the type, and
+  it gives the footage an edge to sit against instead of being a plain backdrop.
+  Measured at **7.76:1** worst case across all 59 frames of the clip.
+
+  It is centred on the hero's axis (`top: 50%` with the offset folded into the
+  same `transform` as the rotation, since a second `transform` would replace the
+  first). Verified 0.0px offset at 1600 / 1440 / 1280 / 1024.
+
+  It carries no rule or tick. An earlier version had `::before`/`::after`
+  hairlines that **never rendered**: `.hero-rail` is a `<span>`, so
+  `display: inline`, and a `display: block` pseudo-element inside an inline box
+  does not lay out — measured, the rail box was text-only at 14×431px. The
+  brandbook's own rail on 01.06 and 05.03 is bare rotated type, so removing them
+  was the correct resolution rather than making them work.
+- **The closing tonal beat** (05.05). `.t-tonal` and the four `--c-*-tonal`
+  tokens were already in `app.css`, each darkened until it cleared 3:1 against
+  its own field — and were rendered **zero times**, because the band that used
+  them had been deleted. The beat restores it with a brandbook baseline verbatim.
+
+Both baselines used carry no brand name, so they read correctly on a
+diy-atelier page. The third, "SETT THE TABLE FOR UNFORGETTABLE MOMENTS.", is
+deliberately not used — see the brand note below.
+
+### Type note: display face is Poppins, not PT Serif
+
+`--font-display` is Poppins, matching `assets/site.css`, so the statement, the
+hero rail and the tonal beat read as the same site as the four replica pages.
+That is a **deliberate departure from brandbook 03.02**, which names PT Serif as
+the display face: cross-page consistency was chosen over that one point of
+fidelity. It is a one-line revert (`--font-display` in `app.css`) if the client
+would rather have the serif.
+
+Nothing referenced PT Serif afterwards, so the font request was dropped from
+`webshop.html` and `product.html` — it was downloading a face no rule used.
+
+Both English baselines are now Dutch, for a Dutch page:
+
+| Brandbook 01.05 | On the page |
+|---|---|
+| NOT MADE TO BUY. MADE TO CREATE. | NIET GEMAAKT OM TE KOPEN. GEMAAKT OM TE MAKEN. |
+| THE PRODUCT IS THE RESULT. THE MOMENT IS THE REASON. | HET PRODUCT IS HET RESULTAAT. HET MOMENT IS DE REDEN. |
+
+Dutch runs longer than the English, and that broke the beat: `.spread b` is
+`white-space: nowrap`, so "IS HET RESULTAAT." as a single `<b>` could not break
+and **overflowed its measure by up to 158px** (worst at 1200px). Brandbook 01.05
+sets this baseline over four lines of two or three words, and following that
+shape fixes it — the longest unbreakable chunk becomes one word.
+
+That bug hid from an earlier check because a `nowrap` child overflows *inside*
+the line box without widening it: comparing box edges showed 0px. The real test
+is `line.scrollWidth > line.clientWidth`. Now equal at 1440 / 1200 / 1024 / 900
+/ 768 / 600 / 390.
+
+`.t-tonal` and `.t-statement` are both Poppins **700**, matching the weight of
+the replica pages' `h1` so the display type is uniform across the site.
+
+Going bold on the statement exposed a **pre-existing overflow**: `.spread b` is
+`white-space: nowrap`, and at the old ceiling (`6rem`, tracking `.06em`)
+"WIJ BRENGEN" already ran 9px past the measure at 1440 and 22px at 1600 — at
+weight 400, before any of this. `.shop-hero` has `overflow: hidden`, so it
+clipped the word instead of scrolling the page, and every page-level overflow
+check reported clean. Tracking is now `.03em` and the ceiling `5.75rem`, tuned
+by measurement: the widest line lands at **1281px inside a 1312px measure** at
+1440/1600, with headroom, and fits at every width down to 390.
+
+The lesson is the same one the beat taught: for anything using `.spread`, the
+test is `scrollWidth > clientWidth` on the line, never the element's box edges,
+and never the page's scroll width when an ancestor clips.
+
+The hero heading was then moved to **sentence case** at the client's request,
+set like the replica pages' `h1` — Poppins 700, `letter-spacing: -.015em`,
+`clamp(1.8rem, 4.5vw, 4.25rem)`, two hand-broken lines. It is `.shop-hero-title`
+now, not `.t-statement`, and deliberately does **not** use `.spread`: justifying
+words to opposite edges only reads as a device in caps and looks like broken
+text in sentence case. The 01.05 spread treatment still appears on the page, in
+the closing tonal beat, so the device is not lost.
+
+### Two things that bit during that change
+
+**The heading markup was malformed.** Before the rewrite it carried an unmatched
+`</span>` and two empty `<b></b>` elements — an edit made outside the build had
+broken the tags. Replaced wholesale, and a tag-balance check now covers all six
+pages (all balanced).
+
+**`.shop-hero .band-inner { width: 100% }` had to come back.** `.shop-hero` is
+`display: grid`, and `margin-inline: auto` on a grid item sizes it to
+**fit-content and centres it** — so the whole hero block drifts inward as soon as
+its widest child is narrower than the container. An identical rule existed for
+`.v-band`; I removed it as dead CSS when that block was deleted, not noticing
+`.shop-hero` needed it too. It stayed invisible while the caps statement happened
+to fill the measure, and appeared the moment the heading became sentence case
+(inner 845px at left 290 instead of 1425 at 0). Hero and band text now share the
+same left edge at 1600 / 1440 / 1024 / 768 / 390.
+
+**The tonal tokens have no contrast headroom.** `--c-blue-tonal` is calibrated to
+exactly 3.047:1 on `--c-blue`, so a tonal blob behind the glyphs drops it below
+3:1 at **2% alpha** — measured, not assumed. The two decorative blobs therefore
+bleed off the right corners and are pulled entirely below 1200px, where the
+measure grows enough to reach them. Verified 0px² of blob-over-type at 1440 /
+1200 / 1024 / 768 / 390. Any future decoration on a tonal field needs the same
+check.
+
+### A brand question worth raising
+
+The brandbook is **SETT** (`WWW.SETT.DESIGN`, `info@sett.design`); the site is
+**diy-atelier** (`info@diy-atelier.be`, `img/logo.png`). Both list
+Tweelindenstraat, so they are the same company — but the demo is applying SETT's
+identity to diy-atelier's content, and the two brand names now coexist on the
+page. Worth settling with the client before launch: either the site becomes SETT,
+or the SETT-specific assets (the wordmark lockup, the "SETT THE TABLE" baseline)
+stay out.
+
+### Brandbook rules the webshop follows
+
+Read from `../brand/SETT_Brandbook_compressed.pdf` (kept outside the publish
+root — `publish = "."` would otherwise serve it to the public):
+
+| Page | Rule as applied |
+|---|---|
+| 02.01 | Palette is already exact in `app.css` — black, #c75433, #b7d6e3, #99ae83, white, #e4d8bc, #f9cdcd, #999494 |
+| 04.02 | Product photography is a **tight grid of hard-edged rectangles**. The blob is the *product's own outline*, never a mask over a photo — so no image anywhere carries a radius |
+| 05.01 | The website sets its statement in **black on an open white field** with the photography stacked beneath it, not laid under the type |
+| 05.07 | Poster structure — photograph as a full-width rectangle, type on the flat colour field below it. Used for the category tiles |
+| 03.02 | PT Serif display / Franklin Gothic URW headings / Avenir body — already wired |
+
 ### Why `chrome.css`
 
 `app.css` and `site.css` both define `.site-header`, `.btn`, `.section`, `body`
@@ -45,6 +196,55 @@ restates the replica header, footer and cookie bar with every rule scoped under
 Nothing in it reaches the catalogue body — the footer CTA is `.site-footer .btn`
 so `app.css`'s `.btn` is untouched. Its values are copied from `site.css`:
 change them there first, then mirror.
+
+## Editorial layer (webshop + product page)
+
+`webshop.html` and `product.html` load `assets/app.css`, which now carries an
+editorial layer on top of the SETT design system. Every device in it traces to a
+page in the brandbook — the point is that when the client asks "why does it look
+like this?", the answer has a page number.
+
+| Device | Brandbook | Where |
+|---|---|---|
+| Spread-type headers (words pushed to opposite edges) | 01.05, 05.07, 05.09 | webshop hero, video band |
+| Full-bleed flat tint bands | 02.02, 05.09 | webshop hero + typographic band, PDP "wat zit er in" |
+| Tonal type (text in its own ground's hue, one step down) | 05.05 | beige hero, blue band |
+| Organic blob masks | 04.02 | card media, category tiles, PDP stage, icon grounds, play button |
+
+Two rules that are not negotiable:
+
+- **Tonal type is display-only.** Each `--c-*-tonal` value is its tint darkened
+  until it measures ≥3:1 against that tint. That clears the large-text minimum
+  and nothing else — never use it below 32px, and never for body copy.
+- **The blob is the Mortex tabletop, not the SETT bean.** It is used as an image
+  mask and a colour field. Never standalone, never at icon scale, never in a
+  logo position. The distinction is what keeps it Atelier DIY's shape rather
+  than SETT's mark.
+
+Headlines are written for Atelier DIY. The SETT baselines ("NOT MADE TO BUY.
+MADE TO CREATE." and the rest) are SETT's property and do not appear here, in
+English or in translation.
+
+## Video
+
+`assets/video.js` drives every player on these two pages. All of them are built
+as ambient loops — muted, looping, `playsinline` — but **autoplay is currently
+off**, because `video/ov-mortex.*` is still the placeholder flagged in
+`video/README.txt`: it is a screen recording of the tutorials CMS, not the
+Mortex build. Autoplaying that would put a CMS capture behind the headline.
+
+Until the real clip lands each player shows its poster and starts on click. To
+switch ambient playback on afterwards, add `autoplay` to the players in
+`webshop.html` (`#bandVideo`) and `product.html` (`#makeVideo`). Nothing else
+changes — markup, posters and controls already assume it.
+
+Placements:
+
+- **Webshop** — full-bleed video band between the grid and the footer, with the
+  brandbook poster treatment over it.
+- **Product** — the film is slot 1 of the gallery (`#heroVideo`), and a "zie hoe
+  je dit pakket afwerkt" module sits directly under the gallery, beside the buy
+  box and above the fold.
 
 ## Run / deploy
 
@@ -138,6 +338,87 @@ down to 320px.
   On the live site longer names shove the badges around and `3 dagen` wraps; the
   same information is here, just not colliding.
 
+## Known contrast failures in the shared chrome
+
+Both shop pages audit clean except for two failures that come from the header,
+which lives in `chrome.css` and is shared with the four replica pages:
+
+- active nav link `#fd8b11` on white — **2.37:1**, needs 4.5
+- cart badge, white on `#fd8b11` — **2.37:1**, needs 4.5
+
+Both are inherited from the original site's use of the brand orange, not
+introduced here. Fixes, when someone wants them: darken the active link to
+`#b35f00` (4.61:1), and set the badge label to `--c-ink` on orange (7.20:1).
+Left alone for now because changing `chrome.css` changes all six pages.
+
+## Product art was matted in the file
+
+The 34 product photos (`av-*`, `eh-*`, `hb-*`, `rv-*`, `sh-*`, `*-carpet-*`,
+`test-title`) shipped as 800x800 canvases with the actual photograph inset as a
+rounded-corner card surrounded by white padding — roughly 113px top and bottom
+plus 14px at the sides on the tables, and 155/70px on the carpets. No CSS can
+fix that: the gutter is baked in, so it read as a border on every card and tile
+however the boxes were aligned.
+
+All 34 are now cropped to their own content box (10px of the margin kept, since
+it varies a few pixels per file). Originals are in `../img-originals/`, outside
+the publish root. Filenames are unchanged, so no markup moved.
+
+The 10px of margin kept by that pass still leaves the card's rounded corners
+faintly visible, which matters on a tile the size of a category card. So the
+Mortex tile has its own asset: **`img/cat-tafels.jpg`**, cut from
+`../img-originals/eh-offwhite.jpg` at the strict content box minus a further
+14px per side, which clears the corner radius entirely — verified at zero
+near-white pixels on all four edges. It is a dedicated tile asset rather than a
+product photo, so re-cropping the catalogue art can never change the tile.
+
+They are no longer square, so the hardcoded `width="800" height="800"` came off
+the `<img>` tags in `catalog.js` and `product.js` — `.card-media` reserves the
+box with `aspect-ratio: 1/1` and the image covers it, so a fixed square hint was
+simply a false intrinsic size. Re-crop with the same detection if new art
+arrives matted the same way.
+
+## PDP stage centring
+
+`.pdp-stage` sizes itself with `aspect-ratio: 4/3` and frames the art with
+padding in the selected colourway. The media used `width/height: 100%` as a grid
+item, but a percentage height against a grid area is not dependably definite —
+the browser fell back to `auto`, the image took its own intrinsic ratio and
+overflowed the bottom padding. The frame was therefore even on three sides and
+short on the fourth, and it got worse the taller the art (12px on the tables).
+It only became visible once the product photos were de-matted and stopped being
+square.
+
+The media is now positioned against the stage with explicit `calc` sizes, since
+percentages on an absolutely positioned box resolve against the containing
+block's padding box, which `aspect-ratio` has already made definite. `inset`
+alone is not enough: `width: auto` on a **replaced** element means its intrinsic
+width, not the offsets, so the image goes full-bleed. Padding lives in one place
+as `--stage-pad` so the frame and the offsets cannot drift.
+
+Verified at 32px on all four sides for all 8 carpets and the tables, at 16px on
+mobile, and for the video slot.
+
+## The 100vw scrollbar trap
+
+`.band` used the classic full-bleed recipe — `width: 100vw` with
+`margin-inline: calc(50% - 50vw)`. **`100vw` counts the scrollbar.** On any
+desktop browser with space-taking scrollbars (Windows Chrome, Edge, Firefox) the
+band came out ~15px wider than the content box and the negative margin pushed
+half of that past each edge, giving 8px of horizontal page scroll.
+
+It is invisible under test: **headless Chrome uses overlay scrollbars**, so
+`100vw == clientWidth` and every automated check passed. Reproducing it needs
+`chromium.launch({ headless: false })`, which reports `scrollbar 15px` and the
+8px overflow. Any future overflow check must run headed to be worth anything.
+
+Bands are direct children of `<main>`, which nothing constrains, so
+`width: auto` already fills the width — no viewport units needed. Keep it that
+way: a band nested inside `.container` would no longer bleed.
+
+Guard: grep the stylesheets for `width: … 100vw` before shipping. Verified 0
+overflow at 1440 / 1280 / 1024 / 768 / 390 on all pages, headed.
+
 ## Known gaps after the merge
 
 - **`product.html` still has the old chrome.** It keeps the 72px Libre Franklin
@@ -158,10 +439,62 @@ down to 320px.
 - **`img/ov-hero.jpg` and `img/ov-video.jpg` are byte-identical.** `ov-video.jpg`
   is now the poster for the CTA player. Both names are kept so a real still can be
   dropped into `ov-video.jpg` without touching markup.
-- **The CTA video is a dummy.** "Bekijk de video en ontdek" plays `video/ov-mortex.*`
-  inline instead of navigating to Tutorials — but that file is currently a copy of
-  the `tu-vid1` admin recording, not Mortex footage. Drop the real clip in under
-  the same names; nothing else changes.
+- **`video/ov-mortex.*` is a montage, not filmed footage.** It is cut from the
+  photography already in `img/` — five stills telling kit → build → finish →
+  styled → lived-in, with Ken Burns moves and crossfades, fading to black at both
+  ends so the loop wraps. 11.8s, 1600×900, silent, ~2.6MB webm / ~2.8MB mp4,
+  encoded from `../video-masters/ov-mortex-master.mp4` (17.9MB @ 12.4Mbps) and
+  measured against it at PSNR 48.5/48.8dB — above the ~45dB visually-lossless
+  mark, and checked at 1:1.
+  Four of the five stills are only 900px wide, so 1600×900 is the honest ceiling
+  — 1080p would add upscaling without adding detail.
+  Used by the webshop hero (ambient, autoplaying), the webshop video band
+  (click-to-play) and the homepage CTA. Recipe is in `video/README.txt`. Swap in
+  real footage under the same names and nothing else changes.
+- **The webshop has one video, in the hero.** The band that used to sit below
+  the catalogue is gone. `.v-chip` labels the clip; `video.js` leaves the hero
+  alone (no trigger button) and pauses it outright under
+  `prefers-reduced-motion`, where `img.poster` stands in.
+- **The webshop hero autoplays ~2.7MB** (webm + poster) on load. The master is
+  17.9MB; serving it directly costs ~15MB for no visible gain, since the stills
+  underneath are 900px upscaled and there is no further detail to encode. If
+  even 2.7MB matters on cellular, raise the VP9 CRF or drop `autoplay` and let
+  `video.js` handle it poster-first like the PDP module.
+- **The "In elke doos" band moved from the PDP to the webshop.** It sat below
+  the buy box and specs on `product.html`, where it was rarely reached; under
+  the webshop hero it answers the first question a visitor has. It is no longer
+  on the PDP at all — say so if you want it in both places.
+
+  Copy is deliberately short: **126 visible words down to 50**. The four
+  columns are concrete nouns rather than sentences, the lede is gone (it
+  repeated the hero's "geen speciaalzaak om af te lopen"), and the band now
+  carries the CTA it was missing — `Bekijk de 33 pakketten` → `#catalog` — with
+  the three FAQ reassurances inline beside it so they are read in the same
+  glance. "Plezier" became "Resultaat", using the client's own
+  "fractie van de winkelprijs" line from the overview page: a payoff converts
+  better than a mood.
+
+  It was then scaled back — the first pass read as a second hero. Title 44px →
+  30px, icon tiles 64px → 44px, tighter padding and gaps: **666px tall → 471px**
+  at 1440. It should support the hero, not compete with it.
+
+  The field is now `band-beige`, not `band-green`. That flipped the icon tiles:
+  a white tile is 2.40:1 on green but only **1.41:1 on beige**, where the shape
+  stops reading as a device and looks like a printing accident. They are ink
+  tiles with white glyphs instead — 12.05:1, and black is palette colour one.
+  Body copy is safer on beige than it was on green (ink 12.05:1 vs 7.09:1). Every label and paragraph is full ink: on
+  `--c-green` ink is 7.09:1 while `--c-ink-muted` is 2.98:1 and accent-press
+  3.19:1, both of which fail for body text.
+- **The category tile label had zero clearance.** Making the photo's bottom edge
+  land exactly on the type banner left the first `.t-label` flush against the
+  image (measured 0.0px to the glyph). `.cat-tile-media + span` now carries
+  `padding-top: var(--sp-5)`, giving 24px without moving that edge.
+- **The hero scrim is measured.** `.shop-hero::after` is a left-weighted
+  gradient (.84/.75/.58/.48 of `rgba(14,12,10,…)`) chosen by compositing it over
+  59 frames sampled across the whole clip and computing WCAG contrast: statement
+  4.13:1 (needs 3:1), body copy 8.48:1 and eyebrow 5.84:1 (need 4.5:1). Lighter
+  stops were tested and put the statement at 3.24:1 — passing, but too thin for
+  white type over moving footage. Re-measure if the clip is replaced.
 - **Cart is decorative on the replica pages.** Their header cart/account links are
   `href="#"`; only `webshop.html` and `product.html` have a working basket, and it
   is `sessionStorage`-backed, not a real cart.
