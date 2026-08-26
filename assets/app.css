@@ -874,7 +874,27 @@ select.select {
 }
 .v-inline-overlay .label {
   font-family: var(--font-heading); font-weight: 600; font-size: .9375rem; color: #fff;
+  transition: opacity var(--dur-base) var(--ease-out);
 }
+
+/* The overlay is inset:0, so without this it sits over the whole frame and eats
+   every click meant for the video — only the button is meant to be hit. */
+.v-inline-overlay { pointer-events: none; }
+.v-inline-overlay .v-play { pointer-events: auto; }
+.v-inline video { cursor: pointer; }
+
+/* Play/pause on one button: the glyph follows [data-playing] on the host, which
+   video.js drives from the video's own events. */
+.v-play .v-icon-pause { display: none; }
+.v-inline[data-playing] .v-play .v-icon-play { display: none; }
+.v-inline[data-playing] .v-play .v-icon-pause { display: block; }
+
+/* While it runs, let the footage through: the caption has done its job and the
+   scrim only needs to keep the button legible. */
+.v-inline[data-playing] .v-inline-overlay {
+  background: linear-gradient(180deg, rgba(20,18,16,0) 62%, rgba(20,18,16,.40) 100%);
+}
+.v-inline[data-playing] .v-inline-overlay .label { opacity: 0; }
 
 /* Video as the first gallery slot on the PDP. */
 .thumb-video { position: relative; }
@@ -885,7 +905,11 @@ select.select {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .v-ambient, .shop-hero-media video, .v-inline video { display: none; }
+  /* Only the ambient, autoplaying clips are suppressed. .v-inline is
+     poster-first and plays on an explicit click, and hiding it meant the
+     visitor pressed play and then watched a blank box — the preference is
+     about motion they did not ask for, not motion they requested. */
+  .v-ambient, .shop-hero-media video { display: none; }
   .shop-hero-media img.poster { display: block; }
 }
 

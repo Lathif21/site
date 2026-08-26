@@ -89,8 +89,11 @@
             <source src="video/ov-mortex.mp4" type="video/mp4">
           </video>
           <div class="v-inline-overlay">
-            <button class="v-play" type="button" data-video-trigger="makeVideo" aria-label="Bekijk hoe je dit pakket afwerkt">
-              <svg width="20" height="22" viewBox="0 0 16 18" fill="currentColor" aria-hidden="true"><path d="M2 1.6a1 1 0 0 1 1.5-.87l11 7.4a1 1 0 0 1 0 1.74l-11 7.4A1 1 0 0 1 2 16.4z"/></svg>
+            <button class="v-play" type="button" data-video-trigger="makeVideo"
+                    data-label-play="Speel de tutorial af" data-label-pause="Pauzeer de tutorial"
+                    aria-label="Speel de tutorial af">
+              <svg class="v-icon-play" width="20" height="22" viewBox="0 0 16 18" fill="currentColor" aria-hidden="true"><path d="M2 1.6a1 1 0 0 1 1.5-.87l11 7.4a1 1 0 0 1 0 1.74l-11 7.4A1 1 0 0 1 2 16.4z"/></svg>
+              <svg class="v-icon-pause" width="20" height="22" viewBox="0 0 16 18" fill="currentColor" aria-hidden="true"><rect x="2.5" y="1.5" width="4" height="15" rx="1"/><rect x="9.5" y="1.5" width="4" height="15" rx="1"/></svg>
             </button>
             <span class="label">Zie hoe je dit pakket afwerkt<br><span style="font-weight:400;opacity:.85">Volledige tutorial &middot; 12 min</span></span>
           </div>
