@@ -1,230 +1,290 @@
 <!doctype html>
-<html lang="nl-BE">
+<html lang="nl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Webshop — Atelier DIY</title>
-<meta name="description" content="DIY-pakketten voor Mortex-tafels en schapenvachttapijten. Materialen, gereedschap en een stap-voor-stap handleiding in één doos.">
+<title>Atelier DIY — Jouw creativiteit, onze materialen</title>
+<meta name="description" content="Zelf unieke meubels en decorstukken maken met complete DIY-pakketten, hoogwaardige materialen en duidelijke tutorials.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600&family=Nunito+Sans:wght@400;600&family=PT+Serif:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/app.css?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
-<a class="skip-link" href="#catalog">Ga naar de producten</a>
-
-<!-- ============================ HEADER ============================ -->
+<a class="skip" href="#main">Ga naar inhoud</a>
 <header class="site-header">
-  <div class="container" style="display:flex;align-items:center;gap:var(--sp-6);height:72px">
-    <a href="index.html" aria-label="Atelier DIY — startpagina" style="display:flex;align-items:center;flex:none">
-      <img src="img/logo.png" alt="Atelier DIY" width="46" height="40" decoding="async" fetchpriority="high" style="display:block;height:40px;width:auto">
+  <div class="wrap-wide">
+    <a class="logo" href="index.html" aria-label="Atelier DIY — home">
+      <img src="img/logo.png" alt="Atelier DIY" width="44" height="38">
     </a>
-    <nav aria-label="Hoofdnavigatie" style="display:none;gap:var(--sp-6);margin-inline:auto" class="mainnav">
-      <a class="nav-link" href="#">Overzicht</a>
-      <a class="nav-link" href="#">Hoe werkt het?</a>
-      <a class="nav-link" href="#">Realisaties</a>
-      <a class="nav-link" href="index.html" aria-current="page">Webshop</a>
-      <a class="nav-link" href="#">Tutorials</a>
-    </nav>
-    <div style="display:flex;align-items:center;gap:var(--sp-2);margin-left:auto">
-      <button class="btn btn-ghost" id="cartBtn" style="padding:10px 16px" aria-label="Winkelmandje, 0 artikelen">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.6 12.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L21 7H6"/></svg>
-        <span id="cartCount" style="font-variant-numeric:tabular-nums">0</span>
-      </button>
-      <a class="btn btn-ghost" href="#" style="padding:10px 14px" aria-label="Mijn account">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+    <nav class="nav" id="nav" aria-label="Hoofdnavigatie"><a href="index.html" aria-current="page">Overzicht</a><a href="hoe-werkt-het.html">Hoe werkt het?</a><a href="realisaties.html">Realisaties</a><a href="webshop.html">Webshop</a><a href="tutorials.html">Tutorials</a></nav>
+    <div class="header-actions">
+      <a href="#" aria-label="Winkelmandje">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L21 7H6"/></svg>
       </a>
+      <a href="#" aria-label="Mijn account">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+      </a>
+      <button class="burger" id="burger" aria-expanded="false" aria-controls="nav" aria-label="Menu">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
     </div>
   </div>
 </header>
-
 <main id="main">
+<section class="hero" style="background-image:url('img/ov-hero.jpg')">
+  <div class="wrap-wide">
+    <h1>Jouw creativiteit, onze materialen DIY met topkwaliteit</h1>
+    <p>Zelf unieke meubels en decorstukken maken? Bij DIY-Atelier helpen we je met
+       hoogwaardige materialen en duidelijke tutorials. Van Mortex tafels tot andere
+       stijlvolle creaties – ontdek hoe eenvoudig het is om zelf aan de slag te gaan!</p>
+    <a class="btn" href="#hoe-werkt-het">Ontdek de eenvoud van DIY <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
+  </div>
+</section>
 
-<!-- ============================ EDITORIAL HEADER ============================ -->
-<section class="container" style="padding-top:var(--sp-8);padding-bottom:var(--sp-7)">
-  <p class="t-label" style="color:var(--c-accent-press);margin:0 0 var(--sp-5)">Webshop — 33 pakketten</p>
-  <div class="hero-grid">
-    <h1 class="t-statement spread" style="color:var(--c-grey-text)">
-      <span class="tight"><b>JIJ BRENGT</b></span>
-      <span><b>DE HANDEN.</b> <b>WIJ BRENGEN</b></span>
-      <span class="tight"><b>AL DE REST.</b></span>
-    </h1>
-    <div style="max-width:38ch;align-self:end">
-      <p class="muted" style="margin:0 0 var(--sp-5)">
-        Elk pakket komt compleet toe — de materialen, het professionele gereedschap en een
-        stap-voor-stap handleiding. Geen ervaring nodig, geen speciaalzaak om af te lopen.
-      </p>
-      <a class="btn btn-secondary" href="#catalog">
-        Bekijk de pakketten
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
+<section class="section" id="hoe-werkt-het">
+  <div class="wrap">
+    <h2 class="center">Hoe werkt het?</h2>
+    <div class="cols3"><div><div class="col-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 20V9a2.6 2.6 0 0 1 5.2 0v9"/><path d="M20.2 18.5v-2a2.4 2.4 0 0 1 4.8 0v2"/><path d="M25 18.8v-1.3a2.4 2.4 0 0 1 4.8 0v8.2c0 5.4-3.4 8.8-8.6 8.8-4.6 0-6.6-1.8-8.8-5.4l-3.2-5.3a2.5 2.5 0 0 1 4.1-2.8L15 24"/></svg></div><p>Blader door onze webwinkel en kies het DIY-pakket dat bij jouw stijl en wensen past. Van tafels tot decoratie, wij hebben alles om jouw creativiteit te laten bloeien!</p></div><div><div class="col-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 15.5 6 11l6-5 8 3 8-3 6 5-14 4.5Z"/><path d="M6 11v15l14 5 14-5V11"/><path d="M20 15.5V31"/></svg></div><p>Je ontvangt een compleet pakket met alle materialen die je nodig hebt. Volg onze eenvoudige tutorials en ontdek hoe leuk en makkelijk het is om zelf iets moois te maken.</p></div><div><div class="col-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="20" cy="15" rx="16" ry="6"/><path d="M16 20.5V31M24 20.5V31"/></svg></div><p>Na het bouwen heb je een prachtig handgemaakt meubel of decorstuk voor een fractie van de winkelprijs. Jouw creatie, jouw trots!</p></div></div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="wrap">
+    <div class="video-cta" id="videoCta" style="background-image:url('img/ov-video.jpg')">
+      <div class="video-cta-copy">
+        <h2>DIY Mortex Tafel – Maak het zelf!</h2>
+        <p>Benieuwd hoe je zelf een prachtige Mortex tafel maakt? In deze video laten we je
+           stap voor stap zien hoe eenvoudig het is om met onze materialen en tutorials een
+           hoogwaardig designstuk te creëren.</p>
+        <button class="btn" type="button" id="videoCtaPlay" aria-controls="videoCtaPlayer" aria-expanded="false">Bekijk de video en ontdek <svg width="16" height="18" viewBox="0 0 16 18" fill="currentColor" aria-hidden="true"><path d="M2 1.6a1 1 0 0 1 1.5-.87l11 7.4a1 1 0 0 1 0 1.74l-11 7.4A1 1 0 0 1 2 16.4z"/></svg></button>
+      </div>
+      <video class="video-cta-player" id="videoCtaPlayer" controls playsinline preload="none"
+             poster="img/ov-video.jpg" width="1280" height="794" tabindex="-1">
+        <source src="video/ov-mortex.webm" type="video/webm">
+        <source src="video/ov-mortex.mp4" type="video/mp4">
+        Je browser ondersteunt geen video.
+      </video>
     </div>
   </div>
 </section>
 
-<!-- ============================ CATEGORY TILES ============================ -->
-<section class="container" style="padding-bottom:var(--sp-8)">
-  <div style="display:grid;gap:var(--sp-4);grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
-    <button class="tile catTile" data-cat="all" style="background:var(--c-beige);text-align:left;border:0;cursor:pointer">
-      <span class="t-label subtle" style="color:var(--c-ink-muted)">Alle pakketten</span>
-      <span class="t-h3" style="margin-top:4px">Alles &nbsp;<span class="muted" style="font-weight:400">33</span></span>
-    </button>
-    <button class="tile catTile" data-cat="table" style="background:var(--c-blue);text-align:left;border:0;cursor:pointer">
-      <span class="t-label" style="color:var(--c-ink-muted)">Mortex</span>
-      <span class="t-h3" style="margin-top:4px">Tafels &nbsp;<span class="muted" style="font-weight:400">25</span></span>
-    </button>
-    <button class="tile catTile" data-cat="carpet" style="background:var(--c-pink);text-align:left;border:0;cursor:pointer">
-      <span class="t-label" style="color:var(--c-ink-muted)">Schapenvacht</span>
-      <span class="t-h3" style="margin-top:4px">Tapijten &nbsp;<span class="muted" style="font-weight:400">8</span></span>
-    </button>
-  </div>
-</section>
-
-<!-- ============================ CATALOG ============================ -->
-<section class="container" id="catalog" style="padding-bottom:var(--sp-10)">
-  <hr class="rule" style="margin-bottom:var(--sp-6)">
-
-  <!-- toolbar -->
-  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-3);margin-bottom:var(--sp-5)">
-    <button class="btn btn-ghost filterToggle" id="filterToggle" aria-expanded="false" aria-controls="filters">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
-      Filters
-      <span class="filter-pill" id="filterCount" hidden>0</span>
-    </button>
-    <div style="position:relative;flex:1;min-width:200px;max-width:340px">
-      <label class="sr-only" for="search">Zoek pakketten</label>
-      <input class="field" id="search" type="search" placeholder="Zoek pakketten…" style="padding-left:42px">
-      <svg style="position:absolute;left:15px;top:50%;transform:translateY(-50%);pointer-events:none" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--c-ink-subtle)" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-    </div>
-    <div style="margin-left:auto;display:flex;align-items:center;gap:var(--sp-3)">
-      <span class="t-body-sm subtle" id="count" role="status" aria-live="polite">33 pakketten</span>
-      <label class="sr-only" for="sort">Sorteer op</label>
-      <select class="select" id="sort">
-        <option value="featured">Aanbevolen</option>
-        <option value="price-asc">Prijs — laag naar hoog</option>
-        <option value="price-desc">Prijs — hoog naar laag</option>
-        <option value="name">Naam A–Z</option>
-        <option value="lead">Snelste levering</option>
-      </select>
-    </div>
-  </div>
-
-  <!-- active filters -->
-  <div id="activeChips" style="display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-bottom:var(--sp-5)"></div>
-
-  <div class="catalog-layout">
-
-    <!-- ---------- filters ----------
-         Below 1024px this aside becomes a bottom sheet: the head and foot are
-         hidden on desktop, where it stays a plain sidebar column. -->
-    <aside id="filters" aria-label="Filters">
-      <div class="filters-head">
-        <p class="t-label" style="margin:0">Filters</p>
-        <button type="button" class="sheet-close" id="filterClose" aria-label="Filters sluiten">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Uitgelichte producten</h2>
+      <div class="carousel-nav">
+        <button type="button" aria-label="Vorige producten" disabled>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+        </button>
+        <button type="button" aria-label="Volgende producten">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
         </button>
       </div>
-      <form id="filterForm">
-        <fieldset class="facet">
-          <legend class="t-label facet-legend">Type</legend>
-          <label class="check"><input type="checkbox" name="type" value="table"><span>Tafels</span><span class="count">25</span></label>
-          <label class="check"><input type="checkbox" name="type" value="carpet"><span>Tapijten</span><span class="count">8</span></label>
-        </fieldset>
-
-        <fieldset class="facet">
-          <legend class="t-label facet-legend">Kleur</legend>
-          <div id="colourFacet" style="display:flex;flex-wrap:wrap;gap:var(--sp-2)"></div>
-        </fieldset>
-
-        <fieldset class="facet">
-          <legend class="t-label facet-legend">Moeilijkheidsgraad</legend>
-          <label class="check"><input type="checkbox" name="difficulty" value="Basis"><span>Basis</span><span class="count">6</span></label>
-          <label class="check"><input type="checkbox" name="difficulty" value="Gevorderd"><span>Gevorderd</span><span class="count">27</span></label>
-        </fieldset>
-
-        <fieldset class="facet">
-          <legend class="t-label facet-legend">Tapijtmaat</legend>
-          <label class="check"><input type="checkbox" name="size" value="3m²"><span>3 m²</span><span class="count">2</span></label>
-          <label class="check"><input type="checkbox" name="size" value="4m²"><span>4 m²</span><span class="count">2</span></label>
-          <label class="check"><input type="checkbox" name="size" value="6m²"><span>6 m²</span><span class="count">2</span></label>
-          <label class="check"><input type="checkbox" name="size" value="9m²"><span>9 m²</span><span class="count">2</span></label>
-        </fieldset>
-
-        <fieldset class="facet">
-          <legend class="t-label facet-legend">Levering</legend>
-          <label class="check"><input type="checkbox" name="lead" value="3"><span>3 dagen</span><span class="count">31</span></label>
-          <label class="check"><input type="checkbox" name="lead" value="5"><span>5 dagen</span><span class="count">2</span></label>
-        </fieldset>
-
-      </form>
-      <div class="filters-foot">
-        <button type="button" class="btn btn-ghost btn-block" id="clearAll">Wis alles</button>
-        <button type="button" class="btn btn-primary" id="filterApply">Toon 33 pakketten</button>
-      </div>
-    </aside>
-    <div id="filterBackdrop" hidden></div>
-
-    <!-- ---------- grid ---------- -->
-    <div>
-      <h2 class="sr-only">Producten</h2>
-      <div class="grid-products" id="grid"></div>
-      <div id="empty" hidden style="text-align:center;padding:var(--sp-9) var(--sp-4);border:1px dashed var(--c-line-strong);border-radius:var(--r-lg)">
-        <p class="t-h3" style="margin-bottom:var(--sp-2)">Geen pakketten voor deze filters</p>
-        <p class="muted" style="margin:0 0 var(--sp-5)">Verwijder een filter of wis ze allemaal om alles te zien.</p>
-        <button class="btn btn-secondary" id="clearAll2">Wis alle filters</button>
-      </div>
+    </div>
+    <div class="prod-grid">
+      <article class="prod-card">
+        <div class="prod-media"><img src="img/ov-prod1.jpg" alt="Wit schapenvacht tapijt van 3 m²" loading="lazy"></div>
+        <div class="prod-meta">
+          <div><h3>Tapijt Wit 3m²</h3><p class="prod-price">Vanaf €399.99</p></div>
+          <div class="prod-specs"><span class="prod-spec"><svg viewBox="0 0 40 34" fill="none" aria-hidden="true"><path d="M4 28a16 16 0 1 1 32 0" stroke="#fd8b11" stroke-width="3.4" stroke-linecap="round"/><path d="M20 28 30 15" stroke="#212838" stroke-width="3.2" stroke-linecap="round"/><circle cx="20" cy="28" r="2.6" fill="#212838"/></svg>Basis</span><span class="prod-spec"><svg viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="18" r="12.5" stroke="#fd8b11" stroke-width="3"/><path d="M17 11v7l4.5 2.6" stroke="#fd8b11" stroke-width="3" stroke-linecap="round"/><path d="M12 2.5h10" stroke="#fd8b11" stroke-width="3" stroke-linecap="round"/></svg>3 dagen</span></div>
+        </div>
+        <a class="btn-outline" href="webshop.html">Bekijk details <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
+      </article>
+      <article class="prod-card">
+        <div class="prod-media"><img src="img/ov-prod2.jpg" alt="Wit langharig schapenvacht" loading="lazy"></div>
+        <div class="prod-meta">
+          <div><h3>Witte Langharig</h3><p class="prod-price">Vanaf €50</p></div>
+          
+        </div>
+        <a class="btn-outline" href="webshop.html">Bekijk details <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
+      </article>
+      <article class="prod-card">
+        <div class="prod-media"><img src="img/ov-prod3.jpg" alt="Model BV eettafel in Mortex" loading="lazy"></div>
+        <div class="prod-meta">
+          <div><h3>Model BV</h3><p class="prod-price">Vanaf €995</p></div>
+          <div class="prod-specs"><span class="prod-spec"><svg viewBox="0 0 40 34" fill="none" aria-hidden="true"><path d="M4 28a16 16 0 1 1 32 0" stroke="#fd8b11" stroke-width="3.4" stroke-linecap="round"/><path d="M20 28 30 15" stroke="#212838" stroke-width="3.2" stroke-linecap="round"/><circle cx="20" cy="28" r="2.6" fill="#212838"/></svg>Eenvoudig</span><span class="prod-spec"><svg viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="18" r="12.5" stroke="#fd8b11" stroke-width="3"/><path d="M17 11v7l4.5 2.6" stroke="#fd8b11" stroke-width="3" stroke-linecap="round"/><path d="M12 2.5h10" stroke="#fd8b11" stroke-width="3" stroke-linecap="round"/></svg>8 dagen</span></div>
+        </div>
+        <a class="btn-outline" href="webshop.html">Bekijk details <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
+      </article>
     </div>
   </div>
 </section>
 
-</main>
+<section class="section-tight">
+  <div class="wrap">
+    <img src="img/ov-pallet.jpg" alt="DIY-Atelier verpakking en materiaal op een pallet"
+         style="width:100%;border-radius:var(--radius-lg)" loading="lazy">
+  </div>
+</section>
 
-<!-- ============================ FOOTER ============================ -->
-<footer style="background:var(--c-surface-alt);padding-block:var(--sp-9) var(--sp-6);margin-top:var(--sp-8)">
-  <div class="container">
-    <div style="display:grid;gap:var(--sp-7);grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
-      <div style="max-width:34ch">
-        <h2 class="t-h2" style="margin-bottom:var(--sp-4)">Jouw partner in creatieve DIY-projecten</h2>
-        <p class="muted t-body-sm" style="margin:0 0 var(--sp-5)">
-          Ontdek onze hoogwaardige doe-het-zelf pakketten en stap-voor-stap tutorials. Creëer
-          unieke designstukken met professionele materialen en duidelijke instructies —
-          eenvoudig, leuk en betaalbaar!
-        </p>
-        <a class="btn btn-primary" href="#catalog">
-          Bekijk onze DIY-pakketten
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
+<section class="section">
+  <div class="wrap">
+    <h2 style="margin-bottom:48px">Wat zeggen mensen over ons?</h2>
+    <div class="quote-grid"><article class="quote"><h3>Tom - Praktische klusser</h3><p>&quot;Ik dacht altijd dat zelf een design tafel maken veel te ingewikkeld was, maar DIY-Atelier maakt het zo makkelijk! De instructies waren duidelijk en het resultaat is fantastisch.&quot;</p></article><article class="quote"><h3>Sophie - Creatieve DIY</h3><p>&quot;Alles werd netjes geleverd en de video&rsquo;s hielpen enorm. Het voelde alsof ik een professioneel meubelstuk maakte, maar dan gewoon in mijn eigen garage!&quot;</p></article><article class="quote"><h3>Lisa &amp; Mark</h3><p>&quot;We wilden iets unieks voor onze eetkamer zonder de hoofdprijs te betalen. Dankzij DIY-Atelier hebben we nu een prachtige Mortex tafel waar we super trots op zijn!&quot;</p></article></div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="wrap">
+    <div class="panel">
+      <p>Zelf ook een uniek meubelstuk maken? Ontdek onze DIY-pakketten en tutorials en ga
+         vandaag nog aan de slag!</p>
+      <a class="btn" href="webshop.html">Bekijk onze DIY-pakketten <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2 style="margin-bottom:48px">Realisaties</h2>
+    <div class="masonry"><div class="masonry-col"><img src="img/rz-1-1.jpg" alt="Maker werkt een Mortex tafelblad af in het atelier" loading="lazy"><img src="img/rz-1-2.jpg" alt="Twee afgewerkte Mortex salontafels in een lichte woonkamer" loading="lazy"></div><div class="masonry-col"><img src="img/rz-2-1.jpg" alt="Bovenaanzicht van twee Mortex salontafels met magazine" loading="lazy"><img src="img/rz-2-2.jpg" alt="Langwerpige Mortex salontafel in een donker interieur" loading="lazy"><img src="img/rz-2-3.jpg" alt="Fotoshoot op een kasseiweg met hond" loading="lazy"></div><div class="masonry-col"><img src="img/rz-3-1.jpg" alt="Materiaal wordt uitgeladen bij een buitenopname" loading="lazy"><img src="img/rz-3-2.jpg" alt="Twee makers werken samen aan een tafelblad in het atelier" loading="lazy"><img src="img/rz-3-3.jpg" alt="Cameramonitor tijdens een productopname" loading="lazy"><img src="img/rz-3-4.jpg" alt="Mortex salontafel in een woonkamer met zicht op de tuin" loading="lazy"></div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2 class="center">FAQ (Veelgestelde vragen)</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">
+          <span>1. Wat is DIY-Atelier?</span><span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a" id="faq-a1" role="region" aria-labelledby="faq-q1">
+          <div><p>DIY-Atelier is hét platform voor doe-het-zelf projecten met hoogwaardige materialen en duidelijke tutorials. We helpen je om zelf design meubels en decorstukken te maken tegen een betaalbare prijs. Elk project wordt volledig ondersteund met de nodige uitleg in videoform. Hierdoor kan elk project zoals een professional tot een goed einde gebracht worden.</p></div>
+        </div>
       </div>
-      <nav aria-label="Shop" class="t-body-sm">
-        <p class="t-label" style="margin:0 0 var(--sp-3)">Shop</p>
-        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:10px" class="muted">
-          <li><a href="#">Overzicht</a></li><li><a href="index.html">Webshop</a></li>
-          <li><a href="#">Hoe werkt het?</a></li><li><a href="#">Realisaties</a></li>
-          <li><a href="#">Tutorials</a></li><li><a href="#">Mijn account</a></li>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">
+          <span>2. Hoe werkt DIY-Atelier?</span><span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a" id="faq-a2" role="region" aria-labelledby="faq-q2">
+          <div><p>Heel eenvoudig! Je kiest een DIY-pakket in onze webshop, ontvangt alle benodigde materialen thuis en volgt onze stapsgewijze tutorials om jouw eigen unieke meubel of decorstuk te maken.</p></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a3" id="faq-q3">
+          <span>3. Hoe lang duurt de levering?</span><span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a" id="faq-a3" role="region" aria-labelledby="faq-q3">
+          <div><p>Voor de DOE-HET-ZELVERS die niet kunnen wachten, kan de bestelling na 1 werkdag ook steeds opgehaald worden aan het centraal depot van DIY-atelier Belgium.</p></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a4" id="faq-q4">
+          <span>4. Wat zit er in een DIY-pakket?</span><span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a" id="faq-a4" role="region" aria-labelledby="faq-q4">
+          <div><p>Elk pakket bevat alle materialen die je nodig hebt, plus een stap-voor-stap handleiding en toegang tot een exclusieve tutorialvideo.</p></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a5" id="faq-q5">
+          <span>5. Kan ik mijn bestelling retourneren?</span><span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a" id="faq-a5" role="region" aria-labelledby="faq-q5">
+          <div><p>Wij kunnen enkel onbewerkte goederen rembourceren. Van zodra er bewerkingen uitgevoerd zijn op de aankoop/materialen, kunnen wij geen goederen onder garantie brengen.</p></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a6" id="faq-q6">
+          <span>6. Moet ik ervaring hebben met doe-het-zelven?</span><span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a" id="faq-a6" role="region" aria-labelledby="faq-q6">
+          <div><p>In de webshop wordt er steeds een indicatie gegeven waarop de moeilijkheidsgraad wordt weergegeven.</p></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a7" id="faq-q7">
+          <span>7. Heb ik extra gereedschap nodig?</span><span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a" id="faq-a7" role="region" aria-labelledby="faq-q7">
+          <div><p>Elk pakket (geen individuele stukken) wordt voorzien van ALLE nodige onderdelen die essentieel zijn om jouw project tot een goed einde te brengen. Hierbij wordt er niets van extra gereedschap vereist. Bij aankoop van individuele stukken worden geen extra tools meegeleverd.</p></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a8" id="faq-q8">
+          <span>8. Wat als ik vastloop tijdens het maken?</span><span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a" id="faq-a8" role="region" aria-labelledby="faq-q8">
+          <div><p>Geen zorgen! Onze tutorials helpen je stap voor stap. Kom je er toch niet uit? Stuur ons een berichtje en we helpen je verder.</p></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a9" id="faq-q9">
+          <span>9. Welke betaalmethodes accepteren jullie?</span><span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a" id="faq-a9" role="region" aria-labelledby="faq-q9">
+          <div><p>Je kunt veilig betalen met iDEAL, creditcard, PayPal en Bancontact.</p></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a10" id="faq-q10">
+          <span>10. Zit er garantie op de materialen?</span><span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a" id="faq-a10" role="region" aria-labelledby="faq-q10">
+          <div><p>Wij kunnen enkel instaan voor ontvangen goederen die beschadigd zijn. Van zodra er bewerkingen uitgevoerd zijn op de aankoop/materialen, kunnen wij geen goederen onder garantie brengen.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap-wide">
+    <div class="footer-grid">
+      <div>
+        <h2>Jouw partner in creatieve<br>DIY-projecten</h2>
+        <p>Ontdek onze hoogwaardige doe-het-zelf pakketten en stap-voor-stap tutorials.
+           Creëer unieke designstukken met professionele materialen en duidelijke
+           instructies – eenvoudig, leuk en betaalbaar!</p>
+        <a class="btn" href="webshop.html">Bekijk onze DIY-pakketten <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
+      </div>
+      <nav aria-label="Sitemap">
+        <ul class="footer-nav">
+          <li><a href="index.html">Overzicht</a></li>
+          <li><a href="webshop.html">Webshop</a></li>
+          <li><a href="hoe-werkt-het.html">Hoe werkt het?</a></li>
+          <li><a href="realisaties.html">Realisaties</a></li>
+          <li><a href="tutorials.html">Tutorials</a></li>
+          <li><a href="#">Mijn account</a></li>
         </ul>
       </nav>
-      <nav aria-label="Klantendienst" class="t-body-sm">
-        <p class="t-label" style="margin:0 0 var(--sp-3)">Klantendienst</p>
-        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:10px" class="muted">
-          <li><a href="#">Privacy beleid</a></li><li><a href="#">Algemene voorwaarden</a></li>
-          <li><a href="#">Aanmelden nieuwsbrief</a></li><li><a href="#">Contacteer ons</a></li>
+      <nav aria-label="Klantendienst">
+        <ul class="footer-nav">
+          <li><a href="#">Privacy beleid</a></li>
+          <li><a href="#">Algemene voorwaarden</a></li>
+          <li><a href="#">Aanmelden nieuwsbrief</a></li>
+          <li><a href="#">Contacteer ons</a></li>
           <li><a href="#">Bekijk bestelling-status</a></li>
         </ul>
       </nav>
-      <address class="t-body-sm muted" style="font-style:normal">
-        <p class="t-label" style="margin:0 0 var(--sp-3);color:var(--c-ink)">Atelier DIY</p>
-        Tweelindenstraat 7<br>B-8810 Lichtervelde<br>BE 1011 359 018<br>
-        <a href="mailto:info@diy-atelier.be" style="text-decoration:underline">info@diy-atelier.be</a>
+      <address class="footer-contact">
+        <span>Tweelindenstraat 7<br>B-8810 Lichtervelde</span>
+        <span>BE 1011 359 018</span>
+        <a href="mailto:info@diy-atelier.be">info@diy-atelier.be</a>
       </address>
     </div>
-    <hr class="rule" style="margin-block:var(--sp-7) var(--sp-4)">
-    <p class="t-body-sm subtle" style="margin:0">© 2026 Atelier-DIY. Alle rechten voorbehouden. — Redesignprototype, geen echte webshop.</p>
+    <div class="footer-bottom">
+      <span>© 2026 Atelier-DIY. Alle rechten voorbehouden.</span>
+      <span class="socials">
+        <a href="#" aria-label="Facebook"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.5 8.5V6.8c0-.8.2-1.3 1.4-1.3h1.6V2.6C17.2 2.5 16.3 2.4 15.3 2.4c-2.2 0-3.8 1.4-3.8 4v2.1H9v3.2h2.5V21h3V11.7h2.5l.4-3.2z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+      </span>
+    </div>
   </div>
 </footer>
 
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-<script src="assets/data.js?v=3"></script>
-<script src="assets/catalog.js?v=3"></script>
+<div class="cookie" id="cookie" role="region" aria-label="Cookiemelding">
+  <div class="wrap-wide">
+    <p>Deze website maakt gebruik van cookies om uw ervaring te verbeteren. Door op
+       &ldquo;Accepteren&rdquo; te klikken, gaat u akkoord met onze cookies.</p>
+    <div class="cookie-actions">
+      <button type="button" data-cookie="accept">Accepteren</button>
+      <button type="button" class="refuse" data-cookie="refuse">Weigeren</button>
+    </div>
+  </div>
+</div>
+<script src="assets/site.js"></script>
 </body>
 </html>

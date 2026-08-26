@@ -1,0 +1,7 @@
+# build.py is imported during checks; the bytecode is not a deliverable
+__pycache__/
+*.py[cod]
+
+# OS junk
+.DS_Store
+Thumbs.db

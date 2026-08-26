@@ -8,7 +8,7 @@ const $ = id => document.getElementById(id);
 /* ---------- head / breadcrumb ---------- */
 document.title = `${p.name} — Atelier DIY`;
 $("bcType").textContent = p.typePlural;
-$('bcType').href = `index.html?type=${p.type}`;
+$('bcType').href = `webshop.html?type=${p.type}`;
 $('bcName').textContent = p.name;
 $('eyebrow').textContent = p.typeLabel;
 $('title').textContent = p.name;

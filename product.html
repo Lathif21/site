@@ -32,16 +32,15 @@
 
 <header class="site-header">
   <div class="container" style="display:flex;align-items:center;gap:var(--sp-6);height:72px">
-    <a href="index.html" style="display:flex;flex-direction:column;line-height:.95;flex:none">
-      <span style="font-family:var(--font-heading);font-weight:600;font-size:1.35rem;color:var(--c-accent);letter-spacing:-.02em">diy</span>
-      <span style="font-family:var(--font-heading);font-weight:500;font-size:.8rem;letter-spacing:.04em">atelier</span>
+    <a href="index.html" aria-label="Atelier DIY — startpagina" style="display:flex;align-items:center;flex:none">
+      <img src="img/logo.png" alt="Atelier DIY" width="46" height="40" decoding="async" fetchpriority="high" style="display:block;height:40px;width:auto">
     </a>
     <nav aria-label="Hoofdnavigatie" style="display:none;gap:var(--sp-6);margin-inline:auto" class="mainnav">
-      <a class="nav-link" href="#">Overzicht</a>
-      <a class="nav-link" href="#">Hoe werkt het?</a>
-      <a class="nav-link" href="#">Realisaties</a>
-      <a class="nav-link" href="index.html" aria-current="page">Webshop</a>
-      <a class="nav-link" href="#">Tutorials</a>
+      <a class="nav-link" href="index.html">Overzicht</a>
+      <a class="nav-link" href="hoe-werkt-het.html">Hoe werkt het?</a>
+      <a class="nav-link" href="realisaties.html">Realisaties</a>
+      <a class="nav-link" href="webshop.html" aria-current="page">Webshop</a>
+      <a class="nav-link" href="tutorials.html">Tutorials</a>
     </nav>
     <div style="display:flex;align-items:center;gap:var(--sp-2);margin-left:auto">
       <button class="btn btn-ghost" id="cartBtn" style="padding:10px 16px">
@@ -60,9 +59,9 @@
   <div class="container" style="padding-top:var(--sp-5)">
     <nav aria-label="Kruimelpad">
       <ol style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;list-style:none;padding:0;margin:0" class="t-body-sm subtle">
-        <li><a href="index.html" style="text-decoration:underline">Webshop</a></li>
+        <li><a href="webshop.html" style="text-decoration:underline">Webshop</a></li>
         <li aria-hidden="true">/</li>
-        <li><a id="bcType" href="index.html" style="text-decoration:underline"></a></li>
+        <li><a id="bcType" href="webshop.html" style="text-decoration:underline"></a></li>
         <li aria-hidden="true">/</li>
         <li><span id="bcName" aria-current="page" style="color:var(--c-ink)"></span></li>
       </ol>
@@ -182,7 +181,7 @@
   <section class="container section">
     <div style="display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-4);margin-bottom:var(--sp-6);flex-wrap:wrap">
       <h2 class="t-h2" id="relTitle">Misschien ook iets voor jou</h2>
-      <a href="index.html" class="t-body-sm" style="text-decoration:underline">Bekijk alle pakketten</a>
+      <a href="webshop.html" class="t-body-sm" style="text-decoration:underline">Bekijk alle pakketten</a>
     </div>
     <div class="grid-products" id="related"></div>
   </section>
