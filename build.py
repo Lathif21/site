@@ -35,10 +35,23 @@ CLOCK = ('<svg viewBox="0 0 34 34" fill="none" aria-hidden="true">'
          '<path d="M12 2.5h10" stroke="#fd8b11" stroke-width="3" stroke-linecap="round"/></svg>')
 
 
-def header(active):
+CART_ICON = ('<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+             'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+             '<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/>'
+             '<path d="M2 3h3l2.6 12.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L21 7H6"/></svg>')
+
+
+def header(active, cart=False):
+    """cart=True adds the live basket count catalog.js drives. The replica pages
+    have no basket, so they keep the plain icon and stay pixel-identical."""
     cur = ' aria-current="page"'
     links = "".join(
         f'<a href="{h}"{cur if h == active else ""}>{t}</a>' for h, t in NAV)
+    if cart:
+        basket = (f'<a class="cart" id="cartBtn" href="#" aria-label="Winkelmandje, 0 artikelen">'
+                  f'{CART_ICON}<span class="cart-count" id="cartCount">0</span></a>')
+    else:
+        basket = f'<a href="#" aria-label="Winkelmandje">{CART_ICON}</a>'
     return f'''<header class="site-header">
   <div class="wrap-wide">
     <a class="logo" href="index.html" aria-label="Atelier DIY — home">
@@ -46,9 +59,7 @@ def header(active):
     </a>
     <nav class="nav" id="nav" aria-label="Hoofdnavigatie">{links}</nav>
     <div class="header-actions">
-      <a href="#" aria-label="Winkelmandje">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L21 7H6"/></svg>
-      </a>
+      {basket}
       <a href="#" aria-label="Mijn account">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
       </a>
@@ -553,6 +564,26 @@ tutorials = f'''<h1 class="sr-only">Tutorials</h1>
 </section>'''
 
 
+def sync_chrome(filename, active, cart=False):
+    """Re-inject the header and footer into a hand-authored page.
+
+    webshop.html and product.html own their bodies but share this chrome, so
+    rather than generating them whole, the regions between the chrome markers
+    are replaced in place. Anything outside the markers is left untouched.
+    """
+    path = OUT / filename
+    html = path.read_text(encoding="utf-8")
+    regions = {"header": header(active, cart=cart), "footer": FOOTER}
+    for name, markup in regions.items():
+        open_m, close_m = f"<!-- chrome:{name} -->", f"<!-- /chrome:{name} -->"
+        i, j = html.find(open_m), html.find(close_m)
+        if i == -1 or j == -1:
+            raise SystemExit(f"{filename}: missing <!-- chrome:{name} --> markers")
+        html = html[:i + len(open_m)] + "\n" + markup + "\n" + html[j:]
+    path.write_text(html, encoding="utf-8")
+    print(f"synced chrome in {filename}")
+
+
 if __name__ == "__main__":
     page("index.html", "Atelier DIY — Jouw creativiteit, onze materialen",
          "index.html", overview,
@@ -567,3 +598,4 @@ if __name__ == "__main__":
     page("tutorials.html", "Tutorials — Atelier DIY",
          "tutorials.html", tutorials,
          "Stap-voor-stap videotutorials voor je DIY-project.")
+    sync_chrome("webshop.html", "webshop.html", cart=True)
