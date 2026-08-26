@@ -635,6 +635,14 @@ select.select {
 /* ---------- typographic beat (brandbook 05.05) ---------- */
 .beat { padding-block: var(--sp-9); }
 .beat-line { max-width: 18ch; }
+/* Same badge as the pack and tile icons, so the three read as one system. */
+.beat-icon {
+  display: grid; place-items: center;
+  width: 44px; height: 44px;
+  margin: 0 0 var(--sp-5);
+  background: var(--c-ink); color: var(--c-surface);
+  border-radius: var(--blob-1);
+}
 /* --c-blue-tonal is calibrated to 3.047:1 on --c-blue: there is no headroom,
    and a tonal blob behind the glyphs drops it under 3:1 at only 2% alpha
    (measured). So these bleed off the right corners and are pulled entirely
