@@ -1,0 +1,168 @@
+/* ==========================================================================
+   Shared chrome for the catalogue pages.
+
+   The header, footer and cookie bar are the replica design (assets/site.css),
+   but the catalogue runs on app.css, and the two stylesheets collide on
+   .site-header, .btn, .section, body and :root. So the chrome is restated here
+   scoped under .site-header / .site-footer / .cookie, and this file is loaded
+   AFTER app.css. Nothing here leaks into the catalogue body.
+
+   Values are copied from assets/site.css — change them there first, then here.
+   The markup is generated: run `python build.py` to re-inject it.
+   ========================================================================== */
+
+:root {
+  --chrome-orange:      #fd8b11;
+  --chrome-orange-dark: #e97c06;
+  --chrome-ink:         #212838;
+  --chrome-body:        #3d4759;
+  --chrome-white:       #ffffff;
+  --chrome-footer-bg:   #e6e6e6;
+  --chrome-line:        #d8d8d8;
+  --chrome-header-h:    88px;
+  --chrome-font: Poppins, "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+.site-header,
+.site-footer,
+.cookie {
+  font-family: var(--chrome-font);
+  font-size: 17px;
+  line-height: 1.62;
+}
+.site-header :focus-visible,
+.site-footer :focus-visible,
+.cookie :focus-visible {
+  outline: 3px solid var(--chrome-orange); outline-offset: 3px; border-radius: 4px;
+}
+
+/* ---------------- header ---------------- */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--chrome-white); height: var(--chrome-header-h);
+  display: flex; align-items: center;
+  /* app.css gives .site-header a blur and a hairline; the replica has neither */
+  backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom: 0;
+  color: var(--chrome-ink);
+}
+.site-header .wrap-wide {
+  width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: 20px;
+  display: flex; align-items: center; gap: 24px;
+}
+.site-header .logo { flex: none; display: block; line-height: 0; }
+.site-header .logo img { height: 38px; width: auto; }
+
+.site-header .nav { display: flex; gap: 30px; margin-inline: auto; }
+.site-header .nav a {
+  color: var(--chrome-ink); font-weight: 500; font-size: 1.02rem;
+  padding: 6px 0; transition: color .16s ease;
+}
+.site-header .nav a:hover { color: var(--chrome-orange); }
+.site-header .nav a[aria-current="page"] { color: var(--chrome-orange); font-weight: 600; }
+
+.site-header .header-actions { display: flex; align-items: center; gap: 18px; flex: none; }
+.site-header .header-actions a { color: var(--chrome-ink); display: grid; place-items: center; padding: 6px; }
+.site-header .header-actions a:hover { color: var(--chrome-orange); }
+.site-header .burger {
+  display: none; background: none; border: 0; padding: 10px;
+  cursor: pointer; color: var(--chrome-ink);
+}
+
+/* the catalogue needs a live basket count; the replica header has none */
+.site-header .cart { position: relative; }
+.site-header .cart-count {
+  position: absolute; top: -2px; right: -4px; min-width: 18px; height: 18px;
+  padding: 0 5px; border-radius: 999px;
+  background: var(--chrome-orange); color: #fff;
+  font-size: .72rem; font-weight: 600; line-height: 18px; text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.site-header .cart-count:empty,
+.site-header .cart-count[data-count="0"] { display: none; }
+
+/* ---------------- footer ---------------- */
+.site-footer {
+  background: var(--chrome-footer-bg); padding-block: 84px 30px; margin-top: 0;
+  color: var(--chrome-body);
+}
+.site-footer .wrap-wide {
+  width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: 64px;
+}
+.site-footer h2 {
+  color: var(--chrome-ink); margin: 0 0 20px; font-weight: 700;
+  letter-spacing: -.01em; line-height: 1.2; font-size: 1.9rem;
+}
+.site-footer p { margin: 0 0 1.1em; }
+.site-footer .footer-grid {
+  display: grid; grid-template-columns: 1.25fr .55fr .7fr .9fr; gap: 40px;
+}
+.site-footer .footer-grid p { color: var(--chrome-body); max-width: 36ch; margin-bottom: 30px; }
+.site-footer .footer-nav { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.site-footer .footer-nav a { color: var(--chrome-body); }
+.site-footer .footer-nav a:hover { color: var(--chrome-orange); }
+.site-footer .footer-contact {
+  color: var(--chrome-body); font-style: normal; display: grid; gap: 18px; align-content: start;
+}
+.site-footer .footer-bottom {
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  border-top: 1px solid #cfcfcf; margin-top: 56px; padding-top: 26px;
+  color: var(--chrome-body); font-size: .95rem;
+}
+.site-footer .socials { display: flex; gap: 18px; }
+.site-footer .socials a { color: var(--chrome-ink); }
+.site-footer .socials a:hover { color: var(--chrome-orange); }
+
+/* the footer CTA is the replica pill, scoped so app.css's .btn is untouched */
+.site-footer .btn {
+  display: inline-flex; align-items: center; justify-content: flex-start; gap: 14px;
+  background: var(--chrome-orange); color: #fff;
+  font-weight: 600; font-size: 1rem; line-height: 1; letter-spacing: normal;
+  padding: 18px 30px; min-height: 0;
+  border: 0; border-radius: 999px;
+  cursor: pointer; transition: background .16s ease, transform .16s ease;
+}
+.site-footer .btn:hover { background: var(--chrome-orange-dark); }
+.site-footer .btn:active { transform: translateY(1px); }
+.site-footer .btn svg { flex: none; }
+
+/* ---------------- cookie bar ---------------- */
+.cookie {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 150;
+  background: var(--chrome-ink); color: #fff; padding: 20px 0;
+}
+.cookie .wrap-wide {
+  width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: 64px;
+  display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+}
+.cookie p { margin: 0; flex: 1; min-width: 260px; font-size: 1rem; }
+.cookie .cookie-actions { display: flex; align-items: center; gap: 16px; }
+.cookie .cookie-actions button {
+  background: none; border: 0; color: #fff; cursor: pointer; font-size: 1rem; padding: 12px 8px;
+}
+.cookie .cookie-actions .refuse { background: #4a5162; border-radius: 6px; padding: 12px 22px; }
+.cookie .cookie-actions .refuse:hover { background: #5a6274; }
+.cookie[hidden] { display: none; }
+
+/* ---------------- responsive ---------------- */
+@media (max-width: 1023px) {
+  .site-header .nav { display: none; }
+  .site-header .nav.open {
+    display: flex; flex-direction: column; gap: 0;
+    position: absolute; top: var(--chrome-header-h); left: 0; right: 0;
+    background: var(--chrome-white); padding: 8px 20px 20px;
+    box-shadow: 0 10px 24px rgba(33,40,56,.10);
+  }
+  .site-header .nav.open a { padding: 14px 0; border-bottom: 1px solid var(--chrome-line); }
+  .site-header .burger { display: grid; place-items: center; }
+  .site-header .header-actions { margin-left: auto; }
+  .site-footer .footer-grid { grid-template-columns: 1fr 1fr; }
+  .site-footer .wrap-wide, .cookie .wrap-wide { padding-inline: 32px; }
+}
+
+@media (max-width: 720px) {
+  .site-footer .footer-grid { grid-template-columns: 1fr; gap: 34px; }
+  .site-footer .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .site-footer .wrap-wide, .cookie .wrap-wide { padding-inline: 20px; }
+  .cookie .wrap-wide { flex-direction: column; align-items: stretch; }
+  .cookie .cookie-actions { justify-content: flex-end; }
+}
