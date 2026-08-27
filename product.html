@@ -7,9 +7,12 @@
 <link rel="icon" href="img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600&family=Mulish:wght@300;400;500;600;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/app.css?v=3">
 <link rel="stylesheet" href="assets/chrome.css?v=1">
+<!-- The SETT brand layer is loaded last: it restyles app.css and
+     chrome.css from one place. See assets/brand.css. -->
+<link rel="stylesheet" href="assets/brand.css?v=1">
 <style>
   .stickybar {
     position: fixed; left:0; right:0; bottom:0; z-index:60;
@@ -24,7 +27,9 @@
   }
   .thumb[aria-current="true"] { border-color:var(--c-ink); border-width:2px }
   .spec-row { display:flex; justify-content:space-between; gap:var(--sp-4); padding:11px 0; border-top:1px solid var(--c-line) }
-  .spec-row:first-child { border-top:0 }
+  /* the box around the list is gone (04.02 / 12: the book separates with
+     hairlines, never with a drawn container), so the first row keeps its
+     rule and it becomes the list's top edge. */
   .spec-row dt { color:var(--c-ink-muted); font-size:.875rem; margin:0 }
   .spec-row dd { margin:0; font-size:.875rem; font-weight:600; font-family:var(--font-heading); text-align:right }
 </style>
@@ -35,8 +40,8 @@
 <!-- chrome:header -->
 <header class="site-header">
   <div class="wrap-wide">
-    <a class="logo" href="index.html" aria-label="Atelier DIY — home">
-      <img src="img/logo.png" alt="Atelier DIY" width="44" height="38">
+    <a class="logo sett-lockup" href="index.html" aria-label="Atelier DIY — home">
+      <span class="sett-mark" aria-hidden="true"></span><img src="img/logo-brand.png" alt="Atelier DIY" width="44" height="38">
     </a>
     <nav class="nav" id="nav" aria-label="Hoofdnavigatie"><a href="index.html">Overzicht</a><a href="hoe-werkt-het.html">Hoe werkt het?</a><a href="realisaties.html">Realisaties</a><a href="webshop.html" aria-current="page">Webshop</a><a href="tutorials.html">Tutorials</a></nav>
     <div class="header-actions">
@@ -54,19 +59,30 @@
 
 <main id="main" style="padding-bottom:96px">
 
-  <div class="container" style="padding-top:var(--sp-5)">
-    <nav aria-label="Kruimelpad">
-      <ol style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;list-style:none;padding:0;margin:0" class="t-body-sm subtle">
-        <li><a href="webshop.html" style="text-decoration:underline">Webshop</a></li>
-        <li aria-hidden="true">/</li>
-        <li><a id="bcType" href="webshop.html" style="text-decoration:underline"></a></li>
-        <li aria-hidden="true">/</li>
-        <li><span id="bcName" aria-current="page" style="color:var(--c-ink)"></span></li>
-      </ol>
-    </nav>
-  </div>
+  <!-- ============================ THE PAGE ============================
+       Brandbook architecture, the thing the book does on all 32 of its pages
+       and the PDP did on none of them: a narrow left column carrying the folio
+       numeral, the caption and the running head; one vertical hairline; then
+       the content. The breadcrumb IS the running head — that is what a running
+       head is — so it moves into the margin instead of sitting on its own row
+       above an otherwise empty white page.
 
+       Above 1180px only. Below it there is no margin to give away and the head
+       stacks over the content, which is what the book's own narrow formats
+       (05.02, 05.05, 05.09) do. -->
   <section class="container" id="pdp" style="padding-top:var(--sp-6)">
+   <div class="sett-margin pdp-page">
+    <div class="sett-margin-head">
+      <span class="sett-section-mark" aria-hidden="true"></span>
+      <p class="t-label" id="pdpCaption"></p>
+      <nav aria-label="Kruimelpad" class="sett-runhead">
+        <ol class="t-body-sm">
+          <li><a href="webshop.html">Webshop</a></li>
+          <li><a id="bcType" href="webshop.html"></a></li>
+          <li><span id="bcName" aria-current="page"></span></li>
+        </ol>
+      </nav>
+    </div>
     <div class="pdp-grid">
 
       <!-- ---------- gallery ----------
@@ -138,36 +154,102 @@
           </button>
         </div>
 
-        <ul style="list-style:none;padding:0;margin:var(--sp-6) 0 0;display:grid;gap:11px" class="t-body-sm muted">
-          <li style="display:flex;gap:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--c-accent)" stroke-width="1.8" style="flex:none;margin-top:3px" aria-hidden="true"><path d="M3 8h13v9H3zM16 11h3.5l2.5 3v3h-6z"/><circle cx="7" cy="18.5" r="1.6"/><circle cx="18" cy="18.5" r="1.6"/></svg>Gratis verzending in België vanaf € 250</li>
-          <li style="display:flex;gap:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--c-accent)" stroke-width="1.8" style="flex:none;margin-top:3px" aria-hidden="true"><path d="M4 12a8 8 0 1 1 2.3 5.7"/><path d="M4 12H1M4 12l3-3M4 12l3 3"/></svg>14 dagen retourrecht op ongeopende pakketten</li>
-          <li style="display:flex;gap:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--c-accent)" stroke-width="1.8" style="flex:none;margin-top:3px" aria-hidden="true"><path d="M12 3l7.5 3.5v5c0 4.6-3.1 8.5-7.5 9.5-4.4-1-7.5-4.9-7.5-9.5v-5z"/></svg>Stap-voor-stap handleiding en videotutorial inbegrepen</li>
+        <!-- 03.01's own list form: a hairline, a small numeral, the text.
+             These were three orange line drawings — the last icon set left on
+             the site, and the brandbook has no icon set at all. Where it lists
+             a set of things (03.01's five type roles, its index pages) it uses
+             a rule, a number and type, and nothing else. Same device as the
+             webshop's "in elke doos" items, running down instead of across. -->
+        <ul class="sett-list" style="margin:var(--sp-6) 0 0">
+          <li>Gratis verzending in België vanaf € 250</li>
+          <li>14 dagen retourrecht op ongeopende pakketten</li>
+          <li>Stap-voor-stap handleiding en videotutorial inbegrepen</li>
         </ul>
       </div>
     </div>
+   </div>
   </section>
 
-  <!-- ---------- specs + description ---------- -->
-  <section class="container section">
-    <div class="pdp-grid">
-      <div>
-        <h2 class="t-h2" style="margin-bottom:var(--sp-5)">Over dit pakket</h2>
-        <div id="desc" class="muted" style="max-width:62ch"></div>
+  <!-- ---------- specs + description ============================
+       02.02: one flat tint, one composition. The whole PDP was open white from
+       the header to the footer — the only page in the build with no colour
+       field on it at all, while the webshop runs beige, three tints of poster
+       and a blue duo. This is its beige field, and it is the same beige as the
+       webshop's "in elke doos" band, so the two pages read as one system.
+
+       The specifications were a bordered, rounded box. The book never draws a
+       box around anything: it separates with hairlines and white space, which
+       is what the rows already do on their own, so the box is gone and the
+       list is just the rules. -->
+  <section class="band band-beige sett-field pdp-detail">
+    <div class="band-inner">
+     <div class="sett-margin">
+      <div class="sett-margin-head">
+        <span class="sett-section-mark" aria-hidden="true"></span>
+        <p class="t-label">Het pakket</p>
       </div>
-      <div>
-        <h2 class="t-h2" style="margin-bottom:var(--sp-5)">Specificaties</h2>
-        <dl id="specs" style="margin:0;border:1px solid var(--c-line);border-radius:var(--r-lg);padding:var(--sp-3) var(--sp-5)"></dl>
+      <div class="pdp-detail-grid">
+        <div>
+          <h2 class="t-h2 has-own-number">Over dit pakket</h2>
+          <div id="desc" class="muted" style="max-width:62ch"></div>
+        </div>
+        <div>
+          <h2 class="t-h2 has-own-number">Specificaties</h2>
+          <dl id="specs" style="margin:0"></dl>
+        </div>
       </div>
+     </div>
     </div>
   </section>
 
   <!-- ---------- related ---------- -->
   <section class="container section">
-    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-4);margin-bottom:var(--sp-6);flex-wrap:wrap">
-      <h2 class="t-h2" id="relTitle">Misschien ook iets voor jou</h2>
-      <a href="webshop.html" class="t-body-sm" style="text-decoration:underline">Bekijk alle pakketten</a>
+   <div class="sett-margin">
+    <div class="sett-margin-head">
+      <span class="sett-section-mark" aria-hidden="true"></span>
+      <p class="t-label">Verder kijken</p>
     </div>
-    <div class="grid-products" id="related"></div>
+    <div>
+      <h2 class="t-h2 has-own-number" id="relTitle" style="margin:0 0 var(--sp-6)">Misschien ook iets voor jou</h2>
+      <div class="grid-products" id="related"></div>
+    </div>
+   </div>
+  </section>
+
+  <!-- ============================ CLOSING FIELD — 02.02 + 01.05 ============
+       The page used to stop dead after the related grid. Every composition in
+       the book closes: 05.09 signs its tiles at the foot with the URL in caps,
+       and 02.02's fields end on a line rather than on white space.
+
+       Green, because it is the one 02.01 tint the build had not used yet and
+       one tint per composition is the rule. The line is the site's own
+       proposition — the same words that sit under the webshop's baseline as a
+       Subtitel — set here as the display line in the field's own tonal step
+       (05.05), never in a second accent, which is what 02.03 marks as wrong.
+       The button is black: black is the book's primary, not an accent, so the
+       composition still carries exactly one colour. -->
+  <section class="band band-green sett-field pdp-close" aria-labelledby="close-h">
+    <div class="band-inner">
+     <div class="sett-margin">
+      <div class="sett-margin-head">
+        <span class="sett-section-mark" aria-hidden="true"></span>
+        <p class="t-label">Zelf aan de slag</p>
+      </div>
+      <div>
+        <h2 class="t-tonal spread pdp-close-line has-own-number" id="close-h">
+          <span><b>JIJ</b> <b>BRENGT</b> <b>DE</b> <b>HANDEN.</b></span>
+          <span class="tight"><b>WIJ BRENGEN AL DE REST.</b></span>
+        </h2>
+        <div class="sett-duo-foot">
+          <a class="btn btn-primary" href="webshop.html">
+            Bekijk alle pakketten
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <span class="sett-foot-sig">diy-atelier.be</span>
+        </div>
+      </div>
+     </div>
+    </div>
   </section>
 </main>
 

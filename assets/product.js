@@ -11,6 +11,9 @@ $("bcType").textContent = p.typePlural;
 $('bcType').href = `webshop.html?type=${p.type}`;
 $('bcName').textContent = p.name;
 $('eyebrow').textContent = p.typeLabel;
+/* The caption in the book's margin column (brandbook: running head, folio,
+   caption). Same word as the buy box's eyebrow, in the place the book puts it. */
+$('pdpCaption').textContent = p.typeLabel;
 $('title').textContent = p.name;
 $('price').textContent = money(p.price);
 $('leadInline').textContent = p.lead;
@@ -134,7 +137,7 @@ specs.innerHTML = rows.map(([k, v]) => `
     <dt>${k}</dt>
     <dd>${k === "Kleur"
       ? `<span style="display:inline-flex;align-items:center;gap:8px">
-           <span style="width:16px;height:16px;border-radius:999px;background:${COLOURS[p.colour].hex};border:1px solid rgba(28,28,28,.16)"></span>${v}
+           <span style="width:16px;height:16px;background:${COLOURS[p.colour].hex};border:1px solid rgba(28,28,28,.16)"></span>${v}
          </span>`
       : v}</dd>
   </div>`).join('');
