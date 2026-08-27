@@ -17,6 +17,24 @@ NAV = [("index.html", "Overzicht"), ("hoe-werkt-het.html", "Hoe werkt het?"),
        ("realisaties.html", "Realisaties"), ("webshop.html", "Webshop"),
        ("tutorials.html", "Tutorials")]
 
+# ---------------------------------------------------------------------------
+# The chrome is shared, but the two halves of the site are no longer styled the
+# same. index / hoe-werkt-het / realisaties / tutorials are the staging replica
+# and carry no brand layer. webshop.html and product.html are the SETT brandbook
+# build and load assets/brand.css.
+#
+# So header() takes brand=. With it, the header is the 01.03 lockup -- the
+# logo-icoon set beside the wordmark, which is the book's own "in combinatie met
+# tekst" case -- and the wordmark is the palette version, #c75433 / #000000 on
+# transparent (img/logo-brand.png). Without it the header is exactly what it was
+# before the brand layer existed: the replica's #fd8b11 wordmark (img/logo.png).
+#
+# Both branches emit the same links in the same order with the same aria, so the
+# navigation itself cannot drift between the two halves. Only the mark and the
+# wordmark file differ.
+# ---------------------------------------------------------------------------
+SETT_MARK = '<span class="sett-mark" aria-hidden="true"></span>'
+
 ARROW = ('<svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" '
          'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
          '<path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg>')
@@ -41,7 +59,7 @@ CART_ICON = ('<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke
              '<path d="M2 3h3l2.6 12.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L21 7H6"/></svg>')
 
 
-def header(active, cart=False):
+def header(active, cart=False, brand=False):
     """cart=True adds the live basket count catalog.js drives. The replica pages
     have no basket, so they keep the plain icon and stay pixel-identical."""
     cur = ' aria-current="page"'
@@ -52,11 +70,18 @@ def header(active, cart=False):
                   f'{CART_ICON}<span class="cart-count" id="cartCount">0</span></a>')
     else:
         basket = f'<a href="#" aria-label="Winkelmandje">{CART_ICON}</a>'
+    logo = (
+        '<a class="logo sett-lockup" href="index.html" aria-label="Atelier DIY \u2014 home">\n'
+        f'      {SETT_MARK}<img src="img/logo-brand.png" alt="Atelier DIY" width="44" height="38">\n'
+        '    </a>'
+        if brand else
+        '<a class="logo" href="index.html" aria-label="Atelier DIY \u2014 home">\n'
+        '      <img src="img/logo.png" alt="Atelier DIY" width="44" height="38">\n'
+        '    </a>'
+    )
     return f'''<header class="site-header">
   <div class="wrap-wide">
-    <a class="logo" href="index.html" aria-label="Atelier DIY — home">
-      <img src="img/logo.png" alt="Atelier DIY" width="44" height="38">
-    </a>
+    {logo}
     <nav class="nav" id="nav" aria-label="Hoofdnavigatie">{links}</nav>
     <div class="header-actions">
       {basket}
@@ -136,6 +161,7 @@ def page(filename, title, active, body, desc=""):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{desc}">
+<link rel="icon" href="img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -564,7 +590,7 @@ tutorials = f'''<h1 class="sr-only">Tutorials</h1>
 </section>'''
 
 
-def sync_chrome(filename, active, cart=False):
+def sync_chrome(filename, active, cart=False, brand=False):
     """Re-inject the header and footer into a hand-authored page.
 
     webshop.html and product.html own their bodies but share this chrome, so
@@ -573,7 +599,7 @@ def sync_chrome(filename, active, cart=False):
     """
     path = OUT / filename
     html = path.read_text(encoding="utf-8")
-    regions = {"header": header(active, cart=cart), "footer": FOOTER}
+    regions = {"header": header(active, cart=cart, brand=brand), "footer": FOOTER}
     for name, markup in regions.items():
         open_m, close_m = f"<!-- chrome:{name} -->", f"<!-- /chrome:{name} -->"
         i, j = html.find(open_m), html.find(close_m)
@@ -598,5 +624,6 @@ if __name__ == "__main__":
     page("tutorials.html", "Tutorials — Atelier DIY",
          "tutorials.html", tutorials,
          "Stap-voor-stap videotutorials voor je DIY-project.")
-    sync_chrome("webshop.html", "webshop.html", cart=True)
-    sync_chrome("product.html", "webshop.html", cart=True)
+    # the two brandbook pages
+    sync_chrome("webshop.html", "webshop.html", cart=True, brand=True)
+    sync_chrome("product.html", "webshop.html", cart=True, brand=True)

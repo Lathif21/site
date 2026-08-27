@@ -1,0 +1,1568 @@
+/* ==========================================================================
+   SETT BRAND LAYER
+   ../brand/SETT_Brandbook_compressed.pdf
+
+   This file is the visual identity. It is loaded LAST on all six pages, so it
+   wins over site.css (replica pages), app.css (catalogue) and chrome.css
+   (shared header/footer) without any of them having to be rewritten. Nothing
+   in here changes behaviour: no layout that JS measures, no element that JS
+   queries, no state. Delete the one <link> and the site returns to what it
+   was.
+
+   Every rule cites the brandbook page it comes from. If a value has no page
+   number next to it, it is a contrast fix, and the measured ratio is stated.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. TOKENS
+   The two existing stylesheets are almost entirely token-driven, so
+   redefining their variables here re-tints both of them at once.
+   ========================================================================== */
+
+:root {
+  /* — 02.01 Kleurenpallet. The eight, exactly as printed. — */
+  --sett-black:  #000000;
+  --sett-white:  #ffffff;
+  --sett-orange: #c75433;
+  --sett-blue:   #b7d6e3;
+  --sett-green:  #99ae83;
+  --sett-beige:  #e4d8bc;
+  --sett-pink:   #f9cdcd;
+  --sett-grey:   #999494;
+
+  /* Paper. 02.02 and 05.09 set every composition on white or on one flat
+     tint — there is no light-grey "page" colour in the book. */
+  --sett-paper:      #ffffff;
+  --sett-paper-warm: #f4f1ea;   /* the mount board behind the 05.09 tiles */
+  --sett-rule:       #e0dcd4;
+  --sett-rule-firm:  #c9c4ba;
+
+  /* Watermark tones — the field's own colour, one short step down. 05.02
+     prints the icon into the card this way: visible, never legible-competing.
+     Decorative only; nothing that carries text uses these. */
+  --sett-wm-on-white: #f1eee8;
+  --sett-wm-beige:    #d3c7a9;
+  --sett-wm-blue:     #a3c5d5;
+  --sett-wm-green:    #88a071;
+  --sett-wm-pink:     #f0bcbc;
+  --sett-wm-grey:     #8b8681;
+
+  /* Tonal display type — 05.05 "READY SETT GO!". Each is its field darkened
+     until it measures 3:1 against that field, which is the large-text floor
+     and nothing more. Display sizes only. */
+  --sett-tonal-beige: #7f7869;   /* 3.10:1 on beige */
+  --sett-tonal-blue:  #66777f;   /* 3.05:1 on blue  */
+  --sett-tonal-green: #4f5a44;   /* 3.04:1 on green */
+  --sett-tonal-pink:  #8b7272;   /* 3.08:1 on pink  */
+
+  /* — 01.03 Logo-icoon —
+     Not redrawn: the six bezier curves are lifted from drawing 3 on page
+     01.03 of the PDF. Held as a mask, never a fill, so every instance takes
+     its colour from the field it marks — which is how 05.02 and 05.09 use it.
+     The SVG attributes are single-quoted, because the SVG's own double quotes
+     would terminate url("…") early and the mask would silently not apply. */
+  --sett-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 164.470 213.533' fill='%23000'%3E%3Cpath d='M139.8 82.063 C131.82 88.639 129.37 99.971 134.23 109.095 C164.47 165.91 98.78 213.533 35.37 199.363 C0.0 191.458 3.4 149.794 27.48 134.231 C37.09 128.022 39.84 115.311 34.5 105.196 C5.18 49.671 60.73 0.0 128.32 19.015 C162.52 28.637 160.37 65.1 139.8 82.063 Z'/%3E%3C/svg%3E");
+  --sett-icon-ratio: 164.47 / 213.533;
+
+  /* — 03.02 Lettertypes —
+     PT Serif is named in the book and is on Google Fonts under its own name,
+     so the display face is the real one. Franklin Gothic URW and Avenir are
+     licensed faces: Libre Franklin and Mulish are the closest free metric
+     cousins and are what the pages load. */
+  --sett-display: "PT Serif", "Times New Roman", Georgia, serif;
+  --sett-grotesk: "Libre Franklin", "Franklin Gothic URW", "Helvetica Neue", Arial, sans-serif;
+  --sett-text:    "Mulish", Avenir, "Segoe UI", system-ui, sans-serif;
+
+  /* ---- site.css (replica pages) ---- */
+  --orange:      #c75433;
+  --orange-dark: #a8451f;   /* pressed state only; 5.94:1 on white */
+  --ink:         #000000;
+  --body:        #262321;
+  --muted:       #55504b;
+  --page:        #ffffff;
+  --white:       #ffffff;
+  --footer-bg:   #f4f1ea;
+  --line:        #e0dcd4;
+  --radius:      0px;
+  --radius-lg:   0px;
+  --radius-pill: 0px;
+  --shadow-card: none;
+
+  /* ---- app.css (catalogue) ---- */
+  --c-black:  #000000;
+  --c-white:  #ffffff;
+  --c-orange: #c75433;
+  --c-blue:   #b7d6e3;
+  --c-green:  #99ae83;
+  --c-beige:  #e4d8bc;
+  --c-pink:   #f9cdcd;
+  --c-grey:   #999494;
+
+  --c-ink:            #000000;
+  --c-ink-muted:      #55504b;   /* 8.79:1 on white */
+  --c-ink-subtle:     #6a645d;   /* 5.85:1 on white */
+  --c-grey-text:      #8b8681;
+  --c-line:           #e0dcd4;
+  --c-line-strong:    #c9c4ba;
+  --c-surface:        #ffffff;
+  --c-surface-alt:    #f4f1ea;
+  --c-accent:         #c75433;
+  --c-accent-strong:  #c75433;   /* white on it is 4.74:1 — the brand orange
+                                    carries AA text, so no off-brand darkening */
+  --c-accent-press:   #a8451f;
+  --c-accent-tint:    #f7e9e4;
+
+  --font-display: var(--sett-display);
+  --font-heading: var(--sett-grotesk);
+  --font-body:    var(--sett-text);
+
+  --r-sm: 0px; --r-md: 0px; --r-lg: 0px; --r-xl: 0px; --r-pill: 0px;
+  --shadow-sm: none; --shadow-md: none; --shadow-lg: none;
+
+  /* 04.02 photographs are hard-edged rectangles and the icon is the only
+     curved silhouette in the system. The four --blob-* radii these used to
+     hold were invented from the Mortex tabletops; every place that used them
+     now carries the real icon instead. */
+  --blob-1: 0; --blob-2: 0; --blob-3: 0; --blob-4: 0; --blob-soft: 0;
+
+  --c-blue-tonal:  var(--sett-tonal-blue);
+  --c-green-tonal: var(--sett-tonal-green);
+  --c-beige-tonal: var(--sett-tonal-beige);
+  --c-pink-tonal:  var(--sett-tonal-pink);
+
+  /* ---- chrome.css (shared header/footer) ---- */
+  --chrome-orange:      #c75433;
+  --chrome-orange-dark: #a8451f;
+  --chrome-ink:         #000000;
+  --chrome-body:        #262321;
+  --chrome-white:       #ffffff;
+  --chrome-footer-bg:   #f4f1ea;
+  --chrome-line:        #e0dcd4;
+  --chrome-font:        var(--sett-text);
+}
+
+
+/* ==========================================================================
+   2. BASE TYPE — 03.02
+   Avenir (Mulish) for everything read in sentences, Franklin (Libre Franklin)
+   for every label and control, PT Serif reserved for the statements.
+   ========================================================================== */
+
+body {
+  background: var(--sett-paper);
+  color: var(--body);
+  font-family: var(--sett-text);
+  font-size: 17px;
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+
+/* 03.02 puts headings on the grotesk, not on the serif — the serif is the
+   statement voice (01.05) and appears only where a baseline is being set. */
+/* 03.01 names five roles and gives each one an Opmaak. They were all set at
+   one weight before, which is why the pages read flat:
+
+     Koppen      "Grootste tekst, Vaak vetgedrukt om de nadruk te leggen"
+     Subtitels   "Iets groter dan de broodtekst ... Kan licht vetgedrukt zijn"
+     Broodtekst  "Gemiddelde grootte ... Normaal (niet vetgedrukt)"
+     Voetnoot    "Kleiner dan de broodtekst, maar nog steeds goed leesbaar"
+     Citaat      "Kan schuin worden weergegeven" — see .quote
+
+   Franklin Demi is the "vetgedrukt" the book shows on 03.02, so headings sit
+   at 600. The one place that stays light is the baseline spread (01.05),
+   which is a different device and keeps its 300 — see section 8. */
+h1, h2, h3, h4, h5, h6,
+.t-h1, .t-h2, .t-h3, .t-title {
+  font-family: var(--sett-grotesk);
+  color: var(--sett-black);
+  font-weight: 600;
+  letter-spacing: -.012em;
+}
+h1, .t-h1 { font-size: clamp(1.9rem, 3.4vw, 2.9rem); line-height: 1.14; }
+h2, .t-h2 { font-size: clamp(1.5rem, 2.6vw, 2.2rem); line-height: 1.18; }
+h3, .t-h3 { font-size: 1.2rem;  line-height: 1.3; }
+.t-title  { font-size: 1.02rem; line-height: 1.35; font-weight: 600; }
+
+/* Voetnoot — smaller than the body, normal weight, still legible. */
+.t-body-sm, .card-meta, .prod-meta, figcaption {
+  font-weight: 400;
+  font-size: .85rem;
+  line-height: 1.45;
+}
+
+/* The book's small type is a wide, light, upper-case Franklin — it appears on
+   every page as the index, the folio and the caption (01.01–05.09). */
+.eyebrow,
+.t-label,
+.sett-cap {
+  font-family: var(--sett-grotesk);
+  font-weight: 500;
+  font-size: .7rem;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--sett-black);
+}
+.eyebrow { margin: 0 0 1em; }
+
+.t-price, .t-price-lg {
+  font-family: var(--sett-grotesk);
+  font-weight: 500;
+  letter-spacing: -.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.t-body-sm { font-size: .875rem; }
+.muted  { color: var(--muted); }
+.subtle { color: var(--c-ink-subtle); }
+
+:focus-visible {
+  outline: 2px solid var(--sett-black);
+  outline-offset: 3px;
+  border-radius: 0;
+}
+
+
+/* ==========================================================================
+   3. THE LOGO-ICOON — 01.03
+   "Een logo-icoon is het grafische symbool of beeldmerk binnen een logo dat
+   de identiteit van een merk vertegenwoordigt. Dit icoon kan zelfstandig
+   gebruikt worden of in combinatie met tekst."
+
+   Four sanctioned placements, each taken from a page where the book uses it
+   that way. This is the device the site was missing.
+   ========================================================================== */
+
+/* (a) The mark standing on its own — 01.03, 05.09 bottom-left of every tile.
+       currentColor, so it belongs to whatever field it marks. */
+.sett-mark,
+.sett-sign {
+  display: block;
+  background: currentColor;
+  -webkit-mask: var(--sett-icon) center / contain no-repeat;
+          mask: var(--sett-icon) center / contain no-repeat;
+  flex: none;
+}
+.sett-mark { width: 30px; aspect-ratio: var(--sett-icon-ratio); }
+
+/* 05.09 signs every tile with the icon at the foot of the composition, small
+   and one tone off the ground. Never larger than the type it sits under. */
+.sett-sign {
+  width: 15px; aspect-ratio: var(--sett-icon-ratio);
+  color: var(--sett-wm-grey);
+  opacity: .85;
+}
+
+/* (b) The watermark — 05.02. The icon printed into a flat field at size, in
+       that field's own colour one step down. Decorative and aria-hidden; it
+       must never sit under body copy, only under display type or open space. */
+.sett-wm {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  aspect-ratio: var(--sett-icon-ratio);
+  background: var(--sett-wm-on-white);
+  -webkit-mask: var(--sett-icon) center / contain no-repeat;
+          mask: var(--sett-icon) center / contain no-repeat;
+}
+.band-beige .sett-wm, .sett-field-beige .sett-wm { background: var(--sett-wm-beige); }
+.band-blue  .sett-wm, .sett-field-blue  .sett-wm { background: var(--sett-wm-blue);  }
+.band-green .sett-wm, .sett-field-green .sett-wm { background: var(--sett-wm-green); }
+.band-pink  .sett-wm, .sett-field-pink  .sett-wm { background: var(--sett-wm-pink);  }
+
+/* The default placement: whole, on the right shoulder of the field, with the
+   statement running across its left. 05.02 crops the mark at the card edge,
+   but the point of putting it here is that the icon is recognisable — a
+   cropped lobe reads as a blob, which is the shape the site used to use. */
+.sett-wm-right {
+  right: clamp(24px, 6vw, 120px);
+  top: 50%;
+  height: 76%;
+  transform: translateY(-50%);
+}
+.sett-wm-corner { right: -3rem; bottom: -3rem; height: 210px; }
+@media (max-width: 900px) { .sett-wm-right { right: -8%; height: 62%; } }
+/* At one column there is no open field left to print it into — it would sit
+   behind the lede, which is the one thing 05.02 never does. */
+@media (max-width: 700px) { .sett-wm { display: none; } }
+
+/* (c) In combination with text — 01.03. The header lockup. */
+.sett-lockup { display: inline-flex; align-items: center; gap: 11px; }
+.sett-lockup .sett-mark { width: 15px; color: var(--sett-black); }
+.site-header .logo.sett-lockup {
+  display: inline-flex; align-items: center; gap: 11px; line-height: 0;
+}
+
+/* (d) REMOVED — the section marker used to be the icon.
+   The book does not mark sections with the bean. Its chapter openers (pages
+   03, 09, 13, 18, 21) carry a NUMBER set in the light grotesk — 01, 02, 03,
+   04, 05 — and every inside page carries a "01.03"-style folio in the left
+   margin. That numeral is the book's section device. It is what marks a
+   section here now; see section 3b. */
+
+/* 01.07: "Vermijd ... het wijzigen van kleuren of het toevoegen van effecten
+   aan het logo of icoon." The previous version used the bean as a CONTAINER
+   with a white line-glyph sitting inside it — four in a row on the webshop
+   alone. That is the icon altered, and it is more beans in one band than the
+   whole book uses in 32 pages. The containers are gone; the four items are
+   enumerated the way the book enumerates a set — a hairline and a numeral.
+   See section 3b. */
+.pack-icon,
+.cat-tile-icon { display: none; }
+
+/* The play control was the icon too. The book gives the icon no such job and
+   has no play device at all, so this is the system's own geometry instead: a
+   hard-edged black square — 04.02 has no radii anywhere — with the white
+   triangle it already carried, going orange on hover.
+   Black on the footage is 21:1 behind the glyph; the glyph is white on black. */
+.v-play {
+  border-radius: 0;
+  width: 62px; height: 62px;
+  background: var(--sett-black);
+  color: var(--sett-white);
+  display: grid; place-items: center;
+  transition: background var(--dur-fast, 120ms) ease;
+}
+.v-play::before { content: none; }
+.v-play svg { position: relative; z-index: 1; }
+.v-play:hover { transform: none; border-radius: 0; background: var(--sett-orange); }
+
+/* Cart count: a square counter, not an orange pill. */
+.site-header .cart-count {
+  border-radius: 0;
+  background: var(--sett-black);
+  color: var(--sett-white);
+  font-family: var(--sett-grotesk);
+  font-weight: 600;
+  font-size: .68rem;
+}
+
+
+
+/* ==========================================================================
+   3b. THE SECTION NUMERAL — the book's own device
+   Every chapter of the brandbook opens on a bare two-digit numeral set large
+   and light in the grotesk (03 "01", 09 "02", 13 "03", 18 "04", 21 "05"), and
+   every inside page repeats it as a folio — "01.03", "02.01", "05.09" — in
+   the left margin above the caption.
+
+   That numeral is how the book marks a section. It is what the site marks
+   sections with now, in place of the icon, on one shared counter so the
+   sequence runs 01, 02, 03… down each page.
+   ========================================================================== */
+
+body { counter-reset: sett-section; }
+
+.sett-section-mark,
+.sett-mark.pack-mark,
+main h2::before {
+  /* these were all icon masks; unset every part of that */
+  -webkit-mask: none; mask: none;
+  background: none;
+  width: auto; height: auto; aspect-ratio: auto;
+
+  display: block;
+  font-family: var(--sett-grotesk);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 2.4vw, 2.05rem);
+  line-height: 1;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  color: var(--sett-black);
+  margin: 0 0 20px;
+}
+
+.sett-section-mark::before,
+.sett-mark.pack-mark::before,
+main h2::before {
+  counter-increment: sett-section;
+  content: counter(sett-section, decimal-leading-zero);
+}
+
+/* Four headings are not sections and must neither carry a numeral nor consume
+   one, or the sequence would skip:
+     .sr-only      a heading that exists only for screen readers
+     .video-cta    the poster panel's own headline (16c)
+     .pack-title   already numbered, by the band's .pack-mark
+     .shop-hero-*  the statement itself, numbered by .sett-section-mark */
+main h2.sr-only::before,
+main h2.has-own-number::before,
+main .video-cta h2::before,
+main .pack-title::before,
+main .shop-hero-title::before {
+  content: none;
+  counter-increment: none;
+}
+
+/* .has-own-number is the general opt-out: a heading whose own text already
+   carries a number ("Stap 1: de selectie") must not also carry a folio, or
+   the row shows two competing numbering schemes. Set in build.py. */
+.center > .sett-section-mark,
+.sett-section-mark.center { margin-inline: auto; }
+
+/* The numeral is decorative; it must not be announced. The spans that carry
+   it are already aria-hidden, and a ::before on a heading is not read as part
+   of the heading text by any current screen reader. */
+
+/* 3c. Enumerating a set — the same numeral, small.
+   The book lists its own contents this way (the index pages, and the
+   "Koppen / Subtitels / Broodtekst" columns of 03.01): a hairline, a small
+   number or label above, the bold name, the light value under it. The four
+   "in elke doos" items are that list now, instead of four altered icons. */
+.pack-grid { counter-reset: sett-item; }
+.pack-item {
+  border-top: 1px solid rgba(0, 0, 0, .3);
+  padding-top: 16px;
+}
+.pack-item::before {
+  counter-increment: sett-item;
+  content: counter(sett-item, decimal-leading-zero);
+  display: block;
+  font-family: var(--sett-grotesk);
+  font-weight: 300;
+  font-size: .82rem;
+  letter-spacing: .18em;
+  line-height: 1;
+  color: var(--sett-black);
+  margin-bottom: 14px;
+}
+
+
+/* ==========================================================================
+   4. FLAT GEOMETRY — 02.02, 04.02, 05.07
+   The book is print. Nothing in it is rounded and nothing in it casts a
+   shadow; the only curve in the whole identity is the icon.
+   ========================================================================== */
+
+.prod-card, .quote, .panel, .tut-card, .card, .tile, .cat-tile,
+.masonry img, .split img, .prod-media, .card-media, .pdp-stage,
+.v-inline, .video-cta, .thumb, .field, .select, .qty, .badge, .chip,
+.chip-active, .btn, .btn-outline, .toast, .filter-pill,
+.hero, .hero-band, #filters, .skip, .skip-link {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.tut-card video, .v-inline, .video-cta { border-radius: 0 !important; }
+/* the text inside <video> is the no-support fallback, and the element's
+   own ground is black — it inherited body ink and was 1.34:1 */
+video { color: var(--sett-white); }
+.carousel-nav button { border-radius: 0; box-shadow: none; border: 1px solid var(--sett-black); }
+
+/* Colour swatches stay circular. 05.09's colourway dots are the one round
+   element the book prints, and at 18px the icon silhouette is unreadable. */
+.sw { border-radius: 999px !important; border-color: rgba(0,0,0,.18); }
+.sw[aria-current="true"] { box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--sett-black) !important; }
+
+.tile:hover, .cat-tile:hover, .v-play:hover { transform: none; }
+
+
+/* ==========================================================================
+   5. CONTROLS
+   Squared, Franklin, wide-tracked caps — the book's own button language
+   (05.04 gift card, 05.05 instruction card).
+   ========================================================================== */
+
+.btn, .site-footer .btn, .btn-outline {
+  font-family: var(--sett-grotesk);
+  font-weight: 600;
+  font-size: .78rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  border-radius: 0;
+  transition: background .16s ease, color .16s ease, border-color .16s ease;
+}
+/* Black, not orange. White on the brand orange measures 4.43:1 and misses
+   AA for a 12.5px label by a hair; the alternatives were to darken the orange
+   off-palette or to grow the label out of the book's caption scale. Black is
+   the book's own primary (02.01, and every 05.x lockup), it clears 21:1, and
+   it leaves orange free to do what the book actually uses it for — the mark.
+   The hover inverts to the sheet, which is 21:1 the other way round. */
+.btn, .site-footer .btn, .btn-primary {
+  background: var(--sett-black);
+  color: var(--sett-white);
+  border: 1px solid var(--sett-black);
+  padding: 17px 28px;
+  gap: 14px;
+}
+.btn:hover, .site-footer .btn:hover, .btn-primary:hover {
+  background: var(--sett-white); color: var(--sett-black); border-color: var(--sett-black);
+}
+.btn:active, .site-footer .btn:active, .btn-primary:active {
+  transform: none; background: var(--sett-orange); color: var(--sett-white); border-color: var(--sett-orange);
+}
+.btn-primary[disabled] { background: var(--sett-rule-firm); border-color: var(--sett-rule-firm); color: #fff; }
+
+.btn-secondary, .btn-outline {
+  background: transparent; color: var(--sett-black);
+  border: 1px solid var(--sett-black); padding: 14px 24px;
+}
+.btn-secondary:hover, .btn-outline:hover { background: var(--sett-black); color: #fff; border-color: var(--sett-black); }
+
+.btn-ghost { background: transparent; color: var(--sett-black); border: 1px solid var(--sett-rule-firm); }
+.btn-ghost:hover { border-color: var(--sett-black); }
+
+.chip, .chip-active, .field, .select, .qty, .thumb, .filter-pill {
+  border-radius: 0 !important;
+  font-family: var(--sett-grotesk);
+}
+.chip { border-color: var(--sett-rule-firm); font-weight: 500; letter-spacing: .02em; }
+.chip[aria-pressed="true"], .chip[aria-current="true"] { background: var(--sett-black); border-color: var(--sett-black); }
+.chip-active { background: var(--sett-black); color: #fff; }
+.chip-active:hover { border-color: var(--sett-black); background: var(--orange-dark); }
+.filter-pill { background: var(--sett-black); }
+
+/* Badges become the book's caption: a hairline, caps, no tinted capsule. */
+.badge {
+  background: transparent;
+  border: 1px solid var(--sett-rule-firm);
+  color: var(--muted);
+  font-family: var(--sett-grotesk);
+  font-weight: 500;
+  font-size: .64rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 5px 9px;
+  border-radius: 0;
+}
+.badge-basis, .badge-gevorderd { border-color: var(--sett-rule-firm); color: var(--muted); }
+.card-flag {
+  background: var(--sett-white);
+  border-color: var(--sett-black);
+  color: var(--sett-black);
+  backdrop-filter: none;
+}
+
+
+/* ==========================================================================
+   6. HEADER — 05.01
+   The book's website sets its navigation as a small, quiet, wide-tracked list
+   and gives the field to the statement. The bar stays horizontal and sticky
+   (that is behaviour, not identity), but the type is the book's.
+   ========================================================================== */
+
+.site-header {
+  background: var(--sett-white);
+  border-bottom: 1px solid var(--sett-rule);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+}
+.site-header .logo img { height: 34px; }
+
+.site-header .nav a,
+.nav a {
+  font-family: var(--sett-grotesk);
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--sett-black);
+  position: relative;
+  padding: 8px 0;
+}
+.nav { gap: 34px; }
+.site-header .nav a:hover, .nav a:hover { color: var(--sett-orange); }
+
+/* The current page was marked with the icon. 05.01's own nav marks nothing
+   with a shape — it is a plain stacked list — and the book's index pages mark
+   the current chapter by weight alone. So: weight plus a hairline, which is
+   the only rule-form the book uses anywhere. Black on white is 21:1, which is
+   what the orange colour-change it replaced (2.37:1) could not manage. */
+.site-header .nav a[aria-current="page"],
+.nav a[aria-current="page"] { color: var(--sett-black); font-weight: 600; }
+.site-header .nav a[aria-current="page"]::before,
+.nav a[aria-current="page"]::before {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: -9px;
+  width: auto; height: 2px; aspect-ratio: auto;
+  transform: none;
+  background: var(--sett-black);
+  -webkit-mask: none; mask: none;
+}
+.site-header .nav a[aria-current="page"]::after,
+.nav a[aria-current="page"]::after { display: none; }
+
+.site-header .header-actions a:hover, .header-actions a:hover { color: var(--sett-orange); }
+
+
+/* ==========================================================================
+   7. THE STATEMENT FIELD — 05.01
+   "SETT IS NOT JUST A PRODUCT, IT'S AN OPPORTUNITY TO CREATE MEMORIES."
+
+   On 05.01 the website's opening statement is black, upper-case and justified
+   across an open white field, and the photograph is stacked underneath it —
+   not laid under the type. That is the single most specific instruction the
+   book gives about this site, and it is what the hero is now.
+   ========================================================================== */
+
+.sett-statement {
+  background: var(--sett-white);
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(56px, 8vw, 118px) clamp(44px, 6vw, 88px);
+}
+.sett-statement-inner {
+  width: 100%; max-width: 1440px;
+  margin-inline: auto; padding-inline: clamp(20px, 4.4vw, 64px);
+  position: relative; z-index: 1;
+}
+/* 01.05 sets the spread over a measure narrow enough that the word gaps
+   read as gaps rather than as two columns. Unbounded at 1440 the last word of
+   each line lands ~1300px from the first, which just looks like broken text. */
+.sett-statement .spread,
+.sett-statement .shop-hero-title { max-width: min(100%, 940px); }
+/* A one-line page title. Set a step smaller than the multi-line statements
+   so the words sit closer, and given a measure with headroom above its own
+   natural width — a .spread line is white-space:nowrap, so a measure narrower
+   than the words overflows INSIDE the line box without widening it. The test
+   is scrollWidth > clientWidth on the line, never the element's box edges. */
+.sett-statement .spread-short {
+  max-width: min(100%, 880px);
+  font-size: clamp(1.7rem, 4.4vw, 3.5rem);
+}
+/* The statement fields carried a large beige bean floating in the white
+   space beside the headline. The book never does that: 05.02 and 05.04 print
+   the icon INTO a card as a deboss tonal to that card's own ground, and
+   05.01 — the website page — has no icon on it at all. So the heroes have
+   none either. */
+.sett-statement .sett-wm { display: none; }
+
+/* The lede and the ask sit under the statement on the same white field —
+   05.01 keeps them small and low, so the statement owns the page. */
+.sett-statement-foot {
+  display: grid;
+  gap: clamp(22px, 3vw, 34px);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: end;
+  max-width: 58ch;
+  margin-top: clamp(30px, 4vw, 52px);
+}
+.sett-statement-foot p { margin: 0; color: var(--muted); max-width: 52ch; }
+.sett-statement-foot .btn { justify-self: start; }
+@media (min-width: 900px) {
+  .sett-statement-foot { grid-template-columns: minmax(0, 1fr) auto; max-width: 82ch; gap: 44px; }
+}
+
+/* 01.06 / 05.03: a baseline set small and rotated up the left edge, beside
+   the composition. On the brochure it climbs the spine. */
+.sett-rail {
+  position: absolute; left: clamp(6px, 1.1vw, 20px); top: 50%;
+  writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg);
+  font-family: var(--sett-grotesk);
+  text-transform: uppercase;
+  font-size: .62rem; letter-spacing: .28em; line-height: 1;
+  color: var(--muted);
+  white-space: nowrap; pointer-events: none; z-index: 2;
+}
+@media (max-width: 1100px) { .sett-rail { display: none; } }
+
+/* The photograph beneath. 04.02: a hard-edged rectangle, full bleed, no
+   scrim over it because nothing is set on top of it any more. */
+.sett-plate {
+  position: relative;
+  min-height: clamp(230px, 30vw, 420px);
+  background: var(--sett-black) center / cover no-repeat;
+}
+.sett-plate-tall { min-height: clamp(340px, 52vw, 640px); }
+
+
+/* ==========================================================================
+   8. THE SPREAD — 01.05, 05.07, 05.09
+   Words pushed to opposite edges of the measure so the line reads as a block
+   with the gaps set into it. Light weight, wide, never bold: on 05.09 the
+   grotesk baseline is Franklin Light at size and the serif one is PT Serif
+   Regular. Bold was the previous version's mistake.
+   ========================================================================== */
+
+.spread > span { display: flex; justify-content: space-between; gap: .5em; }
+.spread > span.tight { justify-content: flex-start; }
+.spread b { font-weight: inherit; white-space: nowrap; flex: 0 0 auto; }
+@media (max-width: 720px) {
+  .spread > span { display: block; }
+  .spread b { white-space: normal; }
+}
+
+/* The grotesk voice — 05.09 "NOT MADE TO BUY. MADE TO CREATE." */
+.t-statement,
+.sett-spread {
+  font-family: var(--sett-grotesk);
+  font-weight: 300;
+  font-size: clamp(1.9rem, 5.1vw, 4.1rem);
+  line-height: 1.1;
+  letter-spacing: .005em;
+  text-transform: uppercase;
+  color: var(--sett-black);
+  margin: 0;
+}
+
+/* The serif voice — 05.09 "THE PRODUCT IS THE RESULT." and 01.06's cover. */
+.t-tonal,
+.sett-spread-serif {
+  font-family: var(--sett-display);
+  font-weight: 400;
+  font-size: clamp(1.9rem, 5.4vw, 4.4rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* 05.09 also runs the spread vertically up the right edge of a tint field. */
+.sett-spread-vert {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+}
+
+
+/* ==========================================================================
+   9. FLAT FIELDS — 02.02, 05.05
+   ========================================================================== */
+
+.band { padding-block: clamp(56px, 8vw, 110px); }
+.band-beige, .sett-field-beige { background: var(--sett-beige); }
+.band-blue,  .sett-field-blue  { background: var(--sett-blue);  }
+.band-green, .sett-field-green { background: var(--sett-green); }
+.band-pink,  .sett-field-pink  { background: var(--sett-pink);  }
+.sett-field-white { background: var(--sett-white); }
+
+.sett-field { position: relative; overflow: hidden; }
+
+/* Black clears 7:1 on every tint in the palette, so all copy on a field is
+   full ink — no muted greys, which fall under 4.5 on green. */
+.band-beige, .band-blue, .band-green, .band-pink,
+.sett-field-beige, .sett-field-blue, .sett-field-green, .sett-field-pink {
+  color: var(--sett-black);
+}
+.band-beige .muted, .band-blue .muted, .band-green .muted, .band-pink .muted,
+.band-beige .subtle, .band-blue .subtle, .band-green .subtle, .band-pink .subtle {
+  color: var(--sett-black);
+}
+
+/* 05.05's tonal display type. This was scoped to .band-* only, so a statement
+   on a .sett-field-* tint fell through to ink — legible, but not the device. */
+.band-beige .t-tonal, .sett-field-beige .t-tonal { color: var(--sett-tonal-beige); }
+.band-blue  .t-tonal, .sett-field-blue  .t-tonal { color: var(--sett-tonal-blue);  }
+.band-green .t-tonal, .sett-field-green .t-tonal { color: var(--sett-tonal-green); }
+.band-pink  .t-tonal, .sett-field-pink  .t-tonal { color: var(--sett-tonal-pink);  }
+
+/* The old decorative blobs are the icon watermark now. */
+.band-blob {
+  opacity: 1;
+  -webkit-mask: var(--sett-icon) center / contain no-repeat;
+          mask: var(--sett-icon) center / contain no-repeat;
+}
+.pack-blob { background: var(--sett-wm-beige); width: 300px; height: 390px; right: -70px; bottom: -120px; }
+/* One deboss, on one field, per page — the 05.04 gift-card device: the icon
+   printed into a flat tint in that tint's own darker step, behind the type.
+   The beige "in elke doos" band keeps it, and it is the only one.
+   (.beat-blob-a / -b were the blue band's two; that band is now the 02.02 duo,
+   section 18, and carries no icon — 05.09's type tiles are type and nothing
+   else. The markup is gone, so there is nothing left here to hide.) */
+
+
+/* ==========================================================================
+   10. THE POSTER — 05.07, 05.09
+   Every tile in the book is the same object: a white sheet, a block of type,
+   a photograph inset inside the sheet's own margin, and the icon signing the
+   foot. Cards, category tiles and gallery plates all become that object.
+   ========================================================================== */
+
+.card {
+  background: var(--sett-white);
+  border: 1px solid var(--sett-rule);
+  padding: 14px 14px 0;      /* the passe-partout the book prints around every
+                                photograph on 05.09 */
+  position: relative;
+}
+.card:hover { border-color: var(--sett-black); background: var(--sett-white); }
+.card:focus-within { border-color: var(--sett-black); }
+
+.card-media { background: var(--sett-paper-warm); }
+.grid-products > .card:nth-child(4n+1) .card-media { background: var(--sett-beige); }
+.grid-products > .card:nth-child(4n+2) .card-media { background: var(--sett-blue);  }
+.grid-products > .card:nth-child(4n+3) .card-media { background: var(--sett-pink);  }
+.grid-products > .card:nth-child(4n+4) .card-media { background: var(--sett-green); }
+
+.card-body { padding: 18px 2px 34px; gap: 12px; }
+.card-flag { top: 10px; left: 10px; }
+
+/* The sheet is signed with nothing. 05.09 signs SOME tiles at the foot — two
+   of its six — and the catalogue has thirty-three cards in one scroll. Signing
+   each one put fifty beans on the webshop page; the whole brandbook uses the
+   icon about a dozen times in 32 pages. The white sheet, the passe-partout
+   and the hairline are the card's brand, which is what 05.09's photograph
+   tiles rely on too. */
+.card-body { padding-bottom: 18px; }
+
+/* Replica-page product cards get the same sheet. */
+.prod-card {
+  background: var(--sett-white);
+  border: 1px solid var(--sett-rule);
+  padding: 14px 14px 18px;
+  position: relative;
+  gap: 16px;
+}
+.prod-media { background: var(--sett-paper-warm); }
+
+/* Category tiles: 05.07's poster — photograph as a full-width rectangle, type
+   on the flat field beneath it. */
+.cat-tile { padding-bottom: 22px; border: 0; }
+.cat-tile .cat-tile-media + span { padding-top: 20px; }
+.cat-tile-icon {
+  left: auto; right: 16px; bottom: auto; top: calc(100% + 18px);
+  width: 20px; height: 24px;
+}
+.cat-tile-icon svg { display: none; }
+/* The three tiles carried a tonal bean each. 05.07's poster — which is what
+   these tiles are — carries no icon at all: a photograph, then type on the
+   flat field beneath it, and that is the whole object. */
+.cat-tile-media { overflow: visible; }
+.cat-tile-media img { border-radius: 0; }
+
+/* Testimonials and the CTA panel are sheets too, not cards on a grey page. */
+.quote, .panel, .tut-card {
+  background: var(--sett-white);
+  border: 1px solid var(--sett-rule);
+}
+.quote { padding: 30px 28px 32px; position: relative; }
+/* 03.01 Citaat: "Vergelijkbaar met of iets groter dan de broodtekst. Kan
+   schuin worden weergegeven om het als een citaat te markeren." The book
+   names five type roles and this is the only one it gives a shape to; the
+   testimonials were set as plain body and signed with the icon instead. */
+.quote p {
+  font-family: var(--sett-display);
+  font-style: italic;
+  font-size: 1.06rem;
+  line-height: 1.45;
+  color: var(--sett-black);
+}
+.quote h3 { font-size: .98rem; }
+.panel { padding: clamp(32px, 4vw, 56px); }
+
+
+/* ==========================================================================
+   11. PHOTOGRAPHY — 04.02
+   "Fotografie ... hard-edged, tight grid." No radii, no masks, no scrims over
+   pictures that carry no type.
+   ========================================================================== */
+
+.masonry img, .split img, .prod-media img, .card-media img,
+.tut-card video, .thumb img, .pdp-stage > img, .pdp-stage > video {
+  border-radius: 0 !important;
+}
+.masonry { gap: 14px; }
+.masonry-col { gap: 14px; }
+
+.pdp-stage { background: var(--stage-tint, var(--sett-paper-warm)); }
+
+
+/* ==========================================================================
+   12. SECTIONS, RULES, FOOTER
+   The book separates by hairline and white space, not by tinted blocks.
+   ========================================================================== */
+
+/* The centred section headings are numbered by section 3b — the book's own
+   chapter numeral. This is where they used to grow an orange bean. */
+
+.section { padding-block: clamp(60px, 8vw, 104px); }
+.section-tight { padding-block: clamp(44px, 6vw, 72px); }
+.rule, hr { border-top-color: var(--sett-rule); }
+
+.site-footer { background: var(--sett-paper-warm); position: relative; overflow: hidden; }
+.site-footer .wrap-wide { position: relative; z-index: 1; }
+.site-footer h2 {
+  font-family: var(--sett-grotesk);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  letter-spacing: -.01em;
+}
+.site-footer .footer-nav a,
+.footer-nav a {
+  font-family: var(--sett-grotesk);
+  font-size: .74rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--body);
+}
+.site-footer .footer-nav a:hover, .footer-nav a:hover { color: var(--sett-orange); }
+.site-footer .footer-bottom, .footer-bottom { border-top-color: var(--sett-rule-firm); }
+.site-footer .footer-contact, .footer-contact { font-size: .95rem; }
+
+/* 05.02: the icon printed into the sheet, cropped by its own edge. */
+.site-footer::after {
+  content: "";
+  position: absolute; right: -60px; bottom: -90px;
+  width: 260px; aspect-ratio: var(--sett-icon-ratio);
+  background: #e6e1d6;
+  -webkit-mask: var(--sett-icon) center / contain no-repeat;
+          mask: var(--sett-icon) center / contain no-repeat;
+  pointer-events: none; z-index: 0;
+}
+
+.cookie { background: var(--sett-black); }
+.cookie .cookie-actions .refuse,
+.cookie-actions .refuse {
+  background: transparent; border: 1px solid rgba(255,255,255,.55);
+  border-radius: 0; font-family: var(--sett-grotesk);
+  font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+}
+.cookie .cookie-actions .refuse:hover, .cookie-actions .refuse:hover { background: rgba(255,255,255,.14); }
+.cookie .cookie-actions button, .cookie-actions button {
+  font-family: var(--sett-grotesk); font-size: .72rem;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+
+.toast { background: var(--sett-black); border-radius: 0; font-family: var(--sett-grotesk); }
+
+
+/* ==========================================================================
+   13. REPLICA-PAGE SET PIECES
+   ========================================================================== */
+
+/* The three "hoe werkt het" columns — the icons were orange line drawings on
+   a grey page; they are ink on white now, over the section mark. */
+.col-icon { color: var(--sett-black); margin-bottom: 20px; }
+.col-icon svg { width: 34px; height: 34px; }
+.cols3 { gap: clamp(28px, 4vw, 56px); }
+
+.lede {
+  font-family: var(--sett-display);
+  font-weight: 400;
+  text-transform: none;
+  color: var(--sett-black);
+  line-height: 1.3;
+}
+.lede .hl { color: var(--sett-orange); }
+
+/* The video panel keeps its scrim: type is set over the footage there, so the
+   ground has to carry it. Measured against the brightest pixel the glyphs
+   actually cover in the poster, not assumed: 5.58:1 at .58, where the old .48
+   gave 3.9. */
+.video-cta::after { background: rgba(0,0,0,.58); }
+.video-cta h2 { font-family: var(--sett-grotesk); font-weight: 400; color: #fff; }
+
+.faq-item { border-bottom-color: var(--sett-rule); }
+.faq-q {
+  font-family: var(--sett-grotesk);
+  font-weight: 500; font-size: .95rem;
+  letter-spacing: .01em; color: var(--sett-black);
+  padding: 22px 4px;
+}
+.faq-q:hover { color: var(--sett-orange); }
+.faq { max-width: 900px; }
+
+.split img { border-radius: 0; }
+
+/* The card-spec glyphs draw in currentColor now (see build.py) — ink, like
+   every other line drawing on the page. */
+.prod-spec { color: var(--sett-black); }
+.prod-spec svg { width: 26px; height: 26px; }
+.section-head { margin-bottom: 32px; }
+
+
+/* ==========================================================================
+   14. CATALOGUE SET PIECES
+   ========================================================================== */
+
+.shop-hero-eyebrow { color: var(--sett-black); }
+.pdp-eyebrow { color: var(--sett-black); }
+
+/* The catalogue's opening statement now sits on the white field (05.01), so
+   it is black type with no scrim and no text shadow to survive. */
+.shop-hero-title {
+  color: var(--sett-black);
+  text-shadow: none;
+  max-width: 24ch;
+  font-size: clamp(1.8rem, 4.4vw, 3.9rem);
+  line-height: 1.12;
+  margin: 0;
+}
+
+/* 04.02 — the montage as a hard-edged plate under the statement. Nothing is
+   set over it, so it carries no gradient. */
+.shop-plate { overflow: hidden; }
+.shop-plate video,
+.shop-plate img.poster {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.shop-plate img.poster { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .shop-plate video { display: none; }
+  .shop-plate img.poster { display: block; }
+}
+
+.facet { border-top-color: var(--sett-rule); }
+.check input { accent-color: var(--sett-black); }
+#filters { border-radius: 0; }
+
+
+/* .pack-mark is the section numeral now (3b), not the icon. On beige it stays
+   ink; the duo's numeral (section 18) sits on blue and takes the field's own
+   tonal step, which is 05.05's "READY SETT GO!" treatment. */
+.pack-mark { color: var(--sett-black); }
+
+.pack-title, .shop-hero-title {
+  font-family: var(--sett-grotesk);
+  font-weight: 400;
+  letter-spacing: -.012em;
+}
+.pack-cta { border-top-color: rgba(0,0,0,.22); }
+
+
+.stickybar { border-top-color: var(--sett-rule); backdrop-filter: none; background: #fff; }
+.thumb { border-color: var(--sett-rule); }
+.thumb[aria-current="true"] { border-color: var(--sett-black); }
+
+.v-chip {
+  border-radius: 0;
+  font-family: var(--sett-grotesk);
+  letter-spacing: .14em;
+  background: rgba(0,0,0,.5);
+  border-color: rgba(255,255,255,.5);
+  backdrop-filter: none;
+}
+
+
+/* ==========================================================================
+   15. REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; }
+}
+
+
+/* ==========================================================================
+   16. THE BOOK'S PAGE ARCHITECTURE
+   Everything above this point was colour, type and the icon. This section is
+   the part of the brandbook the site had not taken at all: how a SETT page is
+   actually built.
+   ========================================================================== */
+
+/* 16a. Nothing is centred.
+   All 32 pages of the book are flush left — folio, caption, body, artwork.
+   Two headings on this site were centred over a centred rule of text, which
+   is the one composition the book never makes. */
+.section h2.center,
+.section .center > p,
+.section-head h2.center {
+  text-align: left;
+}
+.section h2.center::before { margin-inline: 0; }
+.center > .sett-section-mark,
+.sett-section-mark.center { margin-inline: 0; }
+.section .center { text-align: left; }
+
+
+/* 16b. Enumerated columns — 03.01's own layout.
+   The three "hoe werkt het" columns carried hand-drawn line icons. The book
+   has no icon set at all; where it lists a set of things (03.01's Koppen /
+   Subtitels / Broodtekst / Voetnoot / Citaat, or its index pages) it uses a
+   hairline, a numeral, and type. The columns are that now, which also makes
+   them read as one system with the webshop's "in elke doos" list. */
+.cols3 { counter-reset: sett-col; }
+.cols3 > * {
+  border-top: 1px solid var(--sett-rule-firm);
+  padding-top: 16px;
+}
+.cols3 > *::before {
+  counter-increment: sett-col;
+  content: counter(sett-col, decimal-leading-zero);
+  display: block;
+  font-family: var(--sett-grotesk);
+  font-weight: 300;
+  font-size: .82rem;
+  letter-spacing: .18em;
+  line-height: 1;
+  color: var(--sett-black);
+  margin-bottom: 14px;
+}
+.col-icon { display: none; }
+
+
+/* 16c. Type is never set over a photograph — 05.01, 05.07, 05.09.
+   The book is absolute about this. Its own website page stacks the statement
+   ABOVE the picture; the posters put the photograph in the top rectangle and
+   the type on the flat field beneath it; every social tile does one or the
+   other, never both in the same frame. The heroes were fixed in the previous
+   round, but this panel was still a headline and a paragraph sitting on
+   footage behind a 48%-black scrim.
+
+   It is the 05.07 poster now: the photograph as a hard-edged rectangle on
+   top, the type on the white field below it. The scrim goes with it — there
+   is nothing left to make legible — and so does the contrast risk, because
+   black on white is 21:1 instead of white on an unknown pixel.
+
+   The player still covers the picture on click; it is bounded to the picture
+   instead of to the whole panel, so the copy no longer sits behind a playing
+   video. That is also why it may stay visible now. */
+.video-cta {
+  --photo-h: clamp(230px, 30vw, 430px);
+  display: block;
+  min-height: 0;
+  padding: 0;
+  border: 1px solid var(--sett-rule);
+  border-radius: 0;
+  background-color: var(--sett-white);
+  background-size: 100% var(--photo-h);
+  background-position: top center;
+  background-repeat: no-repeat;
+  color: var(--sett-black);
+}
+.video-cta::after { content: none; }
+.video-cta > div { max-width: none; }
+.video-cta-copy {
+  margin-top: var(--photo-h);
+  padding: clamp(26px, 3vw, 40px) clamp(22px, 4vw, 56px) clamp(30px, 4vw, 46px);
+  max-width: 66ch;
+}
+.video-cta h2 { color: var(--sett-black); font-family: var(--sett-grotesk); font-weight: 600; }
+.video-cta p  { color: var(--body); }
+.video-cta-player { height: var(--photo-h); bottom: auto; }
+.video-cta.playing .video-cta-copy { opacity: 1; visibility: visible; }
+
+
+/* 16d. The margin column — the architecture of every page of the book.
+   A SETT brandbook page is built the same way 32 times: a narrow left column
+   carrying the running head, the folio ("01.03") and the caption; a single
+   vertical hairline; then the content, which starts at the far side of that
+   rule and runs to the edge of the sheet. 05.01 is that page with a website
+   in the right-hand column.
+
+   The statement field is that page now. The numeral and the eyebrow move into
+   the margin, the hairline appears between the two columns, and the statement
+   sits where the artwork sits in the book.
+
+   Only above 1180px, where there is a margin to give away. Below that the
+   field stays single-column and the numeral stays above the statement, which
+   is what the book's own narrow formats (05.02, 05.05, 05.09) do. */
+@media (min-width: 1180px) {
+  .sett-statement-inner {
+    display: grid;
+    grid-template-columns: minmax(158px, 19%) minmax(0, 1fr);
+    /* three EXPLICIT rows: numeral, caption, foot. They have to be explicit,
+       or "grid-row: 1 / -1" on the rule below resolves against the single
+       explicit line pair and the hairline only spans the first row. */
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: var(--sett-gutter, clamp(30px, 3.4vw, 56px));
+    align-items: start;
+  }
+  .sett-statement-inner > * { grid-column: 2; }
+  .sett-statement-inner > .sett-section-mark,
+  .sett-statement-inner > .t-label { grid-column: 1; }
+  .sett-statement-inner > .sett-section-mark { grid-row: 1; margin-bottom: 14px; }
+  .sett-statement-inner > .t-label { grid-row: 2; }
+  .sett-statement-inner > h1 { grid-row: 1 / span 2; }
+  .sett-statement-inner > .sett-sub { grid-row: 3; }
+  .sett-statement-inner > .sett-statement-foot { grid-row: 4; margin-top: clamp(26px, 3vw, 44px); }
+
+  /* the rule itself, centred in the gutter */
+  .sett-statement-inner::before {
+    content: "";
+    grid-column: 1; grid-row: 1 / 5;
+    justify-self: end; align-self: stretch;
+    width: 1px;
+    background: var(--sett-rule);
+    margin-right: calc(var(--sett-gutter, clamp(30px, 3.4vw, 56px)) / -2);
+  }
+}
+
+/* 16e. The spine — 05.03.
+   The brochure cover sets WWW.SETT.DESIGN small, rotated and hard against the
+   bottom-left corner, climbing the spine. The rail was doing this already but
+   centred on the field's height, which is not where the book puts it. */
+.sett-rail {
+  top: auto; bottom: clamp(28px, 4vw, 56px);
+  transform: rotate(180deg);
+}
+
+
+/* 16f. The PDP tutorial module — the same 05.07 poster.
+   This was the last place on the site where type sat on a picture: a white
+   caption over a bottom-up black gradient on the footage. The book puts the
+   photograph in the rectangle and the words on the field under it, so that is
+   what this is now — which also means the caption no longer has to be checked
+   against whatever pixel happens to be behind it (it was the worst reading on
+   the site at 4.82:1; it is 21:1 on white now).
+
+   The overlay becomes a static row beneath the frame. Nothing about the
+   player changes: video.js drives [data-playing] on the host and the same
+   button still toggles it. */
+.v-inline {
+  aspect-ratio: auto;
+  overflow: visible;
+  border: 1px solid var(--sett-rule);
+  border-radius: 0;
+  background: var(--sett-white);
+}
+.v-inline video {
+  aspect-ratio: 16 / 10;
+  height: auto;
+  display: block;
+}
+.v-inline-overlay {
+  position: static;
+  inset: auto;
+  background: none;
+  padding: 16px 18px 18px;
+  align-items: center;
+  gap: 16px;
+  pointer-events: auto;
+}
+.v-inline[data-playing] .v-inline-overlay { background: none; }
+.v-inline-overlay .label {
+  color: var(--sett-black);
+  font-family: var(--sett-grotesk);
+  font-weight: 600;
+}
+.v-inline-overlay .label span { color: var(--muted); opacity: 1 !important; }
+/* the caption is no longer behind the video, so it stays put while it runs */
+.v-inline[data-playing] .v-inline-overlay .label { opacity: 1; }
+.v-inline .v-play { flex: 0 0 auto; width: 52px; height: 52px; }
+
+
+/* 16g. The tutorial grid — 04.02.
+   "Fotografie" on 04.01 and 04.02 is always a tight grid of hard-edged
+   rectangles sharing an edge. The two tutorial sheets held clips of different
+   aspect (one 16:10, one near-portrait with its letterboxing baked in), so
+   the row had no common baseline and one sheet ran twice the height of the
+   other. Both frames are one ratio now and the media covers it, which is what
+   every other picture box on the site already does. */
+.tut-card video,
+.tut-card img {
+  aspect-ratio: 16 / 10;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  background: var(--sett-black);
+}
+.tut-grid { align-items: start; }
+
+
+/* ==========================================================================
+   17. THE BILINGUAL VOICE — 01.05 + 03.01
+   The brandbook is itself bilingual, and consistently so: every word of body
+   copy in it is Dutch ("Een logo-icoon is het grafische symbool…", "Hier geven
+   we voorbeelden…"), and every BASELINE is English — "SETT THE TABLE FOR
+   UNFORGETTABLE MOMENTS.", "THE PRODUCT IS THE RESULT. THE MOMENT IS THE
+   REASON.", "NOT MADE TO BUY. MADE TO CREATE."
+
+   So the site does not have to choose. Display baselines are English, in the
+   book's own words where the book's own words fit; captions, headings, product
+   copy and every control stay Dutch, because that is both the book's pattern
+   and the shop's audience. The English runs carry lang="en" so a screen reader
+   changes voice on them instead of reading English through a Dutch synthesiser.
+   ========================================================================== */
+
+/* 03.01 Subtitel — "Iets groter dan de broodtekst, kan licht vetgedrukt zijn."
+   Under the baseline, this is where the Dutch proposition lands. */
+.sett-sub {
+  font-family: var(--sett-grotesk);
+  font-weight: 500;
+  font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+  line-height: 1.3;
+  letter-spacing: -.008em;
+  color: var(--sett-black);
+  max-width: 34ch;
+  margin: clamp(22px, 2.6vw, 34px) 0 0;
+}
+
+
+/* ==========================================================================
+   18. THE DUO — 02.02
+   The second composition on the Kleurgebruik page, and the one the site did
+   not have: a photograph as a hard-edged rectangle butted straight against a
+   flat colour field, with the baseline set into the field. No gap, no border,
+   no radius — the two rectangles share an edge, which is the whole device.
+
+   02.03 marks the failure mode directly opposite it: the same pairing with a
+   second accent introduced. So the field carries one tint, and the type on it
+   is that tint's own tonal step (05.05) — never another colour from the
+   palette.
+   ========================================================================== */
+
+.sett-duo {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+  position: relative;
+}
+@media (min-width: 860px) {
+  .sett-duo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+
+.sett-duo-media { position: relative; overflow: hidden; min-height: clamp(260px, 34vw, 520px); }
+.sett-duo-media img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  border-radius: 0;
+}
+
+.sett-duo-field {
+  position: relative;
+  display: flex; flex-direction: column;
+  padding: clamp(28px, 3.4vw, 56px);
+  min-height: clamp(300px, 34vw, 520px);
+}
+.sett-duo-field .sett-section-mark { margin-bottom: clamp(18px, 2.4vw, 30px); }
+
+/* 05.09 signs the foot of a tile with the URL, small and in caps — not with
+   the icon. This is the signature the beans at the bottom of every card were
+   standing in for. One per page, on the closing composition. */
+.sett-foot-sig {
+  margin-top: auto;
+  padding-top: clamp(20px, 2.6vw, 32px);
+  font-family: var(--sett-grotesk);
+  font-weight: 500;
+  font-size: .68rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--sett-black);
+}
+
+/* The baseline inside the field. 05.09's blue tile runs it vertically, reading
+   bottom-to-top with the lines stacked across — 01.06 and 05.03 do the same on
+   the brochure cover. It only runs that way where the field is tall enough to
+   set it in; below 860px the field is short and wide and it stays horizontal,
+   which is 02.02's own pink composition. */
+.sett-duo-line { margin: 0; }
+@media (min-width: 860px) {
+  .sett-duo-line {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    flex: 1 1 auto;
+    max-height: 100%;
+    /* the rotated block is only as wide as its lines; centre it in the field
+       rather than letting it stretch and sit hard against the left edge, which
+       is where 05.09 sets it */
+    align-self: center;
+  }
+  /* .spread justifies along the inline axis, which in vertical writing mode is
+     the vertical one — so the words push to the top and bottom edges of each
+     line exactly as they push left and right when horizontal. Nothing about
+     the device changes; only the axis does. */
+  .sett-duo-line > span { align-items: stretch; }
+}
+
+
+/* 19. Measure.
+   A .spread line is justified across its measure, so the measure IS the device:
+   too wide and the word gaps stop reading as gaps and start reading as columns.
+   The book sets each baseline over a measure a little wider than its own
+   longest line — on 01.05 "TO BUY. MADE" sits in a block maybe a fifth wider
+   than the words themselves.
+
+   940px is right for a long line ("DIY MET TOPKWALITEIT."). It is much too wide
+   for a three-word one: at 1440 it threw ~200px between "TO" and "BUY.".
+   .spread-narrow is the short-line measure. */
+.sett-statement .spread-narrow { max-width: min(100%, 600px); }
+
+
+/* ==========================================================================
+   20. THE MARGIN COLUMN, EVERYWHERE — the book's architecture
+   Section 16d put the brandbook's page architecture on the statement field:
+   a narrow left column carrying the folio and the caption, one vertical
+   hairline, then the content. But the book does that on all 32 of its pages,
+   and the site was doing it on one composition per page — everything below the
+   hero sat in a plain centred container with the caption inline above the
+   heading, which is a web layout, not a SETT page.
+
+   .sett-margin is that architecture as a reusable wrapper. It goes INSIDE the
+   padded container rather than on it, because the hairline is placed as a
+   percentage and has to resolve against the same box the grid columns do.
+   ========================================================================== */
+
+.sett-margin { position: relative; }
+
+/* The head is what moves into the margin: the folio numeral and the caption,
+   in that order, exactly as the book stacks them. */
+.sett-margin-head > .t-label { margin: 0; color: var(--muted); }
+
+@media (min-width: 1180px) {
+  .sett-margin {
+    display: grid;
+    grid-template-columns: minmax(158px, 19%) minmax(0, 1fr);
+    column-gap: clamp(30px, 3.4vw, 56px);
+    align-items: start;
+  }
+  .sett-margin > * { grid-column: 2; }
+  .sett-margin > .sett-margin-head { grid-column: 1; grid-row: 1; }
+
+  /* The hairline. It is absolute rather than a grid item because the sections
+     that take this wrapper have different numbers of children: a grid pseudo
+     set to `grid-row: 1 / -1` spans only the EXPLICIT grid, which is one row
+     when every row is implicit, so it would stop under the first block. This
+     is the same trap 16d records, solved the other way round — there the rows
+     could be enumerated, here they cannot.
+     19% is exact rather than approximate: minmax(158px, 19%) resolves to the
+     percentage at every width this query covers (19% of the narrowest content
+     box it sees is 200px, well over the 158px floor). */
+  .sett-margin::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    left: calc(19% + clamp(30px, 3.4vw, 56px) / 2);
+    width: 1px;
+    background: var(--sett-rule);
+  }
+  /* On a tint the hairline is that tint's own darker step, never the white
+     page's rule colour — one tint per composition (02.02). */
+  .band-beige .sett-margin::before,
+  .band-blue  .sett-margin::before,
+  .band-green .sett-margin::before,
+  .band-pink  .sett-margin::before { background: rgba(0, 0, 0, .28); }
+}
+
+/* Below 1180 there is no margin to give away, so it stacks — which is what the
+   book's own narrow formats (05.02, 05.05, 05.09) do. The head keeps the
+   numeral over the caption and the content follows. */
+@media (max-width: 1179px) {
+  .sett-margin-head { margin-bottom: clamp(20px, 2.6vw, 30px); }
+}
+
+
+/* 20b. The book's list form — 03.01.
+   Where the brandbook lists a set of things it uses a hairline, a small
+   numeral and type, and nothing else: 03.01's own Koppen / Subtitels /
+   Broodtekst / Voetnoot / Citaat columns are built that way, and so are its
+   index pages. This is the same device as .pack-item (3c), for a list that
+   runs down rather than across. */
+.sett-list {
+  list-style: none;
+  padding: 0;
+  counter-reset: sett-li;
+}
+.sett-list > li {
+  display: grid;
+  grid-template-columns: 2.4em minmax(0, 1fr);
+  gap: 0 14px;
+  align-items: baseline;
+  border-top: 1px solid var(--sett-rule);
+  padding: 12px 0;
+  color: var(--sett-black);
+  font-size: .875rem;
+  line-height: 1.45;
+}
+.sett-list > li::before {
+  counter-increment: sett-li;
+  content: counter(sett-li, decimal-leading-zero);
+  font-family: var(--sett-grotesk);
+  font-weight: 300;
+  font-size: .78rem;
+  letter-spacing: .18em;
+  line-height: inherit;
+  color: var(--sett-black);
+}
+
+
+/* 20c. The three category posters, butted — 04.01 / 04.02 / 02.02.
+   "Fotografie" on 04.01 and 04.02 is a TIGHT grid: rectangles sharing their
+   edges, no gutter and no radius. 02.02's duo makes the same point about a
+   photograph against a flat field. The three posters were separate cards with
+   a 16px gap floating on white, which is the one arrangement neither page
+   makes, so they share their edges now.
+
+   The hover lift goes with the gap: a shared edge that opens up by 4px on
+   hover is not a shared edge, and the book has no motion in it anyway. The
+   photograph still answers the pointer with its own slow zoom, bounded by the
+   rectangle. */
+.cat-tiles-tight { gap: 0; }
+.cat-tiles-tight .cat-tile:hover { transform: none; }
+.cat-tiles-tight .cat-tile:focus-visible { outline-offset: -3px; }
+
+/* 20d. The catalogue's own chapter opener.
+   Flush left, not in the margin column — and that is not an exception, it is
+   the same alignment. The margin column starts at the container's left edge, so
+   its numeral sits at exactly the x a flush-left numeral does: 01, 02 and 03
+   line up down the page either way. What differs is the BODY. The two sections
+   above have a body beside the margin, so their content moves into column 2.
+   The catalogue's body is its own two-column filter-and-grid layout running the
+   full width beneath, so a heading indented 286px over a flush-left toolbar
+   reads as a mistake rather than as a device. The book indents a content column
+   when there is a column to indent; a chapter opener over full-width artwork is
+   flush with the artwork. */
+.catalog-head { margin-bottom: clamp(26px, 3vw, 40px); }
+.catalog-head .t-label { margin: 0 0 .7em; color: var(--muted); }
+.catalog-head h2 { margin: 0; }
+
+
+/* ==========================================================================
+   21. THE PRODUCT PAGE
+   The PDP was the one page in the build with no composition on it: no margin
+   column, no flat tint, no baseline, no closing field. It had the brand layer's
+   colour and type over the original catalogue layout. These are the book's
+   compositions arriving on it.
+   ========================================================================== */
+
+/* 21a. The running head.
+   Every page of the brandbook carries one in the margin column, above the
+   folio. The breadcrumb is the site's running head, so it is set the way the
+   book sets one — small, wide, upper-case, stacked, with no drawn separators.
+   The "/" characters are gone: the book separates a running head's parts by
+   position, and a slash between two links is punctuation a screen reader has
+   to read past. */
+.sett-runhead { margin-top: clamp(16px, 2vw, 24px); }
+.sett-runhead ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 5px;
+  font-family: var(--sett-grotesk);
+  font-size: .64rem;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+.sett-runhead a { color: var(--muted); text-decoration: none; }
+.sett-runhead a:hover { color: var(--sett-orange); }
+.sett-runhead [aria-current="page"] { color: var(--sett-black); }
+@media (max-width: 1179px) {
+  /* stacked in the margin, in a row when there is no margin */
+  .sett-runhead ol { grid-auto-flow: column; justify-content: start; gap: 14px; }
+  .sett-runhead { margin-top: 12px; }
+}
+
+/* 21b. The beige field — 02.02.
+   The description and the specifications share one tint. The hairlines in it
+   are the tint's own darker step, not the white page's rule colour: a rule at
+   #e0dcd4 on #e4d8bc is invisible. */
+.pdp-detail-grid {
+  display: grid;
+  gap: clamp(32px, 4vw, 64px);
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 900px) {
+  .pdp-detail-grid { grid-template-columns: 1.1fr .9fr; }
+}
+.pdp-detail-grid h2 { margin: 0 0 clamp(18px, 2.2vw, 26px); }
+.pdp-detail .spec-row { border-top-color: rgba(0, 0, 0, .28); }
+/* .btn-ghost is a hairline button; on beige the page's rule colour all but
+   disappears, so "Lees meer" takes the ink outline the field can carry. */
+.pdp-detail .btn-ghost { border-color: var(--sett-black); }
+.pdp-detail .btn-ghost:hover { background: var(--sett-black); color: var(--sett-white); }
+
+/* 21c. The closing field — 02.02 + 01.05 + 05.05.
+   Horizontal, not rotated: the duo runs its baseline up the spine because it
+   is half a spread with a photograph beside it, and this is a full-width field
+   with nothing to run alongside. 02.02's own pink composition sets its line
+   flat, and that is this one. The measure keeps the justified gaps reading as
+   gaps rather than as columns (§19). */
+.pdp-close-line {
+  max-width: min(100%, 900px);
+  font-size: clamp(1.5rem, 3.4vw, 3rem);
+}
+.pdp-close .sett-duo-foot { margin-top: clamp(30px, 4vw, 52px); }
+
+/* On a flat tint the caption is full ink, not the page's muted grey. This is
+   the rule section 9 already applies to .muted and .subtle inside a band, and
+   the margin-column caption needs it for the same reason: #55504b measures
+   3.32:1 on 02.01 green at the caption's 11.2px, which is under AA. Black on
+   green is 7.4:1, and black on a tint is what the book sets anyway. */
+.band-beige .sett-margin-head > .t-label,
+.band-blue  .sett-margin-head > .t-label,
+.band-green .sett-margin-head > .t-label,
+.band-pink  .sett-margin-head > .t-label { color: var(--sett-black); }

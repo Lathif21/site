@@ -45,6 +45,10 @@
   --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 96px; --sp-10: 128px;
 
   /* — Radii — */
+  /* Brand icon, brandbook 01.03 -- lifted from the brandbook vector,
+     not redrawn. 01.03 allows the icon to stand on its own. */
+  --sett-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 164.470 213.533' fill='%23000' role='img' aria-label='Sett'%3E%3Cpath d='M139.8 82.063 C131.82 88.639 129.37 99.971 134.23 109.095 C164.47 165.91 98.78 213.533 35.37 199.363 C0.0 191.458 3.4 149.794 27.48 134.231 C37.09 128.022 39.84 115.311 34.5 105.196 C5.18 49.671 60.73 0.0 128.32 19.015 C162.52 28.637 160.37 65.1 139.8 82.063 Z'/%3E%3C/svg%3E");
+
   --r-sm: 4px; --r-md: 8px; --r-lg: 16px; --r-xl: 28px; --r-pill: 999px;
 
   /* — Elevation — */
@@ -491,10 +495,11 @@ select.select {
    Decorative only; aria-hidden in the markup. */
 .band-blob {
   position: absolute;
-  border-radius: var(--blob-1);
   pointer-events: none;
   z-index: 0;
   opacity: .55;
+  -webkit-mask: var(--sett-icon) center / contain no-repeat;
+          mask: var(--sett-icon) center / contain no-repeat;
 }
 
 /* ---------- tonal display type ---------- */
@@ -636,6 +641,18 @@ select.select {
 .beat { padding-block: var(--sp-9); }
 .beat-line { max-width: 18ch; }
 /* Same badge as the pack and tile icons, so the three read as one system. */
+/* The logo-icoon used on its own, which is what 01.03 sanctions. Masked so it
+   takes its colour from the field it marks. */
+.sett-mark {
+  display: block;
+  width: 38px; aspect-ratio: 164 / 213.5;
+  background: currentColor;
+  -webkit-mask: var(--sett-icon) center / contain no-repeat;
+          mask: var(--sett-icon) center / contain no-repeat;
+}
+.beat-mark { color: var(--c-blue-tonal); margin: 0 0 var(--sp-6); }
+.pack-mark { color: var(--c-ink); width: 30px; margin: 0 0 var(--sp-4); }
+
 .beat-icon {
   display: grid; place-items: center;
   width: 44px; height: 44px;
@@ -874,7 +891,27 @@ select.select {
 }
 .v-inline-overlay .label {
   font-family: var(--font-heading); font-weight: 600; font-size: .9375rem; color: #fff;
+  transition: opacity var(--dur-base) var(--ease-out);
 }
+
+/* The overlay is inset:0, so without this it sits over the whole frame and eats
+   every click meant for the video — only the button is meant to be hit. */
+.v-inline-overlay { pointer-events: none; }
+.v-inline-overlay .v-play { pointer-events: auto; }
+.v-inline video { cursor: pointer; }
+
+/* Play/pause on one button: the glyph follows [data-playing] on the host, which
+   video.js drives from the video's own events. */
+.v-play .v-icon-pause { display: none; }
+.v-inline[data-playing] .v-play .v-icon-play { display: none; }
+.v-inline[data-playing] .v-play .v-icon-pause { display: block; }
+
+/* While it runs, let the footage through: the caption has done its job and the
+   scrim only needs to keep the button legible. */
+.v-inline[data-playing] .v-inline-overlay {
+  background: linear-gradient(180deg, rgba(20,18,16,0) 62%, rgba(20,18,16,.40) 100%);
+}
+.v-inline[data-playing] .v-inline-overlay .label { opacity: 0; }
 
 /* Video as the first gallery slot on the PDP. */
 .thumb-video { position: relative; }
@@ -885,7 +922,11 @@ select.select {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .v-ambient, .shop-hero-media video, .v-inline video { display: none; }
+  /* Only the ambient, autoplaying clips are suppressed. .v-inline is
+     poster-first and plays on an explicit click, and hiding it meant the
+     visitor pressed play and then watched a blank box — the preference is
+     about motion they did not ask for, not motion they requested. */
+  .v-ambient, .shop-hero-media video { display: none; }
   .shop-hero-media img.poster { display: block; }
 }
 

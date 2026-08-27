@@ -12,23 +12,48 @@
    ------------------------------------------------------------------ */
 
 (function () {
-  function play(video, btn) {
-    video.removeAttribute('data-idle');
-    if (!video.hasAttribute('controls')) video.setAttribute('controls', '');
-    video.removeAttribute('aria-hidden');
-    video.removeAttribute('tabindex');
-    const r = video.play();
-    if (r) r.catch(function () {});
-    if (btn) btn.hidden = true;
-  }
-
+  /* The trigger is a play/pause toggle, because a tutorial is something you
+     stop halfway to go and do the thing. The button drives the video, and the
+     video's own events drive the button — so the icon and the label stay right
+     whether playback changed from the button, from the keyboard, or by the clip
+     running out. State lives on the .v-inline host as [data-playing] so CSS can
+     swap the glyph and lift the gradient without another class to keep in sync. */
   document.querySelectorAll('[data-video-trigger]').forEach(function (btn) {
-    const target = document.getElementById(btn.getAttribute('data-video-trigger'));
-    if (!target) return;
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      play(target, btn);
+    var video = document.getElementById(btn.getAttribute('data-video-trigger'));
+    if (!video) return;
+    var host = video.closest('.v-inline') || video.parentElement;
+    var labelPlay  = btn.getAttribute('data-label-play')  || btn.getAttribute('aria-label');
+    var labelPause = btn.getAttribute('data-label-pause') || labelPlay;
+
+    function sync() {
+      var playing = !video.paused && !video.ended;
+      btn.setAttribute('aria-label', playing ? labelPause : labelPlay);
+      if (host) {
+        if (playing) host.setAttribute('data-playing', '');
+        else host.removeAttribute('data-playing');
+      }
+    }
+
+    function toggle(e) {
+      if (e) e.preventDefault();
+      if (video.paused || video.ended) {
+        video.removeAttribute('data-idle');
+        video.removeAttribute('aria-hidden');
+        video.removeAttribute('tabindex');
+        var r = video.play();
+        if (r && r.catch) r.catch(function () {});
+      } else {
+        video.pause();
+      }
+    }
+
+    btn.addEventListener('click', toggle);
+    /* the overlay no longer swallows clicks, so the frame itself is a target */
+    video.addEventListener('click', toggle);
+    ['play', 'pause', 'ended'].forEach(function (ev) {
+      video.addEventListener(ev, sync);
     });
+    sync();
   });
 })();
 
