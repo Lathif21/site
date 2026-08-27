@@ -1,0 +1,430 @@
+/* ==========================================================================
+   SETT SET PIECES
+   ../SETT_Brandbook_compressed.pdf + ../Sett_Brand_Guidelines_EN.md
+
+   The webshop's catalogue worked out one composition — a full-bleed near-black
+   field, a heavy two-line Franklin heading with the lede ranged opposite, and
+   photographic cards with the type set into the image. It was written page-local
+   because it was one section. It is four sections across four pages now, so it
+   lives here instead, generalised: nothing in this file names a page or a
+   section, and the catalogue keeps its own overrides in webshop.html.
+
+   Loaded AFTER brand.css, which is itself loaded after site.css. So the order
+   is: site.css (the replica's layout) → brand.css (the identity: colour, type,
+   the book's page architecture) → this (the set pieces built out of both).
+
+   Every rule cites the brandbook page or the guidelines section it comes from.
+   The ONE thing here the book does not sanction is the corner radius on the
+   cards: that comes from the reference the client supplied, and it is confined
+   to .sett-card / .sett-poster.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. THE DARK FIELD — 2.1 Zwart, 5.6's "solid color blocks"
+   A page-width band that breaks out of whatever container it is written in.
+   ========================================================================== */
+
+.sett-dark {
+  --dk-field:    #0d0d0d;
+  --dk-ink:      #ffffff;
+  --dk-ink-mid:  rgba(255, 255, 255, .74);
+  --dk-ink-low:  rgba(255, 255, 255, .52);
+  --dk-rule:     rgba(255, 255, 255, .16);
+  --dk-rule-mid: rgba(255, 255, 255, .28);
+  --dk-r:        16px;
+  --dk-pill:     999px;
+
+  position: relative;
+  background: var(--dk-field);
+  color: var(--dk-ink);
+  padding-block: clamp(52px, 6.5vw, 104px);
+}
+
+/* the inner column, matching site.css's own .wrap-wide measure */
+.sett-dark-inner {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+@media (min-width: 768px)  { .sett-dark-inner { padding-inline: 40px; } }
+@media (min-width: 1024px) { .sett-dark-inner { padding-inline: 64px; } }
+
+/* 01.06 / 05.03 — the baseline climbing the spine, in the outer margin */
+.sett-dark .sett-rail { color: var(--dk-ink-low); top: clamp(140px, 18vh, 280px); transform: rotate(180deg); }
+
+
+/* ==========================================================================
+   2. THE MASTHEAD — 01.01's chapter opener, 03.01's index
+   An eyebrow with a terracotta dot, a heavy two-line heading, and a short lede
+   ranged against it.
+   ========================================================================== */
+
+.sett-masthead {
+  display: grid;
+  gap: clamp(20px, 3vw, 48px);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: end;
+  margin-bottom: clamp(30px, 4vw, 56px);
+}
+@media (min-width: 900px) {
+  .sett-masthead { grid-template-columns: minmax(0, 1.35fr) minmax(0, .65fr); }
+}
+
+/* 2.2's accent, at a size where it is a mark and not type — so its 3.8:1 on
+   the field does not have to carry anything */
+.sett-eyebrow {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 clamp(16px, 2vw, 24px);
+  font-family: var(--sett-grotesk);
+  font-weight: 600; font-size: .7rem;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--sett-beige);
+}
+.sett-eyebrow::before {
+  content: ""; flex: none;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--sett-orange);
+}
+/* on a light field the same eyebrow, in ink */
+.sett-light .sett-eyebrow { color: var(--sett-black); }
+
+/* 3.2 Franklin Gothic — "bold display statements, poster slogans, industrial
+   headers" */
+.sett-masthead-h,
+h1.sett-masthead-h,
+h2.sett-masthead-h {
+  margin: 0;
+  font-family: var(--sett-grotesk);
+  font-weight: 700;
+  font-size: clamp(2.3rem, 5.6vw, 4.3rem);
+  line-height: .98;
+  letter-spacing: -.035em;
+  color: inherit;
+}
+.sett-dark .sett-masthead-h { color: var(--dk-ink); }
+/* the shared counter in brand.css §3 numbers every h2 on a page; these
+   headings carry their own eyebrow instead */
+.sett-masthead-h::before { content: none; counter-increment: none; }
+
+.sett-masthead-lede {
+  margin: 0;
+  max-width: 42ch;
+  font-size: .95rem;
+  line-height: 1.62;
+  color: var(--dk-ink-mid);
+}
+.sett-light .sett-masthead-lede { color: var(--body); }
+
+/* the figures under the lede, as one quiet caption line */
+.sett-index {
+  display: flex; flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: clamp(14px, 1.8vw, 20px) 0 0;
+  font-family: var(--sett-grotesk);
+  font-weight: 500; font-size: .62rem;
+  letter-spacing: .17em; text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  color: var(--dk-ink-low);
+}
+.sett-light .sett-index { color: var(--muted); }
+.sett-index span { display: inline-flex; align-items: center; gap: 18px; }
+.sett-index span + span::before {
+  content: ""; width: 3px; height: 3px; border-radius: 50%;
+  background: currentColor; margin-left: -10px;
+}
+
+
+/* ==========================================================================
+   3. THE PHOTOGRAPHIC CARD — 4.2, 05.07, 05.09
+   The photograph is the card. The type is set into it over a scrim, the
+   caption rides top-left as a pill, and nothing floats over the image but
+   those two.
+   ========================================================================== */
+
+.sett-grid {
+  display: grid;
+  gap: clamp(14px, 1.5vw, 22px);
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+@media (min-width: 560px)  { .sett-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .sett-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.sett-grid-4 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+@media (min-width: 560px)  { .sett-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .sett-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* Layers, not a stacked grid. A grid whose single row is sized by its content
+   takes its height from the photograph's own ratio, so any plate taller than
+   4:5 pushed the caption past the card's aspect-ratio box and overflow:hidden
+   cut it off — the tall shots in the gallery lost their type entirely. The
+   image and the caption are positioned against the card instead, which is what
+   the pills and the numeral already do. */
+.sett-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--dk-r, 16px) !important;
+  overflow: hidden;
+  background: #1a1a1a;
+  transition: transform .3s cubic-bezier(.2, .7, .3, 1);
+}
+.sett-card:hover { transform: translateY(-4px); }
+.sett-card:focus-within { outline: 2px solid var(--sett-beige); outline-offset: 3px; }
+
+/* a card that is standing in a taller row keeps its own ratio */
+.sett-card-wide { aspect-ratio: 4 / 3; }
+.sett-card-tall { aspect-ratio: 3 / 4; }
+
+.sett-card > img,
+.sett-card > video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 0 !important;
+  transition: transform .5s cubic-bezier(.2, .7, .3, 1);
+}
+.sett-card:hover > img { transform: scale(1.05); }
+
+.sett-card-body {
+  position: absolute; inset: auto 0 0 0;
+  z-index: 2;
+  display: flex; flex-direction: column; gap: 7px;
+  padding: 74px 16px 16px;
+  background: linear-gradient(to top,
+              rgba(0,0,0,.90) 0%, rgba(0,0,0,.72) 38%, rgba(0,0,0,0) 100%);
+  color: #fff;
+}
+.sett-card-title {
+  margin: 0;
+  font-family: var(--sett-grotesk);
+  font-weight: 700; font-size: 1.06rem;
+  line-height: 1.22; letter-spacing: -.015em;
+  color: #fff;
+}
+.sett-card-title::before { content: none; counter-increment: none; }
+.sett-card-title a { color: inherit; text-decoration: none; }
+.sett-card:hover .sett-card-title a { color: var(--sett-beige); }
+.sett-card-sub {
+  margin: 0;
+  font-family: var(--sett-grotesk);
+  font-weight: 500; font-size: .82rem;
+  color: rgba(255, 255, 255, .74);
+}
+
+/* the shot's badge: a white pill at the top-left of the photograph */
+.sett-card-pill {
+  position: absolute; top: 13px; left: 13px; z-index: 3;
+  padding: 6px 12px;
+  background: #fff;
+  border-radius: var(--dk-pill, 999px);
+  color: #000;
+  font-family: var(--sett-grotesk);
+  font-weight: 700; font-size: .58rem;
+  letter-spacing: .16em; text-transform: uppercase;
+}
+/* …and a translucent one at the top-right for a second fact */
+.sett-card-tag {
+  position: absolute; top: 13px; right: 13px; z-index: 3;
+  padding: 6px 11px;
+  background: rgba(0, 0, 0, .55);
+  border: 1px solid rgba(255, 255, 255, .3);
+  border-radius: var(--dk-pill, 999px);
+  color: #fff;
+  font-family: var(--sett-grotesk);
+  font-weight: 600; font-size: .56rem;
+  letter-spacing: .14em; text-transform: uppercase;
+  backdrop-filter: blur(6px);
+}
+/* the index numeral, bottom-right — the book numbers everything it lists */
+.sett-card-num {
+  position: absolute; bottom: 15px; right: 16px; z-index: 3;
+  font-family: var(--sett-grotesk);
+  font-weight: 500; font-size: .62rem;
+  letter-spacing: .14em; line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, .45);
+  pointer-events: none;
+}
+
+/* the whole sheet is one link */
+.sett-card a.sett-stretch::after { content: ""; position: absolute; inset: 0; z-index: 4; }
+
+
+/* ==========================================================================
+   4. THE POSTER — 5.6
+   "Solid color blocks (Terracotta Orange / Black) displaying a baseline."
+   Sized like a card so it can stand in a grid cell.
+   ========================================================================== */
+
+.sett-poster {
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: 4 / 5;
+  padding: clamp(18px, 2vw, 26px);
+  background: var(--sett-orange);
+  border-radius: var(--dk-r, 16px);
+  color: #fff;
+  font-family: var(--sett-grotesk);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 1.45vw, 1.45rem);
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.sett-poster-black { background: #000; }
+/* a poster that runs the width of a grid rather than standing in one of its
+   cells — 5.6's slogan poster at banner proportions */
+.sett-poster-band {
+  aspect-ratio: auto;
+  min-height: clamp(150px, 17vw, 240px);
+  margin-top: clamp(14px, 1.5vw, 22px);
+  font-size: clamp(1.4rem, 3.4vw, 3rem);
+  line-height: 1.02;
+}
+.sett-poster-wide  { aspect-ratio: 4 / 3; }
+.sett-poster p { margin: 0; }
+
+
+/* ==========================================================================
+   5. CONTROLS ON THE FIELD
+   The pill the catalogue's quick filters and the shot's buttons share.
+   ========================================================================== */
+
+.sett-pill {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 11px 20px;
+  background: none;
+  border: 1px solid var(--dk-rule, rgba(255,255,255,.16));
+  border-radius: var(--dk-pill, 999px) !important;
+  color: inherit;
+  font-family: var(--sett-grotesk);
+  font-weight: 600; font-size: .66rem;
+  letter-spacing: .16em; text-transform: uppercase;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+.sett-pill:hover { border-color: var(--dk-rule-mid, rgba(255,255,255,.28)); }
+.sett-pill svg { width: 15px; height: 15px; }
+
+/* 2.2's "Accent & Statement": terracotta with white type — 4.74:1 */
+.sett-pill-solid {
+  background: var(--sett-orange);
+  border-color: var(--sett-orange);
+  color: #fff;
+}
+.sett-pill-solid:hover { background: var(--orange-dark); border-color: var(--orange-dark); color: #fff; }
+
+.sett-light .sett-pill { border-color: var(--sett-rule-firm); color: var(--sett-black); }
+.sett-light .sett-pill:hover { border-color: var(--sett-black); }
+
+
+/* ==========================================================================
+   6. A LIGHT FIELD, for the pages that want the composition without the black
+   ========================================================================== */
+
+.sett-light {
+  position: relative;
+  background: var(--sett-paper);
+  color: var(--sett-black);
+  padding-block: clamp(52px, 6.5vw, 104px);
+}
+.sett-light.sett-field-beige { background: var(--sett-beige); }
+.sett-light .sett-card-body { color: #fff; }
+
+
+@media (prefers-reduced-motion: reduce) {
+  .sett-card, .sett-card > img { transition-duration: 1ms; }
+  .sett-card:hover { transform: none; }
+}
+
+
+/* ==========================================================================
+   7. THE SEQUENCES
+   Three arrangements of the objects above: the numbered steps, the gallery,
+   and the tutorial grid.
+   ========================================================================== */
+
+/* 7a. The steps — 03.01's numbered set.
+   The card carries the photograph and the step's name; the copy sits under it
+   on the field, because a paragraph of forty words does not go into a scrim. */
+.sett-steps { list-style: none; margin: 0; padding: 0; counter-reset: none; }
+.sett-steps > li { display: flex; flex-direction: column; gap: 16px; }
+.sett-steps > li::before { content: none; }        /* brand.css §16b numbers <li> */
+.sett-step-copy p {
+  margin: 0 0 .8em;
+  font-size: .88rem;
+  line-height: 1.62;
+  color: var(--dk-ink-mid);
+}
+.sett-step-copy p:last-child { margin-bottom: 0; }
+
+/* the chapter's closing plate: the result beside 5.6's colour block */
+.sett-close {
+  display: grid;
+  gap: clamp(14px, 1.5vw, 22px);
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: clamp(28px, 3.5vw, 52px);
+}
+@media (min-width: 900px) {
+  .sett-close { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: stretch; }
+  .sett-close .sett-card-wide,
+  .sett-close .sett-poster-wide { aspect-ratio: auto; min-height: clamp(280px, 32vw, 460px); }
+}
+
+/* 7b. The gallery — 04.01's tight grid, loosened just enough that the rounded
+   corners read as corners. Every fourth plate runs landscape so the wall has
+   a rhythm instead of a stride. */
+.sett-gallery .sett-card-title {
+  font-weight: 500; font-size: .78rem;
+  letter-spacing: .02em; line-height: 1.4;
+  color: rgba(255, 255, 255, .9);
+}
+.sett-gallery .sett-card-body { padding-top: 56px; }
+
+/* 7c. The tutorials.
+   The one grid whose media must stay operable, so the type sits UNDER the
+   frame rather than into it: a scrim over a video with a play button on it is
+   two controls arguing. */
+.sett-tuts .tut-card { background: none; border: 0; padding: 0; }
+.sett-tuts .tut-card video {
+  width: 100%; height: auto; display: block;
+  border-radius: var(--dk-r) !important;
+  background: #1a1a1a;
+}
+.sett-tuts .tut-card h3 { color: var(--dk-ink); margin: 16px 0 6px; }
+.sett-tuts .tut-card p  { color: var(--dk-ink-mid); margin: 0; font-size: .88rem; }
+
+/* 7d. The row of calls to action a chapter closes on */
+.sett-dark-cta {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  margin: clamp(28px, 3.5vw, 48px) 0 0;
+}
+.sett-dark-cta .sett-pill { color: var(--dk-ink); }
+.sett-dark-cta .sett-pill-solid { color: #fff; }
+
+/* a full-bleed photograph between two light sections */
+.sett-plate-wide { min-height: 0; overflow: hidden; }
+.sett-plate-wide > img {
+  display: block; width: 100%;
+  height: clamp(240px, 34vw, 520px);
+  object-fit: cover;
+  border-radius: 0 !important;
+}
+
+
+/* ==========================================================================
+   8. THE CHAPTER NUMERALS ARE OFF
+   brand.css §3 numbers each section of a page off one shared counter. The
+   webshop turned them off in its own block; these four pages follow it, so the
+   whole site reads the same way. The markup that carried them is left alone —
+   the spans are aria-hidden and hold nothing else — so restoring the sequence
+   is deleting this rule.
+   ========================================================================== */
+main .sett-section-mark,
+main .sett-mark.pack-mark { display: none; }
+main h2::before { content: none; counter-increment: none; }

@@ -8,15 +8,22 @@
 <link rel="icon" href="img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&family=Mulish:wght@300;400;500;600;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
+<!-- The SETT brand layer, loaded last so it re-tints site.css from one place.
+     These four pages ran without it while they were the staging replica; they
+     are the brandbook build now, like webshop.html and product.html. -->
+<link rel="stylesheet" href="assets/brand.css?v=1">
+<!-- The set pieces the webshop worked out — the dark field, the photographic
+     card, the poster block — generalised so every page can use them. -->
+<link rel="stylesheet" href="assets/pages.css?v=1">
 </head>
 <body>
 <a class="skip" href="#main">Ga naar inhoud</a>
 <header class="site-header">
   <div class="wrap-wide">
-    <a class="logo" href="index.html" aria-label="Atelier DIY — home">
-      <img src="img/logo.png" alt="Atelier DIY" width="44" height="38">
+    <a class="logo sett-lockup" href="index.html" aria-label="Atelier DIY — home">
+      <img src="img/logo-brand.png" alt="Atelier DIY" width="44" height="38">
     </a>
     <nav class="nav" id="nav" aria-label="Hoofdnavigatie"><a href="index.html">Overzicht</a><a href="hoe-werkt-het.html">Hoe werkt het?</a><a href="realisaties.html" aria-current="page">Realisaties</a><a href="webshop.html">Webshop</a><a href="tutorials.html">Tutorials</a></nav>
     <div class="header-actions">
@@ -31,10 +38,90 @@
   </div>
 </header>
 <main id="main">
-<h1 class="sr-only">Realisaties</h1>
-<section style="padding-block:24px 80px">
-  <div class="wrap-bleed">
-    <div class="masonry"><div class="masonry-col"><img src="img/rz-1-1.jpg" alt="Maker werkt een Mortex tafelblad af in het atelier" loading="lazy"><img src="img/rz-1-2.jpg" alt="Twee afgewerkte Mortex salontafels in een lichte woonkamer" loading="lazy"></div><div class="masonry-col"><img src="img/rz-2-1.jpg" alt="Bovenaanzicht van twee Mortex salontafels met magazine" loading="lazy"><img src="img/rz-2-2.jpg" alt="Langwerpige Mortex salontafel in een donker interieur" loading="lazy"><img src="img/rz-2-3.jpg" alt="Fotoshoot op een kasseiweg met hond" loading="lazy"></div><div class="masonry-col"><img src="img/rz-3-1.jpg" alt="Materiaal wordt uitgeladen bij een buitenopname" loading="lazy"><img src="img/rz-3-2.jpg" alt="Twee makers werken samen aan een tafelblad in het atelier" loading="lazy"><img src="img/rz-3-3.jpg" alt="Cameramonitor tijdens een productopname" loading="lazy"><img src="img/rz-3-4.jpg" alt="Mortex salontafel in een woonkamer met zicht op de tuin" loading="lazy"></div></div>
+<section class="sett-statement sett-field">
+  <span class="sett-rail" aria-hidden="true">diy-atelier.be — realisaties</span>
+  <div class="sett-statement-inner">
+    <p class="t-label">Realisaties</p>
+    <h1 class="t-statement spread" lang="en">
+      <span><b>DIY </b> <b>ATELIER</b> <b>THE</b> <b>TABLE</b></span>
+      <span><b>FOR</b> <b>UNFORGETTABLE</b></span>
+      <span class="tight"><b>MOMENTS.</b></span>
+    </h1>
+    <p class="sett-sub">Negen stuks, negen keukens en garages.</p>
+    <div class="sett-statement-foot">
+      <p>Elk stuk hieronder is met een DIY-pakket gemaakt, door makers zonder ervaring. De vorm is telkens dezelfde; de hand is dat nooit.</p>
+      <a class="btn" href="webshop.html">Maak er zelf een <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
+    </div>
+  </div>
+</section>
+<!-- The gallery, as the catalogue's chapter.
+     It was a three-column masonry of bare photographs on white — the one page
+     with no composition on it at all. 4.1 and 4.2 are the reason it can carry
+     the dark field better than any other page: every plate on it is either a
+     maker at work or a finished piece in a room, which is exactly the two
+     modes the guidelines ask photography to run in. -->
+<section class="sett-dark" aria-labelledby="realisaties-h">
+  <span class="sett-rail" aria-hidden="true">diy-atelier.be — realisaties</span>
+  <div class="sett-dark-inner">
+    <div class="sett-masthead">
+      <div>
+        <p class="sett-eyebrow">Negen realisaties</p>
+        <h2 class="sett-masthead-h" id="realisaties-h">Gemaakt in<br>Lichtervelde.</h2>
+      </div>
+      <div>
+        <p class="sett-masthead-lede">Van de eerste laag in het atelier tot het afgewerkte
+           stuk in de woonkamer. Geen twee zijn identiek: de vorm is dezelfde, de hand is dat
+           nooit.</p>
+        <p class="sett-index"><span>9 realisaties</span><span>Mortex &amp; schapenvacht</span></p>
+      </div>
+    </div>
+
+    <div class="sett-grid sett-gallery">
+      <article class="sett-card">
+    <img src="img/rz-1-1.jpg" alt="Maker werkt een Mortex tafelblad af in het atelier" loading="lazy">
+    <span class="sett-card-num" aria-hidden="true">01</span>
+    </article>
+      <article class="sett-card">
+    <img src="img/rz-1-2.jpg" alt="Twee afgewerkte Mortex salontafels in een lichte woonkamer" loading="lazy">
+    <span class="sett-card-num" aria-hidden="true">02</span>
+    </article>
+      <article class="sett-card">
+    <img src="img/rz-2-1.jpg" alt="Bovenaanzicht van twee Mortex salontafels met magazine" loading="lazy">
+    <span class="sett-card-num" aria-hidden="true">03</span>
+    </article>
+      <article class="sett-card">
+    <img src="img/rz-2-2.jpg" alt="Langwerpige Mortex salontafel in een donker interieur" loading="lazy">
+    <span class="sett-card-num" aria-hidden="true">04</span>
+    </article>
+      <article class="sett-card">
+    <img src="img/rz-2-3.jpg" alt="Fotoshoot op een kasseiweg met hond" loading="lazy">
+    <span class="sett-card-num" aria-hidden="true">05</span>
+    </article>
+      <article class="sett-card">
+    <img src="img/rz-3-1.jpg" alt="Materiaal wordt uitgeladen bij een buitenopname" loading="lazy">
+    <span class="sett-card-num" aria-hidden="true">06</span>
+    </article>
+      <article class="sett-card">
+    <img src="img/rz-3-2.jpg" alt="Twee makers werken samen aan een tafelblad in het atelier" loading="lazy">
+    <span class="sett-card-num" aria-hidden="true">07</span>
+    </article>
+      <article class="sett-card">
+    <img src="img/rz-3-3.jpg" alt="Cameramonitor tijdens een productopname" loading="lazy">
+    <span class="sett-card-num" aria-hidden="true">08</span>
+    </article>
+      <article class="sett-card">
+    <img src="img/rz-3-4.jpg" alt="Mortex salontafel in een woonkamer met zicht op de tuin" loading="lazy">
+    <span class="sett-card-num" aria-hidden="true">09</span>
+    </article>
+    </div>
+
+    <!-- 5.6 — the colour block, running the width of the wall it closes -->
+    <p class="sett-poster sett-poster-band" lang="en">The product is the result. The moment is the reason.</p>
+
+    <p class="sett-dark-cta">
+      <a class="sett-pill sett-pill-solid" href="webshop.html">Maak er zelf een <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
+      <a class="sett-pill" href="tutorials.html">Bekijk de tutorials</a>
+    </p>
   </div>
 </section>
 </main>
