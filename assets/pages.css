@@ -428,3 +428,66 @@ h2.sett-masthead-h {
 main .sett-section-mark,
 main .sett-mark.pack-mark { display: none; }
 main h2::before { content: none; counter-increment: none; }
+
+
+/* ==========================================================================
+   9. THE PHOTOGRAPHY GRID — 04.01 / 04.02
+   Both photography pages of the book lay their images out the same way: a
+   four-column grid with NO gutter, cells spanning one or two columns and one
+   or two rows, so the pictures butt against each other and the block reads as
+   one wall. The gap is the thing to get right — 04.01 and 04.02 have none,
+   and a 14px one turns the wall back into nine framed pictures.
+
+   The cards elsewhere in this file are rounded; these are not. The rounding
+   came from the client's reference for the card, and a butted grid cannot
+   have it: two rounded corners meeting leave a notch of background between
+   them, which is the one thing a shared edge must not do.
+   ========================================================================== */
+
+.sett-mosaic {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: clamp(96px, 13.5vw, 205px);
+  gap: 0;
+}
+.sett-mosaic > figure {
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  background: var(--sett-paper-warm);
+}
+.sett-mosaic img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 0 !important;
+  transition: transform .6s cubic-bezier(.2, .7, .3, 1);
+}
+/* the photograph answers the pointer inside its own rectangle — the rectangle
+   itself cannot move, or the shared edge opens up */
+.sett-mosaic > figure:hover img { transform: scale(1.04); }
+
+.m-w2 { grid-column: span 2; }
+.m-h2 { grid-row: span 2; }
+
+/* Two columns. The column span has to be dropped, not kept: at four columns
+   a double-width cell is half the wall, but at two it is the whole measure,
+   and one row of height across the full measure crops the photograph to a
+   4:1 sliver. Every plate is one column here, and the row spans alone carry
+   the rhythm — some upright, some landscape. */
+@media (max-width: 1023px) {
+  .sett-mosaic {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: clamp(120px, 23vw, 230px);
+  }
+  .m-w2 { grid-column: span 1; }
+}
+/* One column: spans stop meaning anything, so every plate is one landscape
+   rectangle and they stack — still butted, still a wall. */
+@media (max-width: 559px) {
+  .sett-mosaic { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; }
+  .sett-mosaic > figure { grid-column: auto; grid-row: auto; aspect-ratio: 4 / 3; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sett-mosaic img { transition-duration: 1ms; }
+}
