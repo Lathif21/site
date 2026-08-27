@@ -24,17 +24,20 @@ NAV = [("index.html", "Overzicht"), ("hoe-werkt-het.html", "Hoe werkt het?"),
 # split is gone, and header(brand=False) is kept only so the replica can be
 # reproduced from this script if it is ever needed for comparison.)
 #
-# header() takes brand=. With it, the header is the 01.03 lockup -- the
-# logo-icoon set beside the wordmark, which is the book's own "in combinatie met
-# tekst" case -- and the wordmark is the palette version, #c75433 / #000000 on
-# transparent (img/logo-brand.png). Without it the header is exactly what it was
-# before the brand layer existed: the replica's #fd8b11 wordmark (img/logo.png).
+# header() takes brand=. With it, the wordmark is the palette version --
+# #c75433 / #000000 on transparent (img/logo-brand.png). Without it the header
+# is exactly what it was before the brand layer existed: the replica's #fd8b11
+# wordmark (img/logo.png).
+#
+# The lockup does NOT set the logo-icoon beside the wordmark. 01.03 allows it
+# ("in combinatie met tekst") and this script used to emit it, but it was taken
+# back out of every page by hand: the bean is SETT's mark, and this is Atelier
+# DIY's site. The brandbook is the design system here, not the brand.
 #
 # Both branches emit the same links in the same order with the same aria, so the
-# navigation itself cannot drift between the two halves. Only the mark and the
-# wordmark file differ.
+# navigation itself cannot drift between the two halves. Only the wordmark file
+# differs.
 # ---------------------------------------------------------------------------
-SETT_MARK = '<span class="sett-mark" aria-hidden="true"></span>'
 
 ARROW = ('<svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" '
          'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
@@ -73,7 +76,7 @@ def header(active, cart=False, brand=False):
         basket = f'<a href="#" aria-label="Winkelmandje">{CART_ICON}</a>'
     logo = (
         '<a class="logo sett-lockup" href="index.html" aria-label="Atelier DIY \u2014 home">\n'
-        f'      {SETT_MARK}<img src="img/logo-brand.png" alt="Atelier DIY" width="44" height="38">\n'
+        '      <img src="img/logo-brand.png" alt="Atelier DIY" width="44" height="38">\n'
         '    </a>'
         if brand else
         '<a class="logo" href="index.html" aria-label="Atelier DIY \u2014 home">\n'
@@ -268,13 +271,39 @@ def statement(rail, eyebrow, lines, sub, lede, cta_href, cta_text, plate=None,
 </section>%s''' % (rail, eyebrow, measure, spread, sub, lede, cta_href, cta_text, ARROW, below)
 
 
+def mosaic():
+    """The nine plates as the book's own photography grid — 04.01 / 04.02.
+
+    Both photography pages lay their images out the same way: a four-column
+    grid with NO gutter, where a cell spans one or two columns and one or two
+    rows, so the pictures butt against each other and the block reads as one
+    wall rather than as nine framed pictures. 04.02's upper block is two
+    uprights beside a column split into two wide halves; its lower block is a
+    double-width plate beside two uprights. That is bands A and B below,
+    verbatim; band C closes on the pair the book has no room for.
+
+    The homepage runs this. realisaties.html runs the same nine as separate
+    cards on the dark field — two galleries in two registers, which is the
+    book's own habit.
+    """
+    flat = [slug for col in GALLERY for slug in col]
+    # (extra classes) per plate, in order — see the bands above
+    spans = ["m-h2", "m-h2", "m-w2", "m-w2",
+             "m-w2 m-h2", "m-h2", "m-h2",
+             "m-w2 m-h2", "m-w2 m-h2"]
+    cells = ""
+    for slug, span in zip(flat, spans):
+        cells += ('    <figure class="%s">'
+                  '<img src="img/%s.jpg" alt="%s" loading="lazy"></figure>\n'
+                  % (span, slug, ALTS[slug]))
+    return '<div class="sett-mosaic">\n%s  </div>' % cells
+
+
 def gallery_cards():
     """The nine realisaties as photographic cards — 4.1 / 4.2.
 
-    Same nine plates and the same alt text as masonry(); what changes is that
-    they are objects on a field now instead of a bare wall of pictures. The
-    homepage keeps the masonry: two galleries in two registers is the book's
-    own habit (04.01 is a tight grid, 04.02 is a full-bleed plate).
+    Same nine plates and the same alt text as mosaic(); what changes is that
+    they are objects on a field here instead of one butted wall.
     """
     flat = [slug for col in GALLERY for slug in col]
     out = ""
@@ -285,15 +314,6 @@ def gallery_cards():
         out += "      " + sett_card(slug, "", num="%02d" % i,
                                     alt=ALTS[slug]) + "\n"
     return out
-
-
-def masonry():
-    cols = ""
-    for col in GALLERY:
-        tiles = "".join(
-            f'<img src="img/{n}.jpg" alt="{ALTS[n]}" loading="lazy">' for n in col)
-        cols += f'<div class="masonry-col">{tiles}</div>'
-    return f'<div class="masonry">{cols}</div>'
 
 
 # --------------------------------------------------------------------------
@@ -451,12 +471,14 @@ quotes = "".join(
 overview_head = statement(
     "diy-atelier.be — Lichtervelde",
     "Atelier DIY — Lichtervelde",
-    # Guidelines 5.1 names this line, verbatim, as the website's hero headline.
-    # It is the only page that gets it; the other three carry the baselines.
-    [["SETT", "IS", "NOT", "JUST"],
-     ["A", "PRODUCT.", "IT'S", "AN"],
-     ["OPPORTUNITY", "TO", "CREATE"],
-     "MEMORIES."],
+    # Guidelines 5.1 names this line as the website's hero headline. The name
+    # in it is the book's own, so the site puts its own there. Kept as ONE
+    # spread unit: split in two, the justification pushes "DIY" and "ATELIER"
+    # to opposite ends of the measure and the company reads as two companies.
+    [["DIY ATELIER", "IS", "NOT"],
+     ["JUST", "A", "PRODUCT."],
+     ["IT'S", "AN", "OPPORTUNITY"],
+     ["TO", "CREATE", "MEMORIES."]],
     "Jouw creativiteit, onze materialen.",
     "Zelf unieke meubels en decorstukken maken? Wij leveren de hoogwaardige materialen, "
     "het gereedschap en de tutorials. Van Mortex tafels tot schapenvachttapijten — "
@@ -550,7 +572,7 @@ overview = f'''{overview_head}
 <section class="section">
   <div class="wrap">
     <h2 style="margin-bottom:48px">Realisaties</h2>
-    {masonry()}
+    {mosaic()}
   </div>
 </section>
 
@@ -713,8 +735,10 @@ hoewerkthet = f'''{hoewerkthet_head}
 realisaties_head = statement(
     "diy-atelier.be — realisaties",
     "Realisaties",
-    # 1.3, baseline 1 — the one 5.3 puts on the brochure cover
-    [["SETT", "THE", "TABLE"], ["FOR", "UNFORGETTABLE"], "MOMENTS."],
+    # 1.3, baseline 1 — the one 5.3 puts on the brochure cover. The book can
+    # write "SETT THE TABLE" because its name is the verb; here the pun has no
+    # owner, so the line is simply the sentence it was punning on.
+    [["SET", "THE", "TABLE"], ["FOR", "UNFORGETTABLE"], "MOMENTS."],
     "Negen stuks, negen keukens en garages.",
     "Elk stuk hieronder is met een DIY-pakket gemaakt, door makers zonder ervaring. "
     "De vorm is telkens dezelfde; de hand is dat nooit.",
@@ -810,7 +834,8 @@ tutorials_head = statement(
     # only line in the book written as an instruction to the reader rather than
     # a statement about the product, which is exactly the register a page of
     # step-by-steps opens in. (05.05 in the PDF; brand.css cites it already.)
-    [["READY", "SETT", "GO!"]],
+    # spelled READY SET GO! for the same reason as the line on Realisaties
+    [["READY", "SET", "GO!"]],
     "Van eerste laag tot finale verzegeling.",
     "Geen handleiding om door te worstelen: je ziet elke handeling gebeuren, op ware "
     "grootte en op jouw tempo. Kijk de lastige stap zo vaak terug als je wil.",
