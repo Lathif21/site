@@ -8,15 +8,22 @@
 <link rel="icon" href="img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&family=Mulish:wght@300;400;500;600;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
+<!-- The SETT brand layer, loaded last so it re-tints site.css from one place.
+     These four pages ran without it while they were the staging replica; they
+     are the brandbook build now, like webshop.html and product.html. -->
+<link rel="stylesheet" href="assets/brand.css?v=1">
+<!-- The set pieces the webshop worked out — the dark field, the photographic
+     card, the poster block — generalised so every page can use them. -->
+<link rel="stylesheet" href="assets/pages.css?v=1">
 </head>
 <body>
 <a class="skip" href="#main">Ga naar inhoud</a>
 <header class="site-header">
   <div class="wrap-wide">
-    <a class="logo" href="index.html" aria-label="Atelier DIY — home">
-      <img src="img/logo.png" alt="Atelier DIY" width="44" height="38">
+    <a class="logo sett-lockup" href="index.html" aria-label="Atelier DIY — home">
+      <img src="img/logo-brand.png" alt="Atelier DIY" width="44" height="38">
     </a>
     <nav class="nav" id="nav" aria-label="Hoofdnavigatie"><a href="index.html" aria-current="page">Overzicht</a><a href="hoe-werkt-het.html">Hoe werkt het?</a><a href="realisaties.html">Realisaties</a><a href="webshop.html">Webshop</a><a href="tutorials.html">Tutorials</a></nav>
     <div class="header-actions">
@@ -31,14 +38,26 @@
   </div>
 </header>
 <main id="main">
-<section class="hero" style="background-image:url('img/ov-hero.jpg')">
-  <div class="wrap-wide">
-    <h1>Jouw creativiteit, onze materialen DIY met topkwaliteit</h1>
-    <p>Zelf unieke meubels en decorstukken maken? Bij DIY-Atelier helpen we je met
-       hoogwaardige materialen en duidelijke tutorials. Van Mortex tafels tot andere
-       stijlvolle creaties – ontdek hoe eenvoudig het is om zelf aan de slag te gaan!</p>
-    <a class="btn" href="#hoe-werkt-het">Ontdek de eenvoud van DIY <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
+<section class="sett-statement sett-field">
+  <span class="sett-rail" aria-hidden="true">diy-atelier.be — Lichtervelde</span>
+  <div class="sett-statement-inner">
+    <p class="t-label">Atelier DIY — Lichtervelde</p>
+    <h1 class="t-statement spread" lang="en">
+      <span><b>DIY</b> <b>ATELIER</b> <b>IS</b> <b>NOT</b> <b>JUST</b></span>
+      <span><b>A</b> <b>PRODUCT.</b> <b>IT'S</b> <b>AN</b></span>
+      <span><b>OPPORTUNITY</b> <b>TO</b> <b>CREATE</b></span>
+      <span class="tight"><b>MEMORIES.</b></span>
+    </h1>
+    <p class="sett-sub">Jouw creativiteit, onze materialen.</p>
+    <div class="sett-statement-foot">
+      <p>Zelf unieke meubels en decorstukken maken? Wij leveren de hoogwaardige materialen, het gereedschap en de tutorials. Van Mortex tafels tot schapenvachttapijten — ontdek hoe eenvoudig het is om zelf aan de slag te gaan.</p>
+      <a class="btn" href="#hoe-werkt-het">Ontdek de eenvoud van DIY <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
+    </div>
   </div>
+</section>
+
+<section class="sett-plate sett-plate-wide">
+  <img src="img/ov-hero.jpg" alt="Een maker werkt een Mortex tafelblad af in het atelier" loading="eager">
 </section>
 
 <section class="section" id="hoe-werkt-het">
@@ -68,45 +87,62 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Uitgelichte producten</h2>
-      <div class="carousel-nav">
-        <button type="button" aria-label="Vorige producten" disabled>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
-        </button>
-        <button type="button" aria-label="Volgende producten">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
-        </button>
+<!-- Uitgelicht — the catalogue's set piece, at three cards.
+     The carousel arrows went with it: they were a control for a rail that
+     never scrolled, and the row is three cards and a poster now. -->
+<section class="sett-dark" aria-labelledby="uitgelicht-h">
+  <span class="sett-rail" aria-hidden="true">diy-atelier.be — 33 pakketten</span>
+  <div class="sett-dark-inner">
+    <div class="sett-masthead">
+      <div>
+        <p class="sett-eyebrow">Uitgelicht</p>
+        <h2 class="sett-masthead-h" id="uitgelicht-h">Drie om mee<br>te beginnen.</h2>
+      </div>
+      <div>
+        <p class="sett-masthead-lede">Elk pakket komt compleet toe — de materialen, het
+           professionele gereedschap en een stap-voor-stap handleiding. Geen ervaring nodig,
+           geen speciaalzaak om af te lopen.</p>
+        <p class="sett-index"><span>33 pakketten</span><span>25 tafels</span><span>8 tapijten</span></p>
       </div>
     </div>
-    <div class="prod-grid">
-      <article class="prod-card">
-        <div class="prod-media"><img src="img/ov-prod1.jpg" alt="Wit schapenvacht tapijt van 3 m²" loading="lazy"></div>
-        <div class="prod-meta">
-          <div><h3>Tapijt Wit 3m²</h3><p class="prod-price">Vanaf €399.99</p></div>
-          <div class="prod-specs"><span class="prod-spec"><svg viewBox="0 0 40 34" fill="none" aria-hidden="true"><path d="M4 28a16 16 0 1 1 32 0" stroke="#fd8b11" stroke-width="3.4" stroke-linecap="round"/><path d="M20 28 30 15" stroke="#212838" stroke-width="3.2" stroke-linecap="round"/><circle cx="20" cy="28" r="2.6" fill="#212838"/></svg>Basis</span><span class="prod-spec"><svg viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="18" r="12.5" stroke="#fd8b11" stroke-width="3"/><path d="M17 11v7l4.5 2.6" stroke="#fd8b11" stroke-width="3" stroke-linecap="round"/><path d="M12 2.5h10" stroke="#fd8b11" stroke-width="3" stroke-linecap="round"/></svg>3 dagen</span></div>
-        </div>
-        <a class="btn-outline" href="webshop.html">Bekijk details <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
-      </article>
-      <article class="prod-card">
-        <div class="prod-media"><img src="img/ov-prod2.jpg" alt="Wit langharig schapenvacht" loading="lazy"></div>
-        <div class="prod-meta">
-          <div><h3>Witte Langharig</h3><p class="prod-price">Vanaf €50</p></div>
-          
-        </div>
-        <a class="btn-outline" href="webshop.html">Bekijk details <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
-      </article>
-      <article class="prod-card">
-        <div class="prod-media"><img src="img/ov-prod3.jpg" alt="Model BV eettafel in Mortex" loading="lazy"></div>
-        <div class="prod-meta">
-          <div><h3>Model BV</h3><p class="prod-price">Vanaf €995</p></div>
-          <div class="prod-specs"><span class="prod-spec"><svg viewBox="0 0 40 34" fill="none" aria-hidden="true"><path d="M4 28a16 16 0 1 1 32 0" stroke="#fd8b11" stroke-width="3.4" stroke-linecap="round"/><path d="M20 28 30 15" stroke="#212838" stroke-width="3.2" stroke-linecap="round"/><circle cx="20" cy="28" r="2.6" fill="#212838"/></svg>Eenvoudig</span><span class="prod-spec"><svg viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="18" r="12.5" stroke="#fd8b11" stroke-width="3"/><path d="M17 11v7l4.5 2.6" stroke="#fd8b11" stroke-width="3" stroke-linecap="round"/><path d="M12 2.5h10" stroke="#fd8b11" stroke-width="3" stroke-linecap="round"/></svg>8 dagen</span></div>
-        </div>
-        <a class="btn-outline" href="webshop.html">Bekijk details <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
-      </article>
+
+    <div class="sett-grid sett-grid-4">
+    <article class="sett-card">
+    <img src="img/ov-prod1.jpg" alt="Wit schapenvacht tapijt van 3 m²" loading="lazy">
+    <span class="sett-card-pill">Basis</span>
+    <span class="sett-card-tag">3 dagen</span>
+    <span class="sett-card-num" aria-hidden="true">01</span>
+      <div class="sett-card-body">
+        <p class="sett-card-title"><a class="sett-stretch" href="webshop.html">Tapijt Wit 3m²</a></p>
+        <p class="sett-card-sub">Vanaf €399.99</p>
+      </div>
+    </article>
+    <article class="sett-card">
+    <img src="img/ov-prod2.jpg" alt="Wit langharig schapenvacht" loading="lazy">
+    <span class="sett-card-pill">Pakket</span>
+    <span class="sett-card-num" aria-hidden="true">02</span>
+      <div class="sett-card-body">
+        <p class="sett-card-title"><a class="sett-stretch" href="webshop.html">Witte Langharig</a></p>
+        <p class="sett-card-sub">Vanaf €50</p>
+      </div>
+    </article>
+    <article class="sett-card">
+    <img src="img/ov-prod3.jpg" alt="Model BV eettafel in Mortex" loading="lazy">
+    <span class="sett-card-pill">Eenvoudig</span>
+    <span class="sett-card-tag">8 dagen</span>
+    <span class="sett-card-num" aria-hidden="true">03</span>
+      <div class="sett-card-body">
+        <p class="sett-card-title"><a class="sett-stretch" href="webshop.html">Model BV</a></p>
+        <p class="sett-card-sub">Vanaf €995</p>
+      </div>
+    </article>
+    <!-- 5.6 — the poster block, carrying baseline 3 of 1.3 -->
+    <p class="sett-poster" lang="en">Not made to buy. Made to create.</p>
     </div>
+
+    <p class="sett-dark-cta">
+      <a class="sett-pill sett-pill-solid" href="webshop.html">Bekijk alle 33 pakketten <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
+    </p>
   </div>
 </section>
 

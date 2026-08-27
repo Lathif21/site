@@ -8,15 +8,22 @@
 <link rel="icon" href="img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&family=Mulish:wght@300;400;500;600;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
+<!-- The SETT brand layer, loaded last so it re-tints site.css from one place.
+     These four pages ran without it while they were the staging replica; they
+     are the brandbook build now, like webshop.html and product.html. -->
+<link rel="stylesheet" href="assets/brand.css?v=1">
+<!-- The set pieces the webshop worked out — the dark field, the photographic
+     card, the poster block — generalised so every page can use them. -->
+<link rel="stylesheet" href="assets/pages.css?v=1">
 </head>
 <body>
 <a class="skip" href="#main">Ga naar inhoud</a>
 <header class="site-header">
   <div class="wrap-wide">
-    <a class="logo" href="index.html" aria-label="Atelier DIY — home">
-      <img src="img/logo.png" alt="Atelier DIY" width="44" height="38">
+    <a class="logo sett-lockup" href="index.html" aria-label="Atelier DIY — home">
+      <img src="img/logo-brand.png" alt="Atelier DIY" width="44" height="38">
     </a>
     <nav class="nav" id="nav" aria-label="Hoofdnavigatie"><a href="index.html">Overzicht</a><a href="hoe-werkt-het.html" aria-current="page">Hoe werkt het?</a><a href="realisaties.html">Realisaties</a><a href="webshop.html">Webshop</a><a href="tutorials.html">Tutorials</a></nav>
     <div class="header-actions">
@@ -31,8 +38,26 @@
   </div>
 </header>
 <main id="main">
-<section class="hero-band" style="background-image:url('img/hw-hero.jpg')">
-  <h1>Hoe werkt het?</h1>
+<section class="sett-statement sett-field">
+  <span class="sett-rail" aria-hidden="true">diy-atelier.be — hoe werkt het</span>
+  <div class="sett-statement-inner">
+    <p class="t-label">Hoe werkt het?</p>
+    <h1 class="t-statement spread" lang="en">
+      <span><b>THE</b> <b>PRODUCT</b></span>
+      <span><b>IS</b> <b>THE</b> <b>RESULT.</b></span>
+      <span><b>THE</b> <b>MOMENT</b> <b>IS</b></span>
+      <span class="tight"><b>THE REASON.</b></span>
+    </h1>
+    <p class="sett-sub">In vijf stappen van doos naar designstuk.</p>
+    <div class="sett-statement-foot">
+      <p>Je kiest een pakket, wij leveren alles wat erbij hoort — de materialen, het professionele gereedschap, de handleiding en de videotutorial. Geen ervaring nodig.</p>
+      <a class="btn" href="webshop.html">Bekijk de pakketten <svg width="20" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h19M14.5 1.5 20.5 7l-6 5.5"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<section class="sett-plate sett-plate-wide">
+  <img src="img/hw-hero.jpg" alt="Twee makers werken samen in het atelier" loading="eager">
 </section>
 
 <section class="section">
@@ -61,72 +86,95 @@
   </div>
 </section>
 
-<section class="section-tight">
-  <div class="wrap">
-    <img src="img/hw-couple.jpg" alt="Twee makers werken samen aan een Mortex tafel"
-         style="width:100%;border-radius:var(--radius)" loading="lazy">
-  </div>
+<!-- 04.02 — the photograph as a full-bleed plate, not a rounded panel inside
+     the text column. It is the last light beat before the dark chapter. -->
+<section class="sett-plate sett-plate-wide">
+  <img src="img/hw-couple.jpg" alt="Twee makers werken samen aan een Mortex tafel" loading="lazy">
 </section>
 
-<section class="section">
-  <div class="wrap">
-    <div class="split">
-      <div class="split-text">
-        <p class="eyebrow">Kies jouw DIY pakket uit ons gamma</p>
-        <h2>Stap 1: de selectie</h2>
-        <p>Bij DIY Atelier hebben we een breed assortiment aan doe-het-zelf pakketten, geschikt voor zowel beginners als ervaren makers. Of je nu een stijlvolle tafel, een decoratief item of een uniek meubelstuk wilt creëren, wij hebben het perfecte pakket voor jou!</p>
+<section class="sett-dark" aria-labelledby="stappen-h">
+  <span class="sett-rail" aria-hidden="true">diy-atelier.be — in vijf stappen</span>
+  <div class="sett-dark-inner">
+    <div class="sett-masthead">
+      <div>
+        <p class="sett-eyebrow">In vijf stappen</p>
+        <h2 class="sett-masthead-h" id="stappen-h">Van doos<br>naar designstuk.</h2>
       </div>
-      <div class="split-media"><img src="img/hw-stap1.jpg" alt="Oranje Mortex tafel op een grijze achtergrond" loading="lazy"></div>
+      <div>
+        <p class="sett-masthead-lede">Reken op een weekend werk, verspreid over drie dagen
+           uitharden. De handleiding en de videotutorial nemen je mee van de eerste laag tot
+           de finale verzegeling — en je kunt op elk moment even stoppen.</p>
+        <p class="sett-index"><span>5 stappen</span><span>1 doos</span><span>0 speciaalzaken</span></p>
+      </div>
+    </div>
+
+    <ol class="sett-grid sett-grid-4 sett-steps">
+    <li class="sett-step">
+      <article class="sett-card sett-card-tall">
+    <img src="img/hw-stap1.jpg" alt="Oranje Mortex tafel op een grijze achtergrond" loading="lazy">
+    <span class="sett-card-pill">Stap 01</span>
+    <span class="sett-card-num" aria-hidden="true">01</span>
+      <div class="sett-card-body">
+        <h3 class="sett-card-title">Kies jouw DIY pakket uit ons gamma</h3>
+        <p class="sett-card-sub">De selectie</p>
+      </div>
+    </article>
+      <div class="sett-step-copy"><p>Bij DIY Atelier hebben we een breed assortiment aan doe-het-zelf pakketten, geschikt voor zowel beginners als ervaren makers. Of je nu een stijlvolle tafel, een decoratief item of een uniek meubelstuk wilt creëren, wij hebben het perfecte pakket voor jou!</p></div>
+    </li>
+    <li class="sett-step">
+      <article class="sett-card sett-card-tall">
+    <img src="img/hw-stap2.jpg" alt="Alle materialen en gereedschap uit een DIY-pakket" loading="lazy">
+    <span class="sett-card-pill">Stap 02</span>
+    <span class="sett-card-num" aria-hidden="true">02</span>
+      <div class="sett-card-body">
+        <h3 class="sett-card-title">Wij voorzien alle tools &amp; producten</h3>
+        <p class="sett-card-sub">De producten</p>
+      </div>
+    </article>
+      <div class="sett-step-copy"><p>Met onze DIY-pakketten hoef je zelf nergens naar op zoek te gaan. Wij leveren alle tools en producten die je nodig hebt om jouw project tot een succes te maken. Geen losse aankopen, geen gedoe – gewoon alles in één handig pakket!</p></div>
+    </li>
+    <li class="sett-step">
+      <article class="sett-card sett-card-tall">
+    <img src="img/hw-stap3.jpg" alt="Videotutorial op een laptop" loading="lazy">
+    <span class="sett-card-pill">Stap 03</span>
+    <span class="sett-card-num" aria-hidden="true">03</span>
+      <div class="sett-card-body">
+        <h3 class="sett-card-title">Onze experts geven een gedetailleerde uitleg</h3>
+        <p class="sett-card-sub">De instructies</p>
+      </div>
+    </article>
+      <div class="sett-step-copy"><p>Met onze DIY-pakketten ben je verzekerd van een zorgeloze en succesvolle doe-het-zelf ervaring. We voorzien je van alle tools en materialen die je nodig hebt, zodat je meteen aan de slag kunt. Daarnaast krijg je gedetailleerde uitleg van onze experts, zodat je steeds de juiste techniek toepast.</p><p>Dankzij onze stap-voor-stap handleidingen, videotutorials en praktische tips behaal je moeiteloos een professioneel resultaat.</p></div>
+    </li>
+    <li class="sett-step">
+      <article class="sett-card sett-card-tall">
+    <img src="img/hw-stap4.jpg" alt="Twee makers tillen samen een afgewerkt tafelblad" loading="lazy">
+    <span class="sett-card-pill">Stap 04</span>
+    <span class="sett-card-num" aria-hidden="true">04</span>
+      <div class="sett-card-body">
+        <h3 class="sett-card-title">Enkel plezier staat je nog te wachten</h3>
+        <p class="sett-card-sub">Het maken</p>
+      </div>
+    </article>
+      <div class="sett-step-copy"><p>Met ons DIY-pakket heb je alles in huis om direct aan de slag te gaan. Geen gedoe, geen stress – alleen creativiteit en voldoening. Dankzij onze zorgvuldig samengestelde materialen, professionele tools en duidelijke instructies wordt jouw doe-het-zelf project een leuke en inspirerende ervaring.</p></div>
+    </li>
+    </ol>
+
+    <!-- Step 5 is the result, so it is the plate the chapter closes on
+         (04.02) with 5.6's colour block beside it. -->
+    <div class="sett-close">
+      <article class="sett-card sett-card-wide sett-close-media">
+        <img src="img/hw-stap5.jpg" alt="Koppel geniet van de zelfgemaakte Mortex salontafel" loading="lazy">
+        <span class="sett-card-pill">Stap 05</span>
+        <div class="sett-card-body">
+          <h3 class="sett-card-title">Genieten</h3>
+          <p class="sett-card-sub">Jouw creatie, jouw trots.</p>
+        </div>
+      </article>
+      <p class="sett-poster sett-poster-wide" lang="en">Not made to buy. Made to create.</p>
     </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="wrap">
-    <div class="split reverse">
-      <div class="split-text">
-        <p class="eyebrow">Wij voorzien alle tools &amp; producten</p>
-        <h2>Stap 2: de producten</h2>
-        <p>Met onze DIY-pakketten hoef je zelf nergens naar op zoek te gaan. Wij leveren alle tools en producten die je nodig hebt om jouw project tot een succes te maken. Geen losse aankopen, geen gedoe – gewoon alles in één handig pakket!</p>
-      </div>
-      <div class="split-media"><img src="img/hw-stap2.jpg" alt="Alle materialen en gereedschap uit een DIY-pakket" loading="lazy"></div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <div class="split">
-      <div class="split-text">
-        <p class="eyebrow">Onze experts geven een gedetailleerde uitleg</p>
-        <h2>Stap 3: de instructies</h2>
-        <p>Met onze DIY-pakketten ben je verzekerd van een zorgeloze en succesvolle doe-het-zelf ervaring. We voorzien je van alle tools en materialen die je nodig hebt, zodat je meteen aan de slag kunt. Daarnaast krijg je gedetailleerde uitleg van onze experts, zodat je steeds de juiste techniek toepast.</p><p>Dankzij onze stap-voor-stap handleidingen, videotutorials en praktische tips behaal je moeiteloos een professioneel resultaat.</p>
-      </div>
-      <div class="split-media"><img src="img/hw-stap3.jpg" alt="Videotutorial op een laptop" loading="lazy"></div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <div class="split reverse">
-      <div class="split-text">
-        <p class="eyebrow">Enkel plezier staat je nog te wachten</p>
-        <h2>Stap 4: het maken</h2>
-        <p>Met ons DIY-pakket heb je alles in huis om direct aan de slag te gaan. Geen gedoe, geen stress – alleen creativiteit en voldoening. Dankzij onze zorgvuldig samengestelde materialen, professionele tools en duidelijke instructies wordt jouw doe-het-zelf project een leuke en inspirerende ervaring.</p>
-      </div>
-      <div class="split-media"><img src="img/hw-stap4.jpg" alt="Twee makers tillen samen een afgewerkt tafelblad" loading="lazy"></div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <h2 class="center" style="margin-bottom:48px">Stap 5: genieten</h2>
-    <img src="img/hw-stap5.jpg" alt="Koppel geniet van de zelfgemaakte Mortex salontafel"
-         style="width:100%;border-radius:var(--radius)" loading="lazy">
-  </div>
-</section>
 </main>
 <footer class="site-footer">
   <div class="wrap-wide">
