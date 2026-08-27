@@ -18,504 +18,637 @@
      chrome.css from one place. See assets/brand.css. -->
 <link rel="stylesheet" href="assets/brand.css?v=1">
 <!-- ============================ CATALOGUE SET PIECE ============================
-     Page-local, and deliberately so: every rule below is scoped under #catalog
-     (or under a .cat-* class that only exists inside it), so app.css, brand.css
-     and the product page are untouched. It sits after brand.css because it
-     refines what brand.css already set.
+     Page-local, and deliberately so: every rule is scoped under #catalog (or a
+     .cat-* class that only exists inside it), so app.css, brand.css, the PDP
+     and the replica pages are untouched. It loads after brand.css because it
+     overrides it — including brand.css's global `border-radius: 0 !important`,
+     which the rounded cards in the reference shot need out of the way inside
+     this one section.
 
-     What it does: the catalogue was the one block on the page that still read
-     as a generic shop template — a bare heading, a row of loose controls, a
-     grid. sett_webshop_brand_experience.html works out the right STRUCTURE for
-     it (masthead with a lede beside it, quick categories, search, sort, a
-     grid/list switch, a richer card foot); that file draws it in the Tailwind
-     shop idiom — rounded-3xl white cards, pill buttons, soft shadows, a
-     terracotta dot — which is exactly what the brandbook is not. So the
-     structure is taken and the drawing is the book's: hard edges, hairlines,
-     wide-tracked caps, tabular numerals, one accent, no shadow, nothing
-     centred. Each block cites the page it comes from. -->
+     The composition is the shot the client sent: a full-bleed near-black
+     field, a heavy two-line Franklin heading with the lede ranged opposite,
+     four photographic cards a row with a pill badge and the type set into the
+     image, and the palette as a row of swatches. Everything else in it is the
+     brandbook — Zwart and Terracotta from 2.1/2.2, Franklin Gothic for the
+     display type (3.2), and the caption/footnote scale from 3.1. -->
 <style id="catalog-set">
-/* ---------- 1. the chapter ---------- */
-#catalog { position: relative; padding-top: clamp(28px, 4vw, 60px); }
+/* ---------- 1. the field ---------- */
+#catalog {
+  --cat-field:   #0d0d0d;         /* 2.1 Zwart, one step off pure so the cards
+                                     and the scrims have something to sit on */
+  --cat-ink:     #ffffff;
+  --cat-ink-mid: rgba(255, 255, 255, .74);
+  --cat-ink-low: rgba(255, 255, 255, .52);
+  --cat-rule:    rgba(255, 255, 255, .16);
+  --cat-rule-mid:rgba(255, 255, 255, .28);
+  --cat-r:       16px;            /* the shot's corner. The one thing here the
+                                     brandbook does not sanction; page-local. */
+  --cat-r-sm:    999px;
 
-/* 01.06 / 05.03 — the baseline climbing the spine. The statement field above
-   carries one; the catalogue is the other full chapter on the page, so it
-   carries the second. Hidden under 1100px by brand.css §8. */
+  position: relative;
+  background: var(--cat-field);
+  color: var(--cat-ink);
+  padding-block: clamp(52px, 6.5vw, 104px);
+  /* the section sits between two light bands, so it is its own full-bleed
+     field rather than a block inside the page's container */
+  margin-block: clamp(24px, 4vw, 56px) 0;
+}
+#catalog .cat-inner { position: relative; }
+
+/* 01.06 / 05.03 — the baseline climbing the spine, in the outer margin. */
 #catalog .cat-rail {
-  color: var(--muted);
-  /* pinned to the head of the chapter, not to its middle: the section runs
-     thirty-three cards deep and a baseline at 50% of that lands nowhere */
-  top: clamp(150px, 20vh, 300px);
+  color: var(--cat-ink-low);
+  top: clamp(140px, 18vh, 280px);
   transform: rotate(180deg);
 }
 
-/* ---------- 2. the masthead — 01.01 chapter opener, 03.01 index ----------
-   Flush left, the heading and the lede sitting on one baseline, and a firm
-   rule under the pair. The book opens every chapter on a numeral, a caption
-   and a rule; this is that, at page scale. */
+/* ---------- 2. the masthead ----------
+   The shot: an eyebrow with a dot, a heavy two-line heading, and a short lede
+   ranged right against the heading's last line. */
 #catalog .cat-masthead {
   display: grid;
-  gap: clamp(22px, 3vw, 48px);
+  gap: clamp(20px, 3vw, 48px);
   grid-template-columns: minmax(0, 1fr);
   align-items: end;
-  padding-bottom: clamp(18px, 2.4vw, 28px);
-  border-bottom: 2px solid var(--sett-black);
-  margin-bottom: 0;
+  margin-bottom: clamp(30px, 4vw, 56px);
+  padding-bottom: 0;
+  border: 0;
 }
 @media (min-width: 900px) {
-  #catalog .cat-masthead { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); }
+  #catalog .cat-masthead { grid-template-columns: minmax(0, 1.35fr) minmax(0, .65fr); }
 }
-#catalog .cat-masthead .sett-section-mark { margin-bottom: 16px; }
 
-/* The eyebrow's rule replaces the reference's terracotta dot: the book marks a
-   caption with a hairline, and it has no dot in it anywhere. */
-/* 2.2 names Terracotta Orange as the accent for callouts — the catalogue used
-   none of it and read as a specification sheet because of it. The eyebrow is
-   the first of the four places it now appears (eyebrow, pressed control,
-   hover caption, poster). #C75433 on white measures 4.74:1, which carries
-   small text at AA, so it is type here and not only a fill. */
+/* "● 03 — CATALOGUS": the section numeral brand.css already counts, set at
+   caption size and folded into the eyebrow line. The dot is the accent (2.2)
+   at a size where it is a mark and not type, so its 3.8:1 on the field does
+   not have to carry anything. */
 #catalog .cat-eyebrow {
-  display: flex; align-items: center; gap: 12px;
-  margin: 0 0 .85em;
-  color: var(--sett-orange);
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 clamp(16px, 2vw, 24px);
+  font-family: var(--sett-grotesk);
+  font-weight: 600; font-size: .7rem;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--sett-beige);
 }
 #catalog .cat-eyebrow::before {
   content: ""; flex: none;
-  width: clamp(20px, 3vw, 34px); height: 1px;
+  width: 7px; height: 7px; border-radius: 50%;
   background: var(--sett-orange);
 }
+#catalog .cat-eyebrow .sett-section-mark {
+  display: inline; margin: 0;
+  font: inherit; letter-spacing: inherit;
+  color: inherit;
+}
+#catalog .cat-eyebrow .sett-section-mark::after { content: " —"; }
 
-/* The chapter title carries the chapter, so it is set at chapter size — the
-   book's own headings run to the full width of their column. */
-/* 3.2 — PT Serif is the brand's expressive headline face: "editorial quotes
-   and artisan-themed brand accents". The chapter title was set in Franklin at
-   a tight negative track, which is the industrial voice; that is what made the
-   catalogue read colder than the rest of the page. The serif is the same
-   change the reference file makes when it sets "Craft Your Own Table". */
+/* 3.2 Franklin Gothic — "bold display statements, poster slogans, industrial
+   headers". The shot's heading is exactly that: heavy, tight, two lines,
+   white on black. */
 #catalog #catalog-h {
   margin: 0;
-  font-family: var(--sett-display);
-  font-weight: 400;
-  font-size: clamp(2.2rem, 5.6vw, 3.9rem);
-  line-height: 1.02;
-  letter-spacing: -.012em;
-}
-
-/* 3.1 Citaat — "similar or slightly larger than body size, rendered in
-   italic". Baseline 1 from 1.3, in English like the page's other two. */
-#catalog .cat-quote {
-  margin: clamp(12px, 1.6vw, 18px) 0 0;
-  max-width: 26ch;
-  font-family: var(--sett-display);
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(1.02rem, 1.5vw, 1.22rem);
-  line-height: 1.4;
-  color: var(--sett-black);
+  font-family: var(--sett-grotesk);
+  font-weight: 700;
+  font-size: clamp(2.3rem, 5.6vw, 4.3rem);
+  line-height: .98;
+  letter-spacing: -.035em;
+  color: var(--cat-ink);
 }
 
 #catalog .cat-lede {
-  margin: 0 0 clamp(18px, 2.2vw, 26px);
-  max-width: 48ch;
-  color: var(--body);
+  margin: 0;
+  max-width: 42ch;
+  color: var(--cat-ink-mid);
   font-size: .95rem;
   line-height: 1.62;
 }
 
-/* 03.01 — a set of things is a hairline, a small caption, and the value under
-   it. Tabular numerals so the four columns line up. */
-#catalog .cat-stats {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0 clamp(10px, 1.6vw, 24px);
-  margin: 0;
-}
-@media (max-width: 619px) {
-  /* four columns of index at phone width leaves four cramped columns; the
-     book breaks its own index into two when the measure runs out */
-  #catalog .cat-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; }
-  #catalog .cat-stats > div:nth-child(n + 3) { margin-top: 16px; }
-}
-#catalog .cat-stats > div { border-top: 1px solid var(--sett-rule-firm); padding-top: 10px; }
-#catalog .cat-stats dt {
+/* the four figures the masthead used to set as a ruled index, folded down to
+   one quiet caption line — the shot keeps this column to a single paragraph */
+#catalog .cat-index {
+  display: flex; flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: clamp(14px, 1.8vw, 20px) 0 0;
   font-family: var(--sett-grotesk);
-  font-weight: 500; font-size: .6rem;
+  font-weight: 500; font-size: .62rem;
   letter-spacing: .17em; text-transform: uppercase;
-  line-height: 1.4; color: var(--muted);
-}
-#catalog .cat-stats dd {
-  margin: 8px 0 0;
-  font-family: var(--sett-grotesk);
-  font-weight: 300;
-  font-size: clamp(1.35rem, 2.4vw, 1.95rem);
-  line-height: 1;
+  color: var(--cat-ink-low);
   font-variant-numeric: tabular-nums;
-  color: var(--sett-black);
+}
+#catalog .cat-index span { display: inline-flex; align-items: center; gap: 18px; }
+#catalog .cat-index span + span::before {
+  content: ""; width: 3px; height: 3px; border-radius: 50%;
+  background: currentColor; margin-left: -10px;
 }
 
-/* ---------- 3. the instrument bar ----------
-   The reference collects every control into one white rounded card with a
-   shadow. Same idea, drawn as the book draws a table: a strip ruled top and
-   bottom, its cells separated by hairlines, nothing rounded and nothing
-   floating. It sticks under the 88px header on desktop so the controls stay
-   with the grid through thirty-three cards. */
+/* ---------- 3. the instrument bar ---------- */
 #catalog .cat-bar {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  background: var(--sett-white);
-  border-bottom: 1px solid var(--sett-black);
-  /* clear of the masthead rule: two rules 2px apart read as a printing fault,
-     and on desktop the bar carries a rule of its own for when it sticks */
-  margin: clamp(16px, 2vw, 24px) 0 clamp(18px, 2.4vw, 28px);
+  background: var(--cat-field);
+  border-top: 1px solid var(--cat-rule);
+  border-bottom: 1px solid var(--cat-rule);
+  margin-bottom: clamp(16px, 2vw, 22px);
 }
 #catalog .cat-bar-cell {
   display: flex; align-items: center; gap: 12px;
-  padding: 12px 0;
+  padding: 11px 0;
   min-width: 0;
 }
-#catalog .cat-bar-cell + .cat-bar-cell { border-top: 1px solid var(--sett-rule); }
+#catalog .cat-bar-cell + .cat-bar-cell { border-top: 1px solid var(--cat-rule); }
 
 @media (min-width: 1024px) {
   #catalog .cat-bar {
     grid-template-columns: minmax(0, 1fr) minmax(0, 300px) minmax(0, 250px) auto;
     align-items: stretch;
     position: sticky; top: var(--chrome-header-h, 88px); z-index: 30;
-    border-top: 1px solid var(--sett-black);
   }
   #catalog .cat-bar-cell { padding: 10px clamp(14px, 1.4vw, 20px); }
   #catalog .cat-bar-cell:first-child { padding-left: 0; }
   #catalog .cat-bar-cell:last-child  { padding-right: 0; }
-  #catalog .cat-bar-cell + .cat-bar-cell {
-    border-top: 0;
-    border-left: 1px solid var(--sett-rule);
-  }
+  #catalog .cat-bar-cell + .cat-bar-cell { border-top: 0; border-left: 1px solid var(--cat-rule); }
 }
 
 #catalog .cat-bar-quick { flex-wrap: wrap; gap: 8px; }
 
-/* The quick categories. Caps, tracked, hairline; ink when pressed — the book's
-   only "selected" state is a field filled solid. */
+/* the shot's pill buttons, in the brand's caption type */
 #catalog .cat-quick {
   appearance: none;
   display: inline-flex; align-items: baseline; gap: 8px;
-  padding: 8px 13px;
-  background: none;
-  border: 1px solid var(--sett-rule-firm);
-  border-radius: 0;
-  color: var(--sett-black);
+  padding: 9px 16px;
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid var(--cat-rule);
+  border-radius: var(--cat-r-sm) !important;
+  color: var(--cat-ink-mid);
   font-family: var(--sett-grotesk);
-  font-weight: 500; font-size: .64rem;
+  font-weight: 600; font-size: .64rem;
   letter-spacing: .16em; text-transform: uppercase;
   line-height: 1;
   cursor: pointer;
   transition: background .18s ease, color .18s ease, border-color .18s ease;
 }
-#catalog .cat-quick:focus-visible { outline: 2px solid var(--sett-black); outline-offset: 2px; }
-/* 2.2's "Accent & Statement": terracotta with white type. A solid black fill
-   for every selected control is what gave the bar its ledger feel. */
+#catalog .cat-quick:hover { color: var(--cat-ink); border-color: var(--cat-rule-mid); }
+#catalog .cat-quick:focus-visible { outline: 2px solid var(--sett-beige); outline-offset: 2px; }
+/* 2.2 "Accent & Statement": terracotta with white type — 4.74:1 */
 #catalog .cat-quick[aria-pressed="true"] {
-  background: var(--sett-orange); border-color: var(--sett-orange); color: var(--sett-white);
+  background: var(--sett-orange); border-color: var(--sett-orange); color: #fff;
 }
-#catalog .cat-quick:hover { border-color: var(--sett-orange); color: var(--sett-orange); }
-#catalog .cat-quick[aria-pressed="true"]:hover { color: var(--sett-white); }
-#catalog .cat-quick-n {
-  font-variant-numeric: tabular-nums;
-  letter-spacing: .08em;
-  color: var(--muted);
-}
-#catalog .cat-quick[aria-pressed="true"] .cat-quick-n { color: rgba(255,255,255,.78); }
+#catalog .cat-quick-n { font-variant-numeric: tabular-nums; letter-spacing: .08em; opacity: .6; }
 
-/* Search: the field loses its own box inside the cell — the cell's hairlines
-   already frame it, and a box inside a box is not a join the book makes. */
+#catalog .cat-bar .btn-ghost {
+  border-radius: var(--cat-r-sm) !important;
+  border-color: var(--cat-rule);
+  color: var(--cat-ink);
+  font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+  padding: 9px 16px; min-height: 0;
+}
+#catalog .cat-bar .btn-ghost:hover { border-color: var(--cat-ink); background: rgba(255,255,255,.06); }
+
 #catalog .cat-bar-search { position: relative; }
-#catalog .cat-bar-search .cat-search-ico { flex: none; color: var(--muted); }
+#catalog .cat-bar-search .cat-search-ico { flex: none; color: var(--cat-ink-low); }
 #catalog .cat-bar-search .field {
   flex: 1; min-width: 0;
-  border: 0; border-radius: 0;
-  padding: 6px 0;
+  border: 0; border-radius: 0 !important;
+  padding: 6px 0; min-height: 0;
   background: none;
+  color: var(--cat-ink);
   font-family: var(--sett-text);
 }
-#catalog .cat-bar-search .field:focus {
-  outline: 0;
-  box-shadow: 0 1px 0 0 var(--sett-orange);
-}
+#catalog .cat-bar-search .field::placeholder { color: var(--cat-ink-low); }
+#catalog .cat-bar-search .field:focus { outline: 0; box-shadow: 0 1px 0 0 var(--sett-orange); }
 #catalog .cat-bar-search:focus-within .cat-search-ico { color: var(--sett-orange); }
 
-#catalog .cat-cell-label { flex: none; margin: 0; color: var(--muted); }
+#catalog .cat-cell-label { flex: none; margin: 0; color: var(--cat-ink-low); font-size: .62rem; }
 #catalog .cat-bar-sort .select {
   flex: 1; min-width: 0;
-  border: 0; border-radius: 0;
-  background-color: transparent;
-  padding-left: 0;
-  font-family: var(--sett-grotesk);
-  font-size: .78rem;
+  border: 0; border-radius: 0 !important;
+  min-height: 0; padding: 6px 26px 6px 0;
+  color: var(--cat-ink);
+  font-family: var(--sett-grotesk); font-size: .78rem;
+  /* the app.css arrow is drawn in ink on a white plate; on the field it has to
+     be the field's own white, and the plate has to go */
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ffffff' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 4px center/11px;
 }
+#catalog .cat-bar-sort .select option { color: #000; background: #fff; }
 
 #catalog .cat-bar-view { justify-content: space-between; gap: 16px; }
 #catalog .cat-count {
   font-family: var(--sett-grotesk);
-  /* the one live number on the bar */
-  color: var(--sett-orange);
-  font-weight: 500; font-size: .64rem;
+  font-weight: 600; font-size: .64rem;
   letter-spacing: .16em; text-transform: uppercase;
   font-variant-numeric: tabular-nums;
+  color: var(--sett-beige);
   white-space: nowrap;
 }
 
-/* Grid / list — the reference's one genuinely useful control that the site did
-   not have. Two hairline cells, the active one filled. */
-#catalog .cat-view { display: flex; border: 1px solid var(--sett-rule-firm); flex: none; }
+#catalog .cat-view {
+  display: flex; flex: none;
+  border: 1px solid var(--cat-rule);
+  border-radius: var(--cat-r-sm); overflow: hidden;
+}
 #catalog .cat-view button {
-  width: 34px; height: 30px;
+  width: 36px; height: 30px;
   display: grid; place-items: center;
   background: none; border: 0; border-radius: 0;
-  color: var(--muted); cursor: pointer;
+  color: var(--cat-ink-low); cursor: pointer;
   transition: background .18s ease, color .18s ease;
 }
-#catalog .cat-view button + button { border-left: 1px solid var(--sett-rule-firm); }
-#catalog .cat-view button:hover { color: var(--sett-orange); }
-#catalog .cat-view button[aria-pressed="true"] { background: var(--sett-orange); color: var(--sett-white); }
-#catalog .cat-view button:focus-visible { outline: 2px solid var(--sett-black); outline-offset: 2px; }
+#catalog .cat-view button + button { border-left: 1px solid var(--cat-rule); }
+#catalog .cat-view button:hover { color: var(--cat-ink); }
+#catalog .cat-view button[aria-pressed="true"] { background: var(--sett-orange); color: #fff; }
+#catalog .cat-view button:focus-visible { outline: 2px solid var(--sett-beige); outline-offset: -2px; }
 
-/* ---------- 4. the active-filter row ---------- */
+/* ---------- 4. the facet row (desktop) ----------
+   Below 1024px none of this applies: the aside is still app.css's bottom
+   sheet, on its own white surface, with its own head, foot and apply button. */
+@media (min-width: 1024px) {
+  #catalog #filters {
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: 10px 24px;
+    padding: 4px 0 16px;
+    border: 0;
+  }
+  #catalog #filterForm { display: flex; flex-wrap: wrap; gap: 10px clamp(16px, 2vw, 30px); flex: 1; }
+  #catalog #filters .facet {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+    border: 0; padding: 0; margin: 0;
+  }
+  #catalog #filters .facet-legend {
+    float: none; width: auto; margin: 0 4px 0 0; padding: 0;
+    font-family: var(--sett-grotesk);
+    font-weight: 500; font-size: .58rem;
+    letter-spacing: .17em; text-transform: uppercase;
+    color: var(--cat-ink-low);
+  }
+
+  /* The checkbox becomes the shot's pill: the input covers the label and stays
+     focusable, and .check-pill — its next sibling — carries the visual state.
+
+     Deliberately NOT `.check:has(input:checked)`. That selector matches when
+     queried, but Chrome does not always repaint it when the checked state is
+     set on the property rather than by a click, and catalog.js sets it on the
+     property in syncInputs() every time a chip is removed or the URL is read
+     back. `input:checked + .check-pill` is a plain sibling combinator and
+     invalidates the way it has since CSS2. */
+  #catalog #filters .check {
+    position: relative;
+    display: inline-flex; padding: 0; border: 0;
+  }
+  #catalog #filters .check input {
+    position: absolute; inset: 0; z-index: 1;
+    width: 100%; height: 100%;
+    margin: 0; opacity: 0; cursor: pointer;
+  }
+  #catalog #filters .check .check-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 7px 13px;
+    border: 1px solid var(--cat-rule);
+    border-radius: var(--cat-r-sm);
+    font-family: var(--sett-grotesk);
+    font-size: .72rem; font-weight: 500;
+    color: var(--cat-ink-mid);
+    transition: border-color .18s ease, color .18s ease, background .18s ease;
+  }
+  #catalog #filters .check:hover .check-pill { border-color: var(--cat-rule-mid); color: var(--cat-ink); }
+  #catalog #filters .check input:checked + .check-pill {
+    background: var(--sett-orange); border-color: var(--sett-orange); color: #fff;
+  }
+  #catalog #filters .check input:focus-visible + .check-pill {
+    outline: 2px solid var(--sett-beige); outline-offset: 2px;
+  }
+  #catalog #filters .check .count {
+    margin: 0; font-size: .64rem; opacity: .6;
+    font-variant-numeric: tabular-nums; color: inherit;
+  }
+  #catalog #filters .check.is-zero { opacity: .35; }
+  #catalog #filters .filters-foot { display: flex; justify-content: flex-end; }
+
+  #catalog #filters .filters-foot { margin: 0 0 0 auto; }
+  #catalog #filters #clearAll {
+    width: auto; min-height: 0; padding: 7px 14px;
+    border-radius: var(--cat-r-sm) !important;
+    border-color: transparent;
+    color: var(--cat-ink-low);
+    font-size: .62rem; letter-spacing: .16em; text-transform: uppercase;
+  }
+  #catalog #filters #clearAll:hover { color: var(--cat-ink); border-color: var(--cat-rule); background: none; }
+}
+
+/* Below 1024px the aside is app.css's bottom sheet and the facets are rows,
+   not pills; the new wrapper has to pass the row's layout through to the
+   label and the count it holds. */
+#catalog .check .check-pill { display: flex; flex: 1; align-items: center; gap: var(--sp-3); }
+
+/* ---------- 5. the palette — 2.1 ----------
+   The shot's swatch row: a dot per colour with its name under it. It is also
+   the colour facet, so a dot is a filter. */
+#catalog .cat-palette {
+  display: flex; align-items: flex-start; flex-wrap: wrap;
+  gap: 16px clamp(20px, 3vw, 40px);
+  padding: clamp(18px, 2.2vw, 26px) 0 clamp(20px, 2.6vw, 30px);
+  border-top: 1px solid var(--cat-rule);
+}
+#catalog .cat-palette-label {
+  margin: 0; padding-top: 12px;
+  color: var(--cat-ink-low);
+  font-size: .62rem; letter-spacing: .17em;
+}
+#catalog #colourFacet { display: flex; flex-wrap: wrap; gap: 14px clamp(16px, 2vw, 26px); }
+#catalog #colourFacet .chip {
+  flex-direction: column; gap: 9px;
+  min-height: 0; padding: 4px 2px;
+  background: none; border: 0; border-radius: 0 !important;
+  font-family: var(--sett-grotesk);
+  font-size: .58rem; font-weight: 600;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--cat-ink-low);
+  transition: color .18s ease;
+}
+#catalog #colourFacet .chip .sw {
+  width: 46px !important; height: 46px !important;
+  border-radius: 50% !important;
+  border: 1px solid rgba(255, 255, 255, .22);
+  transition: box-shadow .18s ease, transform .18s ease;
+}
+#catalog #colourFacet .chip:hover { color: var(--cat-ink); background: none; }
+#catalog #colourFacet .chip:hover .sw { transform: scale(1.06); }
+#catalog #colourFacet .chip[aria-pressed="true"] { background: none; color: var(--cat-ink); }
+#catalog #colourFacet .chip[aria-pressed="true"] .sw {
+  box-shadow: 0 0 0 3px var(--cat-field), 0 0 0 5px var(--sett-orange);
+}
+#catalog #colourFacet .chip:focus-visible { outline: 2px solid var(--sett-beige); outline-offset: 3px; }
+
+/* ---------- 6. active filters ---------- */
 #catalog .cat-active {
   display: flex; align-items: center; flex-wrap: wrap;
   gap: 10px 16px;
-  margin-bottom: clamp(16px, 2vw, 24px);
+  margin-bottom: clamp(14px, 2vw, 22px);
 }
-#catalog .cat-active-label { margin: 0; color: var(--muted); }
-/* nothing filtered, no row — and no gap where the row was */
+#catalog .cat-active-label { margin: 0; color: var(--cat-ink-low); font-size: .62rem; }
 #catalog .cat-active:has(#activeChips:empty) { display: none; }
-
-/* ---------- 5. the filter column ----------
-   A column with a rule down its edge, which is how the book separates a
-   sidebar from a body. It rides along on desktop; below 1024 it is the
-   existing bottom sheet and none of this applies. */
-@media (min-width: 1024px) {
-  #catalog .catalog-layout {
-    grid-template-columns: 262px minmax(0, 1fr);
-    gap: clamp(28px, 3.2vw, 52px);
-  }
-  #catalog #filters {
-    position: sticky;
-    top: calc(var(--chrome-header-h, 88px) + 78px);
-    align-self: start;
-    max-height: calc(100dvh - var(--chrome-header-h, 88px) - 110px);
-    overflow-y: auto;
-    padding-right: clamp(16px, 1.8vw, 26px);
-    border-right: 1px solid var(--sett-rule);
-    scrollbar-width: thin;
-  }
-  #catalog .cat-filters-top {
-    display: flex; align-items: center; gap: 12px;
-    border-top: 2px solid var(--sett-black);
-    padding-top: 12px;
-    margin-bottom: 20px;
-  }
-  #catalog .cat-filters-top .t-label { margin: 0; }
+#catalog .chip-active {
+  background: var(--sett-orange); color: #fff;
+  border-radius: var(--cat-r-sm) !important;
+  border-color: transparent;
+  font-family: var(--sett-grotesk); font-size: .7rem;
 }
-#catalog .cat-filters-top { display: none; }
+#catalog .chip-active:hover { border-color: #fff; }
 
-/* ---------- 6. the cards — 05.07 / 05.09 ----------
-   brand.css already makes the card the book's poster: a white sheet, a
-   passe-partout, a photograph on a flat tint. What the reference adds and this
-   did not have is INFORMATION AT THE FOOT — a labelled price — and something
-   that answers the pointer. Both are drawn here in type and rule only. */
-#catalog .grid-products { counter-reset: cat-card; }
+/* ---------- 7. the cards ----------
+   4.2 — the photograph is the card. The sheet, the passe-partout and the
+   hairline brand.css prints around every card are dropped here: on a dark
+   field a white sheet with a small photograph inside it is a different object
+   from the one in the shot. The type is set into the image over a scrim, the
+   category rides top-left as a pill, and the colourways sit under the price. */
+#catalog .grid-products { gap: clamp(14px, 1.5vw, 22px); counter-reset: cat-card; }
 
-/* 3.2 again, down at card scale: the product name is the artisan accent, not
-   an industrial header. The reference sets its card names in the serif for
-   exactly this reason, and it is what stops thirty-three identical hairline
-   sheets from reading as a stock list. */
-#catalog .card .t-title {
-  font-family: var(--sett-display);
-  font-weight: 700;
-  font-size: 1.12rem;
-  line-height: 1.28;
-  letter-spacing: 0;
+#catalog .card {
+  display: grid;
+  grid-template-areas: "stack";
+  aspect-ratio: 4 / 5;
+  padding: 0;
+  background: #1a1a1a;
+  border: 0;
+  border-radius: var(--cat-r) !important;
+  overflow: hidden;
+  transition: transform .3s cubic-bezier(.2, .7, .3, 1);
 }
-#catalog .card .t-title a { transition: color .18s ease; }
-#catalog .card:hover .t-title a { color: var(--sett-orange); }
+#catalog .card:hover { transform: translateY(-4px); background: #1a1a1a; }
+#catalog .card:focus-within { outline: 2px solid var(--sett-beige); outline-offset: 3px; }
 
-/* The book numbers everything it lists. The catalogue is a list of
-   thirty-three things, so it is numbered — and the numeral renumbers itself
-   with every filter, which is what makes it the result set's index rather
-   than a product code. */
+#catalog .card-media {
+  grid-area: stack;
+  aspect-ratio: auto;
+  height: 100%; width: 100%;
+  background: #1a1a1a !important;
+  border-radius: 0 !important;
+}
+#catalog .card-media img { width: 100%; height: 100%; object-fit: cover; border-radius: 0 !important; }
+#catalog .card:hover .card-media img { transform: scale(1.05); }
+
+/* the scrim. Two stops, so the type at the foot has ~85% black under it and
+   the middle of the photograph is left alone. */
+#catalog .card-body {
+  grid-area: stack;
+  align-self: end;
+  z-index: 2;
+  padding: 74px 16px 16px;
+  gap: 7px;
+  background: linear-gradient(to top,
+              rgba(0,0,0,.90) 0%, rgba(0,0,0,.72) 38%, rgba(0,0,0,0) 100%);
+  color: var(--cat-ink);
+}
+
+/* the shot's badge: a white pill at the top-left of the photograph. This is
+   the card's own "Tafel" / "Tapijt" caption, moved out of the foot. */
+#catalog .card-body > div > .t-label {
+  position: absolute; top: 13px; left: 13px; z-index: 3;
+  margin: 0;
+  padding: 6px 12px;
+  background: var(--cat-ink);
+  border-radius: var(--cat-r-sm);
+  color: #000 !important;
+  font-family: var(--sett-grotesk);
+  font-weight: 700; font-size: .58rem;
+  letter-spacing: .16em; text-transform: uppercase;
+}
+/* …which frees the top-right for the colourway count */
+#catalog .card-flag {
+  top: 13px; right: 13px; left: auto; z-index: 3;
+  padding: 6px 11px;
+  background: rgba(0, 0, 0, .55);
+  border: 1px solid rgba(255, 255, 255, .3);
+  border-radius: var(--cat-r-sm) !important;
+  color: #fff;
+  font-size: .56rem; letter-spacing: .14em;
+  backdrop-filter: blur(6px);
+}
+
+/* the index numeral stays — it is the one book device that survives the
+   restyle intact, and it renumbers itself with every filter */
 #catalog .grid-products > .card::before {
   counter-increment: cat-card;
   content: counter(cat-card, decimal-leading-zero);
-  position: absolute; top: 22px; right: 22px; z-index: 2;
+  position: absolute; bottom: 15px; right: 16px; z-index: 3;
   font-family: var(--sett-grotesk);
-  font-weight: 300; font-size: .74rem;
+  font-weight: 500; font-size: .62rem;
   letter-spacing: .14em; line-height: 1;
   font-variant-numeric: tabular-nums;
-  color: var(--sett-black);
-  opacity: .5;
-  pointer-events: none;   /* the whole sheet is one link (.stretched) */
-}
-#catalog .card:hover::before { opacity: 1; }
-
-/* The reference reveals a "Quick View" button on hover. The book has no
-   floating button, so the affordance is a caption bar sliding up out of the
-   photograph's own bottom edge. */
-#catalog .card-media::after {
-  content: "Bekijk pakket";
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
-  padding: 9px 12px;
-  background: var(--sett-orange);
-  color: var(--sett-white);
-  font-family: var(--sett-grotesk);
-  font-weight: 500; font-size: .6rem;
-  letter-spacing: .18em; text-transform: uppercase;
-  line-height: 1.2;
-  transform: translateY(101%);
-  transition: transform .3s cubic-bezier(.2, .7, .3, 1);
+  color: rgba(255, 255, 255, .45);
   pointer-events: none;
 }
-#catalog .card:hover .card-media::after,
-#catalog .card:focus-within .card-media::after { transform: translateY(0); }
 
-/* The foot becomes the reference's price block: a caption over the figure,
-   with the colourways ranged against it across a hairline. */
+#catalog .card .t-title {
+  font-family: var(--sett-grotesk);
+  font-weight: 700; font-size: 1.06rem;
+  line-height: 1.22; letter-spacing: -.015em;
+  color: var(--cat-ink);
+}
+#catalog .card .t-title a { color: inherit; transition: color .18s ease; }
+#catalog .card:hover .t-title a { color: var(--sett-beige); }
+
+/* "Vanaf € 399,99 — DIY-pakket", the shot's second line */
 #catalog .card-foot {
-  align-items: flex-end;
-  border-top: 1px solid var(--sett-rule);
-  padding-top: 13px;
-  /* app.css pushes the foot down with margin-top:auto so the feet of a row
-     line up whatever the meta above them does; the rule has to keep that, or
-     a card with two lines of badges prints its price higher than its
-     neighbour. The gap is padding, not margin. */
-  margin-top: auto;
+  order: 2;
+  margin: 0; padding: 0; border: 0;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
 }
 #catalog .card-foot .t-price {
-  display: block;
-  font-family: var(--sett-display);
-  font-weight: 700;
-  font-size: 1.28rem;
-  letter-spacing: -.01em;
-}
-#catalog .card-foot .t-price::before {
-  content: "Pakketprijs";
-  display: block;
-  margin-bottom: 5px;
   font-family: var(--sett-grotesk);
-  font-weight: 500; font-size: .58rem;
-  letter-spacing: .17em; text-transform: uppercase;
-  color: var(--muted);
+  font-weight: 500; font-size: .82rem;
+  letter-spacing: .01em;
+  color: var(--cat-ink-mid);
 }
+#catalog .card-foot .t-price::before { content: "Vanaf "; }
+#catalog .card-foot .t-price::after  { content: " — DIY-pakket"; }
+#catalog .card-foot .sw {
+  width: 15px !important; height: 15px !important;
+  border-radius: 50% !important;
+  border-color: rgba(255, 255, 255, .45);
+}
+#catalog .card-foot .sw[aria-current="true"] { box-shadow: 0 0 0 1.5px #000, 0 0 0 3px #fff; }
 
-/* ---------- 6b. the poster in the grid — 5.6 ----------
-   "Photo-Typography Split Posters: ... paired with solid color blocks
-   (Terracotta Orange / Black) ... displaying a baseline." The catalogue is
-   thirty-three white sheets in a row and nothing interrupts them; the book
-   would never run a grid that long without a poster in it. This is one, and
-   it is a grid cell rather than a card, so catalog.js can rewrite the grid
-   underneath it as often as it likes.
+/* the two spec badges, as ghost pills on the scrim */
+#catalog .card-meta { order: 3; gap: 6px; margin-top: 2px; }
+#catalog .card .badge {
+  padding: 4px 9px;
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: var(--cat-r-sm) !important;
+  color: rgba(255, 255, 255, .8);
+  font-size: .55rem; letter-spacing: .12em;
+  backdrop-filter: blur(4px);
+}
+#catalog .card .badge svg { width: 11px; height: 11px; }
 
-   It carries baseline 1 (1.3) — the third of the three, and the only one this
-   page had not printed yet. White on #C75433 is 4.74:1, and this is display
-   type, so it clears AA several times over. */
-#catalog .grid-products::after {
+/* ---------- 7b. the poster in the grid — 5.6 ----------
+   "Photo-Typography Split Posters ... paired with solid color blocks
+   (Terracotta Orange / Black) displaying a baseline." Thirty-three
+   photographs in a row with nothing between them is not a composition the
+   book would run; this is the interruption. It is a grid cell rather than a
+   card, so catalog.js can rewrite the grid underneath it as often as it
+   likes. The line is baseline 1 of 1.3 — the one this page had not used. */
+/* #catalog .grid-products::after {
   content: "SETT THE TABLE FOR UNFORGETTABLE MOMENTS.";
   display: flex;
   align-items: flex-end;
-  min-height: 240px;
-  padding: clamp(20px, 2.2vw, 30px);
+  aspect-ratio: 4 / 5;
+  padding: clamp(18px, 2vw, 26px);
   background: var(--sett-orange);
-  color: var(--sett-white);
-  font-family: var(--sett-display);
+  border-radius: var(--cat-r);
+  color: #fff;
+  font-family: var(--sett-grotesk);
   font-weight: 700;
-  font-size: clamp(1rem, 1.35vw, 1.35rem);
-  line-height: 1.14;
-  letter-spacing: -.005em;
+  font-size: clamp(1.05rem, 1.45vw, 1.45rem);
+  line-height: 1.08;
+  letter-spacing: -.02em;
   text-transform: uppercase;
-  /* the cell is one grid column wide and "UNFORGETTABLE" is longer than that
-     at the top of the clamp */
   overflow-wrap: anywhere;
   text-wrap: balance;
-}
-/* not in the list, where a cell is a full-width row, and not over an empty
-   result, where it would be the only thing on the page */
+} */
 #catalog #grid.is-list::after,
 #catalog #grid:empty::after { display: none; }
 
-/* ---------- 7. list view ----------
-   04.01 / 04.02 set photography as a tight grid — rectangles butted together.
-   The list is that: one column of sheets sharing their edges. */
-#catalog #grid.is-list { grid-template-columns: minmax(0, 1fr); gap: 0; }
+/* ---------- 8. list view ----------
+   One column of rows, the photograph left, the type ranged along it. */
+#catalog #grid.is-list { grid-template-columns: minmax(0, 1fr); gap: 10px; }
 #catalog #grid.is-list > .card {
-  flex-direction: row;
-  align-items: stretch;
-  gap: clamp(16px, 2vw, 28px);
-  border-top-width: 0;
-  padding: 14px;
+  display: flex; flex-direction: row; align-items: stretch;
+  aspect-ratio: auto;
+  gap: clamp(14px, 2vw, 26px);
+  padding: 10px;
+  background: rgba(255, 255, 255, .045);
 }
-#catalog #grid.is-list > .card:first-child { border-top-width: 1px; }
-#catalog #grid.is-list > .card::before { top: 20px; right: 20px; }
+#catalog #grid.is-list > .card:hover { transform: none; background: rgba(255, 255, 255, .08); }
 #catalog #grid.is-list .card-media {
   flex: none;
-  width: clamp(120px, 24vw, 240px);
+  width: clamp(110px, 22vw, 220px);
   aspect-ratio: 4 / 3;
-  align-self: flex-start;
+  height: auto;
+  border-radius: 10px !important;
+  overflow: hidden;
 }
 #catalog #grid.is-list .card-body {
-  padding: 4px 0;
   flex: 1;
-  justify-content: center;
-  gap: 10px;
+  align-self: center;
+  padding: 6px 8px 6px 0;
+  background: none;
 }
-#catalog #grid.is-list .card-foot { border-top: 0; padding-top: 0; margin-top: 8px; }
+#catalog #grid.is-list .card-body > div > .t-label {
+  position: static; padding: 0; margin-bottom: 7px;
+  background: none; color: var(--cat-ink-low) !important;
+  font-weight: 500;
+}
+#catalog #grid.is-list .card-flag { top: 18px; left: 18px; right: auto; }
+#catalog #grid.is-list > .card::before { bottom: auto; top: 18px; right: 18px; }
 @media (min-width: 700px) {
   #catalog #grid.is-list .card-body {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     grid-auto-rows: min-content;
     align-content: center;
-    align-items: start;
-    row-gap: 12px;
+    row-gap: 10px;
     column-gap: clamp(16px, 3vw, 48px);
   }
   #catalog #grid.is-list .card-body > :first-child { grid-column: 1; }
   #catalog #grid.is-list .card-meta { grid-column: 1; }
   #catalog #grid.is-list .card-foot {
     grid-column: 2; grid-row: 1 / span 2;
-    align-self: center;
-    flex-direction: column; align-items: flex-end; gap: 12px;
-    margin-top: 0; text-align: right;
+    align-self: center; justify-content: flex-end;
+    flex-wrap: wrap; text-align: right;
   }
 }
 
-/* ---------- 8. the empty result — 02.02 ---------- */
+/* ---------- 9. the empty result ----------
+   2.2's "High-Contrast Base": black type on beige. On the dark field it is
+   the one lit surface, which is what an empty result should be. */
 #catalog .cat-empty {
   background: var(--sett-beige);
-  padding: clamp(30px, 4.4vw, 56px);
+  border-radius: var(--cat-r);
+  padding: clamp(28px, 4vw, 52px);
   text-align: left;
-  border-radius: 0;
   border: 0;
+  color: #000;
 }
 #catalog .cat-empty .cat-empty-num {
   display: block;
-  margin-bottom: clamp(16px, 2vw, 24px);
+  margin-bottom: clamp(14px, 2vw, 22px);
   font-family: var(--sett-grotesk);
-  font-weight: 300;
-  font-size: clamp(1.5rem, 2.4vw, 2.05rem);
-  line-height: 1;
+  font-weight: 500; font-size: 1.6rem; line-height: 1;
   font-variant-numeric: tabular-nums;
   color: var(--sett-orange);
 }
-#catalog .cat-empty .t-h3 {
-  margin: 0 0 8px;
-  font-family: var(--sett-display);
-  font-weight: 700;
-  font-size: 1.35rem;
+#catalog .cat-empty .t-h3 { margin: 0 0 8px; color: #000; font-size: 1.35rem; }
+#catalog .cat-empty p { color: #000; margin: 0 0 clamp(18px, 2.4vw, 26px); max-width: 46ch; }
+#catalog .cat-empty .btn-secondary {
+  border-radius: var(--cat-r-sm) !important;
+  border-color: #000; color: #000;
 }
-/* on a flat tint the copy is full ink, per brand.css §9 */
-#catalog .cat-empty p { color: var(--sett-black); margin: 0 0 clamp(20px, 2.6vw, 28px); max-width: 46ch; }
-#catalog .cat-empty .btn-secondary { border-color: var(--sett-black); }
+#catalog .cat-empty .btn-secondary:hover { background: #000; color: #fff; }
 
 @media (prefers-reduced-motion: reduce) {
-  #catalog .card-media::after { transition-duration: 1ms; }
+  #catalog .card, #catalog .card-media img { transition-duration: 1ms; }
+  #catalog .card:hover { transform: none; }
 }
+</style>
+
+<!-- The section numerals are off on this page.
+     brand.css §3 numbers each chapter off one shared counter — 01 the
+     statement, 02 "in elke doos", 03 the catalogue, 04 the closing duo — via
+     .sett-section-mark, .pack-mark and a counter on main h2::before. The four
+     spans stay in the markup (they are aria-hidden and carry nothing else), so
+     restoring the sequence is deleting this block. The catalogue's own card
+     index, which runs 01–33 down the grid, is a different counter and is
+     untouched. -->
+<style id="section-numerals-off">
+main .sett-section-mark,
+main .sett-mark.pack-mark { display: none; }
+/* the catalogue sets its own numeral inline in the eyebrow (and takes the
+   em-dash after it along), so it needs the same rule at its own weight */
+#catalog .cat-eyebrow .sett-section-mark { display: none; }
+main h2::before { content: none; counter-increment: none; }
 </style>
 </head>
 <body>
@@ -526,7 +659,7 @@
 <header class="site-header">
   <div class="wrap-wide">
     <a class="logo sett-lockup" href="index.html" aria-label="Atelier DIY — home">
-      <span class="sett-mark" aria-hidden="true"></span><img src="img/logo-brand.png" alt="Atelier DIY" width="44" height="38">
+      <img src="img/logo-brand.png" alt="Atelier DIY" width="44" height="38">
     </a>
     <nav class="nav" id="nav" aria-label="Hoofdnavigatie"><a href="index.html">Overzicht</a><a href="hoe-werkt-het.html">Hoe werkt het?</a><a href="realisaties.html">Realisaties</a><a href="webshop.html" aria-current="page">Webshop</a><a href="tutorials.html">Tutorials</a></nav>
     <div class="header-actions">
@@ -690,108 +823,100 @@
 </section>
 
 <!-- ============================ CATALOG ============================
-     The catalogue was the one section of the page the book's numbering did not
-     reach: its heading was sr-only, so the sequence ran 01, 02, then jumped to
-     the closing duo. Every chapter of the brandbook opens on a bare numeral and
-     a caption, and this is the page's main chapter — so it carries them.
+     The catalogue is a full-bleed dark field now: a heavy two-line Franklin
+     heading with the lede ranged against it, four image-forward cards a row
+     with the type set into the photograph, and the palette laid out as a row
+     of swatches. That composition is the one in the reference shot the client
+     sent, and it is buildable out of the brandbook without inventing anything:
+     Zwart #000 is the first colour in 2.1, Franklin Gothic is 3.2's face for
+     "bold display statements", terracotta is 2.2's accent, and 4.2 asks for
+     product photography in exactly these three modes (studio, workshop,
+     in-situ) — which is what the thirty-three photographs already are.
 
-     It is built as a chapter of the book now rather than as a shop template: a
-     masthead with the chapter rule under it (01.01 / 03.01), an instrument bar
-     of hairline cells, a ruled and sticky filter column, and cards numbered
-     down the page. The devices are the book's; the structure — masthead with a
-     lede beside it, quick categories, search, sort, grid/list — is the one
-     worked out in sett_webshop_brand_experience.html, with its rounded white
-     cards, pill buttons and drop shadows translated back into hard edges,
-     hairlines and caps. Everything here is page-local: the rules live in the
-     <style id="catalog-set"> block in the head. -->
-<section class="container cat-chapter" id="catalog">
+     The one thing it does NOT take from the brandbook is the hard edge: the
+     cards are rounded, because the shot is. That is a deliberate, page-local
+     departure and it is confined to this section.
+
+     Nothing in the markup that catalog.js touches has moved: the ids, the
+     .catTile hook, #filterForm, #colourFacet and #grid are all still here.
+     #colourFacet is simply mounted in its own strip instead of inside a
+     sidebar fieldset — the script finds it by id, so it does not care. -->
+<section class="cat-chapter" id="catalog">
   <span class="sett-rail cat-rail" aria-hidden="true">SETT — catalogus 01 / 33</span>
+  <div class="container cat-inner">
 
-  <!-- ---------- masthead — 01.01 chapter opener + 03.01 ---------- -->
-  <div class="catalog-head cat-masthead">
-    <div class="cat-masthead-title">
-      <span class="sett-section-mark" aria-hidden="true"></span>
-      <p class="t-label cat-eyebrow">Atelier-collectie — Lichtervelde</p>
-      <h2 class="t-h2 has-own-number" id="catalog-h">De catalogus</h2>
-      <!-- Guidelines 1.3, baseline 1 — the one of the three the page had not
-           used yet — set as 3.1's Citaat: PT Serif, italic, close to body
-           size. It is the warm, spoken register the chapter was missing. -->
-      <p class="cat-quote" lang="en">Sett the table for unforgettable moments.</p>
-    </div>
-    <div class="cat-masthead-aside">
-      <p class="cat-lede">
-        Drieëndertig pakketten, één doos per project. Filter op type, kleur,
-        moeilijkheidsgraad en levertijd — wat je ook kiest, het komt compleet toe.
-      </p>
-      <!-- 03.01 lists a set as a hairline, a caption and a value. These four
-           numbers are the catalogue's own index. -->
-      <dl class="cat-stats">
-        <div><dt>Pakketten</dt><dd>33</dd></div>
-        <div><dt>Tafels</dt><dd>25</dd></div>
-        <div><dt>Tapijten</dt><dd>08</dd></div>
-        <div><dt>Kleuren</dt><dd>07</dd></div>
-      </dl>
-    </div>
-  </div>
-
-  <!-- ---------- the instrument bar ----------
-       One strip, divided into cells by hairlines and ruled top and bottom. The
-       three quick categories carry the .catTile hook the poster tiles above
-       already use, so they filter through the same path; their pressed state is
-       resynced from the form after every render. -->
-  <div class="cat-bar">
-    <div class="cat-bar-cell cat-bar-quick">
-      <button type="button" class="cat-quick catTile" data-cat="all" aria-pressed="true">Alles <span class="cat-quick-n">33</span></button>
-      <button type="button" class="cat-quick catTile" data-cat="table" aria-pressed="false">Tafels <span class="cat-quick-n">25</span></button>
-      <button type="button" class="cat-quick catTile" data-cat="carpet" aria-pressed="false">Tapijten <span class="cat-quick-n">08</span></button>
-      <button class="btn btn-ghost filterToggle" id="filterToggle" aria-expanded="false" aria-controls="filters">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
-        Filters
-        <span class="filter-pill" id="filterCount" hidden>0</span>
-      </button>
-    </div>
-
-    <div class="cat-bar-cell cat-bar-search">
-      <label class="sr-only" for="search">Zoek pakketten</label>
-      <svg class="cat-search-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-      <input class="field" id="search" type="search" placeholder="Zoek pakketten…">
-    </div>
-
-    <div class="cat-bar-cell cat-bar-sort">
-      <label class="t-label cat-cell-label" for="sort">Sorteer</label>
-      <select class="select" id="sort">
-        <option value="featured">Aanbevolen</option>
-        <option value="price-asc">Prijs — laag naar hoog</option>
-        <option value="price-desc">Prijs — hoog naar laag</option>
-        <option value="name">Naam A–Z</option>
-        <option value="lead">Snelste levering</option>
-      </select>
-    </div>
-
-    <div class="cat-bar-cell cat-bar-view">
-      <span class="cat-count" id="count" role="status" aria-live="polite">33 pakketten</span>
-      <div class="cat-view" role="group" aria-label="Weergave">
-        <button type="button" id="viewGrid" aria-pressed="true" title="Raster" aria-label="Raster">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7"/><rect x="13.5" y="3.5" width="7" height="7"/><rect x="3.5" y="13.5" width="7" height="7"/><rect x="13.5" y="13.5" width="7" height="7"/></svg>
-        </button>
-        <button type="button" id="viewList" aria-pressed="false" title="Lijst" aria-label="Lijst">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3.5 6h17M3.5 12h17M3.5 18h17"/></svg>
-        </button>
+    <!-- ---------- masthead ---------- -->
+    <div class="catalog-head cat-masthead">
+      <div class="cat-masthead-title">
+        <p class="cat-eyebrow">
+          <span class="sett-section-mark" aria-hidden="true"></span>
+          <span class="cat-eyebrow-text">Catalogus</span>
+        </p>
+        <h2 class="t-h2 has-own-number" id="catalog-h">Kies je vorm,<br>kies je kleur.</h2>
+      </div>
+      <div class="cat-masthead-aside">
+        <p class="cat-lede">
+          Elk pakket is één doos: de materialen, het gereedschap en de handleiding.
+          Kies je model, kies je kleur, en giet of knoop je eigen stuk.
+        </p>
+        <p class="cat-index">
+          <span>33 pakketten</span><span>25 tafels</span><span>8 tapijten</span><span>7 kleuren</span>
+        </p>
       </div>
     </div>
-  </div>
 
-  <!-- active filters — the row hides itself while the chip list is empty -->
-  <div class="cat-active">
-    <p class="t-label cat-active-label">Actief</p>
-    <div id="activeChips" style="display:flex;flex-wrap:wrap;gap:var(--sp-2)"></div>
-  </div>
+    <!-- ---------- the instrument bar ----------
+         Quick categories carry the .catTile hook the poster tiles above use,
+         so they filter through the same path; their pressed state is resynced
+         from the form after every render. -->
+    <div class="cat-bar">
+      <div class="cat-bar-cell cat-bar-quick">
+        <button type="button" class="cat-quick catTile" data-cat="all" aria-pressed="true">Alles <span class="cat-quick-n">33</span></button>
+        <button type="button" class="cat-quick catTile" data-cat="table" aria-pressed="false">Tafels <span class="cat-quick-n">25</span></button>
+        <button type="button" class="cat-quick catTile" data-cat="carpet" aria-pressed="false">Tapijten <span class="cat-quick-n">08</span></button>
+        <button class="btn btn-ghost filterToggle" id="filterToggle" aria-expanded="false" aria-controls="filters">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+          Filters
+          <span class="filter-pill" id="filterCount" hidden>0</span>
+        </button>
+      </div>
 
-  <div class="catalog-layout">
+      <div class="cat-bar-cell cat-bar-search">
+        <label class="sr-only" for="search">Zoek pakketten</label>
+        <svg class="cat-search-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input class="field" id="search" type="search" placeholder="Zoek pakketten…">
+      </div>
 
-    <!-- ---------- filters ----------
-         Below 1024px this aside becomes a bottom sheet: the head and foot are
-         hidden on desktop, where it stays a ruled, sticky sidebar column. -->
+      <div class="cat-bar-cell cat-bar-sort">
+        <label class="t-label cat-cell-label" for="sort">Sorteer</label>
+        <select class="select" id="sort">
+          <option value="featured">Aanbevolen</option>
+          <option value="price-asc">Prijs — laag naar hoog</option>
+          <option value="price-desc">Prijs — hoog naar laag</option>
+          <option value="name">Naam A–Z</option>
+          <option value="lead">Snelste levering</option>
+        </select>
+      </div>
+
+      <div class="cat-bar-cell cat-bar-view">
+        <span class="cat-count" id="count" role="status" aria-live="polite">33 pakketten</span>
+        <div class="cat-view" role="group" aria-label="Weergave">
+          <button type="button" id="viewGrid" aria-pressed="true" title="Raster" aria-label="Raster">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7"/><rect x="13.5" y="3.5" width="7" height="7"/><rect x="3.5" y="13.5" width="7" height="7"/><rect x="13.5" y="13.5" width="7" height="7"/></svg>
+          </button>
+          <button type="button" id="viewList" aria-pressed="false" title="Lijst" aria-label="Lijst">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3.5 6h17M3.5 12h17M3.5 18h17"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- facets ----------
+         Above 1024px this is a single row of pills under the bar — the shot
+         has no sidebar, and a 262px column of checkboxes was the one thing in
+         the section that could not be made to look like it. Below 1024px it is
+         untouched: still the bottom sheet app.css already builds, with its own
+         head, its own foot and its own apply button. -->
     <aside id="filters" aria-label="Filters">
       <div class="filters-head">
         <p class="t-label" style="margin:0">Filters</p>
@@ -799,43 +924,32 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
         </button>
       </div>
-      <!-- the column's own head, desktop only: the book gives every column a
-           rule and a caption before the list starts -->
-      <div class="cat-filters-top" aria-hidden="true">
-        <p class="t-label">Verfijn</p>
-      </div>
       <form id="filterForm">
         <fieldset class="facet">
           <legend class="t-label facet-legend">Type</legend>
-          <label class="check"><input type="checkbox" name="type" value="table"><span>Tafels</span><span class="count">25</span></label>
-          <label class="check"><input type="checkbox" name="type" value="carpet"><span>Tapijten</span><span class="count">8</span></label>
-        </fieldset>
-
-        <fieldset class="facet">
-          <legend class="t-label facet-legend">Kleur</legend>
-          <div id="colourFacet" style="display:flex;flex-wrap:wrap;gap:var(--sp-2)"></div>
+          <label class="check"><input type="checkbox" name="type" value="table"><span class="check-pill"><span>Tafels</span><span class="count">25</span></span></label>
+          <label class="check"><input type="checkbox" name="type" value="carpet"><span class="check-pill"><span>Tapijten</span><span class="count">8</span></span></label>
         </fieldset>
 
         <fieldset class="facet">
           <legend class="t-label facet-legend">Moeilijkheidsgraad</legend>
-          <label class="check"><input type="checkbox" name="difficulty" value="Basis"><span>Basis</span><span class="count">6</span></label>
-          <label class="check"><input type="checkbox" name="difficulty" value="Gevorderd"><span>Gevorderd</span><span class="count">27</span></label>
+          <label class="check"><input type="checkbox" name="difficulty" value="Basis"><span class="check-pill"><span>Basis</span><span class="count">6</span></span></label>
+          <label class="check"><input type="checkbox" name="difficulty" value="Gevorderd"><span class="check-pill"><span>Gevorderd</span><span class="count">27</span></span></label>
         </fieldset>
 
         <fieldset class="facet">
           <legend class="t-label facet-legend">Tapijtmaat</legend>
-          <label class="check"><input type="checkbox" name="size" value="3m²"><span>3 m²</span><span class="count">2</span></label>
-          <label class="check"><input type="checkbox" name="size" value="4m²"><span>4 m²</span><span class="count">2</span></label>
-          <label class="check"><input type="checkbox" name="size" value="6m²"><span>6 m²</span><span class="count">2</span></label>
-          <label class="check"><input type="checkbox" name="size" value="9m²"><span>9 m²</span><span class="count">2</span></label>
+          <label class="check"><input type="checkbox" name="size" value="3m²"><span class="check-pill"><span>3 m²</span><span class="count">2</span></span></label>
+          <label class="check"><input type="checkbox" name="size" value="4m²"><span class="check-pill"><span>4 m²</span><span class="count">2</span></span></label>
+          <label class="check"><input type="checkbox" name="size" value="6m²"><span class="check-pill"><span>6 m²</span><span class="count">2</span></span></label>
+          <label class="check"><input type="checkbox" name="size" value="9m²"><span class="check-pill"><span>9 m²</span><span class="count">2</span></span></label>
         </fieldset>
 
         <fieldset class="facet">
           <legend class="t-label facet-legend">Levering</legend>
-          <label class="check"><input type="checkbox" name="lead" value="3"><span>3 dagen</span><span class="count">31</span></label>
-          <label class="check"><input type="checkbox" name="lead" value="5"><span>5 dagen</span><span class="count">2</span></label>
+          <label class="check"><input type="checkbox" name="lead" value="3"><span class="check-pill"><span>3 dagen</span><span class="count">31</span></span></label>
+          <label class="check"><input type="checkbox" name="lead" value="5"><span class="check-pill"><span>5 dagen</span><span class="count">2</span></span></label>
         </fieldset>
-
       </form>
       <div class="filters-foot">
         <button type="button" class="btn btn-ghost btn-block" id="clearAll">Wis alles</button>
@@ -844,17 +958,28 @@
     </aside>
     <div id="filterBackdrop" hidden></div>
 
+    <!-- ---------- the palette ----------
+         2.1 laid out as the shot lays it out: the eight-colour system as a row
+         of dots with the name under each. It is also the colour facet — the
+         chips catalog.js builds into #colourFacet, restyled. -->
+    <div class="cat-palette">
+      <p class="t-label cat-palette-label" id="palette-label">Kies je kleur</p>
+      <div id="colourFacet" role="group" aria-labelledby="palette-label"></div>
+    </div>
+
+    <!-- active filters — the row hides itself while the chip list is empty -->
+    <div class="cat-active">
+      <p class="t-label cat-active-label">Actief</p>
+      <div id="activeChips" style="display:flex;flex-wrap:wrap;gap:var(--sp-2)"></div>
+    </div>
+
     <!-- ---------- grid ---------- -->
-    <div>
-      <div class="grid-products" id="grid"></div>
-      <!-- 02.02: an empty result is a flat tint with type set on it, not a
-           dashed rectangle — the book has no dashed rule anywhere in it. -->
-      <div id="empty" hidden class="cat-empty">
-        <span class="cat-empty-num" aria-hidden="true">00</span>
-        <p class="t-h3">Geen pakketten voor deze filters</p>
-        <p>Verwijder een filter of wis ze allemaal om de volledige collectie te zien.</p>
-        <button class="btn btn-secondary" id="clearAll2">Wis alle filters</button>
-      </div>
+    <div class="grid-products" id="grid"></div>
+    <div id="empty" hidden class="cat-empty">
+      <span class="cat-empty-num" aria-hidden="true">00</span>
+      <p class="t-h3">Geen pakketten voor deze filters</p>
+      <p>Verwijder een filter of wis ze allemaal om de volledige collectie te zien.</p>
+      <button class="btn btn-secondary" id="clearAll2">Wis alle filters</button>
     </div>
   </div>
 </section>
