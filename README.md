@@ -36,6 +36,31 @@ idempotent — running it twice is a no-op.
 
 `product.html` is still fully hand-authored and still carries the old chrome.
 
+### The logo-icoon (01.03)
+
+The brandbook defines a specific mark — a black S-shaped bean — and says it
+**"kan zelfstandig gebruikt worden of in combinatie met tekst"**. The site had
+never used it. What it had instead were `--blob-1..4`, four invented
+`border-radius` values whose own comment said they were taken from the Mortex
+tabletops "not from the SETT bean icon".
+
+It is not redrawn. `img/icon.svg` is lifted straight out of the brandbook PDF:
+drawing 3 on page 01.03, six bezier curves, filled black, bounds 164.47 ×
+213.53. Rendered side by side against the brandbook page it is identical.
+
+It is exposed once as `--sett-icon` (a data-URI) and used as a **mask**, never a
+fill, so every instance still takes its colour from a palette token:
+
+| Where | How |
+|---|---|
+| Favicon, all six pages | `img/icon.svg` — the site previously 404'd on `favicon.ico` |
+| `.band-blob` decorations | the icon silhouette bleeding off a corner, replacing the invented blob radii |
+| `.sett-mark` | the icon standing on its own, marking the beige and blue bands |
+
+One encoding trap worth recording: the SVG's own `"` characters terminate a CSS
+`url("…")` early, so the mask silently does not apply. The attributes are
+single-quoted before encoding, and `<`, `>` and `#` are percent-encoded.
+
 ### Brandbook coherence — validated
 
 Audited device by device against `../brand/SETT_Brandbook_compressed.pdf`.
@@ -56,6 +81,7 @@ Audited device by device against `../brand/SETT_Brandbook_compressed.pdf`.
 | 04.02 | Organic blob badges, varied radii | yes — pack icons + category tiles |
 | 04.02 | Blob as graphic shape, never a photo mask | yes |
 | 05.09 | Colour swatch circles | yes — colourway swatches |
+| 01.03 | **Logo-icoon** | yes — `img/icon.svg`, extracted from the brandbook vector |
 | 05.03 | Large wordmark lockup | **not done** — `img/logo.png` is 212×184 and goes soft when scaled up; needs the real SVG |
 
 Two devices were added in this pass, both from pages the demo had ignored:
